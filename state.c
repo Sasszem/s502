@@ -68,20 +68,36 @@ typedef struct {
     struct Define *head, *tail;
 } Defines;
 
-void defines_add(Defines *d, char *name, int value) {
-    struct Define *new = (struct Define*)malloc(sizeof(struct Define));
-    
-    new->next = NULL;
-    strncpy(new->name, name, DEFINE_MAX_LEN);
-    new->value = value;
 
-    if (d->head==NULL) {
-        d->head = new;
-        d->tail = new;
-        return;
+struct Define* defines_find(Defines *d, char *key) {
+    struct Define *ptr = d->head;
+    while(ptr!=NULL) {
+        if (strncmp(ptr->name, key, DEFINE_MAX_LEN)==0) {
+            return ptr;
+        }
+        ptr = ptr->next;
     }
-    d->tail->next = new;
-    d->tail = new;
+    return NULL;
+}
+
+
+void defines_set(Defines *d, char *name, int value) {
+    struct Define *ptr = defines_find(d, name);
+    if (ptr==0) {
+        ptr = (struct Define*)malloc(sizeof(struct Define));    
+        ptr->next = NULL;
+        if (d->head==NULL) {
+            d->head = ptr;
+            d->tail = ptr;
+        } else {
+            d->tail->next = ptr;
+            d->tail = ptr; 
+        }
+        strncpy(ptr->name, name, DEFINE_MAX_LEN);
+    }
+
+    ptr->value = value;
+
 }
 
 void defines_delete(Defines *d) {
@@ -91,7 +107,10 @@ void defines_delete(Defines *d) {
         free(d->head);
         d->head = ptr;
     }
+    d->head = NULL;
+    d->tail = NULL;
 }
+
 
 
 /**
@@ -99,14 +118,11 @@ void defines_delete(Defines *d) {
  * Returns -1 on not found
  */
 int defines_get(Defines *d, char *name) {
-    struct Define *ptr = d->head;
-    while(ptr!=NULL) {
-        if (strncmp(ptr->name, name, DEFINE_MAX_LEN)==0) {
-            return ptr->value;
-        }
-        ptr = ptr->next;
-    }
-    return -1;
+    struct Define *p = defines_find(d, name);
+    if (p==NULL)
+        return -1;
+    return p->value;
+   
 }
 
 // ez talán nem kéne...
@@ -122,12 +138,15 @@ void defines_debug_print(Defines *d) {
 
 void defines_test() {
     Defines d = {NULL, NULL};
-    defines_add(&d, "DEF1", 1234);
-    defines_add(&d, "DEF2", 4567);
+    defines_set(&d, "DEF1", 1234);
+    defines_set(&d, "DEF2", 4567);
+    defines_debug_print(&d);
+    printf("DEF1: %d\n", defines_get(&d, "DEF1"));
+    defines_set(&d, "DEF1", 4321);
     defines_debug_print(&d);
     printf("DEF1: %d\n", defines_get(&d, "DEF1"));
     defines_delete(&d);
-    printf("DELETE");
+    printf("DELETE\n");
     printf("DEF1: %d\n", defines_get(&d, "DEF1"));
     defines_debug_print(&d);
 }
