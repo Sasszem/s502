@@ -4,6 +4,9 @@
 #include <errno.h>
 #include "debugmalloc.h"
 
+#define LOGGING 1
+#include "logging.h"
+
 enum tokenType {
     TT_INSTR,
     TT_PREPROC,
@@ -217,7 +220,8 @@ void tokenslist_delete(TokensList *list) {
 int read_token(FILE *f, Token *t) {
     int seen_whitespace = 1, eol = 0;
     int ptr, c;
-    for (ptr = 0; ptr<TOKEN_BUFFER_SIZE; ) {
+    // -1 for trailing nullbyte
+    for (ptr = 0; ptr<TOKEN_BUFFER_SIZE-1; ) {
         c = fgetc(f);
         // HANDLE EOF
         if (c==EOF || c=='\n') {
@@ -242,13 +246,13 @@ int read_token(FILE *f, Token *t) {
 
         t->stripped[ptr++] = c;
     }
-    if (ptr==TOKEN_BUFFER_SIZE) {
+    if (ptr==TOKEN_BUFFER_SIZE-1) {
         t->len = ptr;
         return -1;
     }
     if (t->stripped[ptr-1]==' ')
         ptr--;
-    
+    t->stripped[ptr] = 0;
     t->len = ptr;
     if (c==EOF)
         return 0;
@@ -284,7 +288,7 @@ int recognize_token(Token *t) {
     if (found!=1) {
         return -1;
     }
-    printf("Recognized token as %d:\n", t->type);
+    LOG("Recognized token as %d:\n\t", t->type);
     token_print(t);
     return 0;
 } 
@@ -328,7 +332,7 @@ TokensList* read_file(char *name) {
     }
     fclose(f);
     if (res<0) {
-        printf("ERROR: line is too long!\n");
+        printf("\e[41mERROR\e[49m: line is too long!\n");
         token_print(&tok);
         tokenslist_delete(tokenslist);
         return NULL;
@@ -341,7 +345,7 @@ int recognize_tokens(TokensList *t) {
     while (ptr!=NULL) {
         int res = recognize_token(&(ptr->token));
         if (res<0){
-            printf("ERROR: Can not recognize token:");
+            printf("\e[41mERROR\e[49m: Can not recognize token:");
             token_print(&(ptr->token));
             tokenslist_delete(t);
             return -1;
@@ -351,16 +355,27 @@ int recognize_tokens(TokensList *t) {
     return 0;
 }
 
-int main() {
-    defines_test();
-    return 0;
-    printf("Reading file...\n");
+TokensList* load_file(char* name) {
+    TokensList *tl = read_file(name);
+    LOG("Reading file...\n");
     TokensList *list = read_file("test.asm");
     if (list==NULL)
-        return -1;
-    printf("Running first analysis...\n");
+        return NULL;
+    LOG("Running first analysis...\n");
     if (recognize_tokens(list)<0)
-        return -1;
+        return NULL;
+    
+    return tl;
+}
+
+void preprocess(TokensList *tokens) {
+
+}
+
+int main() {
+    //defines_test();
+    //return 0;
+    TokensList *list = load_file("test.asm");
     printf("Now dunping tha file: \n");
     tokenslist_debug_print(list);
     printf("Cleaning up...\n");
