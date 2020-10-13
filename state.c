@@ -121,6 +121,7 @@ void defines_delete(Defines *d) {
  * Returns -1 on not found
  */
 int defines_get(Defines *d, char *name) {
+    LOG("Getting %s\n", name);
     struct Define *p = defines_find(d, name);
     if (p==NULL)
         return -1;
@@ -132,7 +133,7 @@ int defines_get(Defines *d, char *name) {
 void defines_debug_print(Defines *d) {
     struct Define *ptr = d->head;
     while(ptr!=NULL) {
-        LOG("%s:\t\t%d\n", ptr->name, ptr->value);
+        printf("\t%s:\t\t%d\n", ptr->name, ptr->value);
         ptr = ptr->next;
     }
 }
@@ -144,12 +145,12 @@ void defines_test() {
     defines_debug_print(&d);
     LOG("DEF1: %d\n", defines_get(&d, "DEF1"));
     defines_set(&d, "DEF1", 4321);
-    defines_debug_print(&d);
+    LOGDO(defines_debug_print(&d));
     LOG("DEF1: %d\n", defines_get(&d, "DEF1"));
     defines_delete(&d);
     LOG("DELETE\n");
     LOG("DEF1: %d\n", defines_get(&d, "DEF1"));
-    defines_debug_print(&d);
+    LOGDO(defines_debug_print(&d));
 }
 
 typedef struct {int n;} Labels;
@@ -157,7 +158,7 @@ typedef struct {int n;} Labels;
 
 typedef struct TokensListElement {
     Token token;
-    struct TokensListElement *next;
+    struct TokensListElement *next, *prev;
 } TokensListElement;
 
 typedef struct {
@@ -187,6 +188,7 @@ TokensList* tokenslist_make() {
 void tokenslist_add(TokensList *list, Token t) {
     TokensListElement *elem = (TokensListElement*)malloc(sizeof(TokensListElement));
     elem->next = NULL;
+    elem->prev = NULL;
     elem->token = t;
     if (list->head==NULL) {
         list->head = elem;
@@ -194,7 +196,22 @@ void tokenslist_add(TokensList *list, Token t) {
         return;
     }
     list->tail->next = elem;
+    elem->prev = list->tail;
     list->tail = elem;
+}
+
+void tokenslist_remove(TokensList *list, TokensListElement *el) {
+    if (list->head == el)
+        list->head = el->next;
+    if (list->tail == el)
+        list->tail = el->prev;
+    
+    if (el->next!=NULL)
+        el->next->prev = el->prev;
+    if (el->prev!=NULL) {
+        el->prev->next = el->next;
+    }
+    free(el);
 }
 
 void tokenslist_delete(TokensList *list) {
@@ -203,7 +220,6 @@ void tokenslist_delete(TokensList *list) {
         free(list->head);
         list->head = n;
     }
-    free(list);
 }
 
 
@@ -251,7 +267,7 @@ int read_token(FILE *f, Token *t) {
     if (t->stripped[ptr-1]==' ')
         ptr--;
     LOG("READ TOKEN:\n");
-    token_print(t);
+    LOGDO(token_print(t));
     t->stripped[ptr] = 0;
     t->len = ptr;
     if (c==EOF)
@@ -264,7 +280,7 @@ int read_token(FILE *f, Token *t) {
  * Pretty-print one token, with its source and length
  */
 void token_print(Token *token) {
-    LOGC("\t%s:%d:%d\t\t%.*s\n", token->source.fname, token->source.lineno, token->len ,token->len, token->stripped);
+    printf("\t%s:%d:%d\t\t%.*s\n", token->source.fname, token->source.lineno, token->len ,token->len, token->stripped);
 }
 
 
@@ -291,7 +307,7 @@ int recognize_token(Token *t) {
         return -1;
     }
     LOG("Recognized token as %d:\n", t->type);
-    token_print(t);
+    LOGDO(token_print(t));
     return 0;
 } 
 
@@ -301,10 +317,14 @@ int recognize_token(Token *t) {
 void tokenslist_debug_print(TokensList *list) {
     TokensListElement *ptr = list->head;
     LOG("Dumping code:\n");
-    while (ptr!=NULL) {
-        token_print(&(ptr->token));
-        ptr = ptr->next;
-    }
+
+    // pretty suprised this is valid...
+    LOGDO(
+        while (ptr!=NULL) {
+            token_print(&(ptr->token));
+            ptr = ptr->next;
+        }
+    );
 }
 
 /**
@@ -340,6 +360,7 @@ TokensList* read_file(char *name) {
         ERROR("line is too long!\n");
         token_print(&tok);
         tokenslist_delete(tokenslist);
+        free(tokenslist);
         return NULL;
     }
     return tokenslist;
@@ -353,6 +374,7 @@ int recognize_tokens(TokensList *t) {
             ERROR("Can not recognize token:\n");
             token_print(&(ptr->token));
             tokenslist_delete(t);
+            free(t);
             return -1;
         }
         ptr = ptr->next;
@@ -360,7 +382,183 @@ int recognize_tokens(TokensList *t) {
     return 0;
 }
 
-TokensList* load_file(char* name) {
+char* util_find_string_segment(char *ptr) {
+    char *end = ptr;
+    while(*end!=' ' && *end!='\0') end++;
+    return end;
+}
+
+int char_to_digit(char c) {
+    if ('0'<=c && c<='9')
+        return c-'0';
+    if ('a'<=c && c<='f')
+        c += 'A'-'a';
+    if ('A'<=c && c<='F')
+        return c-'A'+10;
+    return -1;
+}
+
+
+int parse_number(char *str, int count) {
+    int base = 10;
+    int ptr = 0;
+    int num = 0;
+    if (str[0]=='$') {
+        base = 16;
+        ptr++;
+    }
+    while (ptr<count) {
+        num *= base;
+        int digit = char_to_digit(str[ptr]);
+        if (digit==-1 || digit >=base) {
+            ERROR("Can not interpret number: %.*s\n", count, str);
+            return -1;
+        }
+        
+        num += digit;
+        ptr++;
+    }
+    return num;    
+}
+
+int get_number(State *s, char *str, int count) {
+    int ptr = 0;
+    if (str[ptr]=='#')
+        ptr++;
+    if (str[ptr]=='@') {
+        char number[DEFINE_MAX_LEN];
+        strncpy(number, str+ptr+1, count-ptr-1);
+        number[count-ptr-1] = 0;
+        int n = defines_get(&(s->defines), number);
+        if (n==-1) {
+            ERROR("Undefined constant: %.*s\n", count-ptr-1, str+ptr+1);
+            return -1;
+        }
+        return n;
+    }
+    // pass error (-1 value)
+    return parse_number(str+ptr, count-ptr);
+}
+
+int process_define(State *s, Token t) {
+    
+    // find string
+    char *define = t.stripped + 1;
+    
+    char *name = util_find_string_segment(define) + 1;
+    if (*(name-1)=='\0') {
+        ERROR("Not enough args to define!\n");
+        token_print(&t);
+        return -1;
+    }
+
+    char *num = util_find_string_segment(name) + 1;
+    if (*(num-1)=='\0') {
+        ERROR("Not enough args to define!\n");
+        token_print(&t);
+        return -1;
+    }
+
+    char *nend = util_find_string_segment(num);
+    if (*nend!='\0') {
+        ERROR("Too many args to define!\n");
+        token_print(&t);
+        return -1;
+    }
+
+    //LOG("First part:\t\t%.*s\n", name-define, define);
+    //LOG("Second part:\t\t%.*s\n", num-name, name);
+    //LOG("Third part:\t\t%.*s\n", nend-num, num);
+    int as_num = get_number(s, num, nend-num);
+    if (as_num<0)
+        return -1;
+    char def[DEFINE_MAX_LEN];
+    strncpy(def, name, num-name);
+    def[num-name-1] = 0;
+    defines_set(&(s->defines), def, as_num);
+}
+
+enum PPCommand {
+    PPC_STOP = -1,
+    PPC_NOP = 0,
+    PPC_INC_IF_LVL,
+    PPC_DEC_IF_LVL,
+};
+
+enum PPCommand process_include(State *s, Token t) {
+    ERROR("INCLUDE NOT IMPLEMENTED YET!\n");
+
+    return PPC_STOP;
+}
+
+enum PPCommand do_preprocessor_token(State *s, Token t) {
+    LOG("Processing preproessor token:\n");
+    LOGDO(token_print(&t));
+    
+    char *f = t.stripped + 1;
+    char *end = util_find_string_segment(f);
+    //LOG("1st segment: %.*s\n", end-f, f);
+
+    if (strncmp(t.stripped+1, "define", strlen("define"))==0) {
+        //LOG("Found a define...\n");
+        return process_define(s, t)<0 ? PPC_STOP : PPC_NOP;
+    }
+    if (strncmp(t.stripped+1, "include", strlen("include"))==0) {
+        return process_include(s, t)<0 ? PPC_STOP : PPC_NOP;
+    }
+    ERROR("Unknown preprocessor directive: %s\n", f);
+    return PPC_STOP;
+}
+/**
+ * Goes trough the tokens in the list
+ * - handles defines
+ * (- does includes)
+ * (- reads trough ifdef'd blocks)
+ */
+int preprocess(State *s, TokensList *tokens) {
+    TokensListElement *ptr = tokens->head;
+    int iflevel = 0;
+    int skip = 0;
+    while (ptr!=NULL) {
+        Token t = ptr->token;
+        if (t.type == TT_PREPROC) {
+            skip = 1;
+
+            enum PPCommand p = do_preprocessor_token(s, t);
+            
+            if (p==PPC_INC_IF_LVL)
+                iflevel++;
+            if (p==PPC_DEC_IF_LVL)
+                iflevel = iflevel==0 ? 0 : iflevel-1;
+            if (p==PPC_STOP)
+                return -1;
+        }
+
+        ptr = ptr->next;
+        if (skip==1 || iflevel>0){
+            tokenslist_remove(tokens, ptr->prev);
+        } 
+        skip = 0;
+    }
+    return 0;
+}
+
+State* state_make() {
+    State *ret = (State*)malloc(sizeof(State));
+    
+    ret->defines.head = NULL;
+    ret->defines.tail = NULL;
+    
+    ret->labels.n = 0;
+
+    ret->tokens.head = NULL;
+    ret->tokens.tail = NULL;
+
+    return ret;
+}
+
+
+TokensList* load_file(State *s, char* name) {
     LOG("Reading file...\n");
     TokensList *list = read_file("test.asm");
     if (list==NULL)
@@ -368,21 +566,43 @@ TokensList* load_file(char* name) {
     LOG("Running first analysis...\n");
     if (recognize_tokens(list)<0)
         return NULL;
-    
+    if (preprocess(s, list)<0) {
+        tokenslist_delete(list);
+        free(list);
+        return NULL;
+    }
     return list;
 }
 
-void preprocess(TokensList *tokens) {
+void labels_delete(Labels *l) {
 
+}
+
+void state_delete(State *s) {
+    defines_delete(&(s->defines));
+    tokenslist_delete(&(s->tokens));
+    labels_delete(&(s->labels));
 }
 
 int main() {
     //defines_test();
     //return 0;
-    TokensList *list = load_file("test.asm");
+    State *state = state_make();
+    TokensList *list = load_file(state, "test.asm");
+
+    if (list==NULL) {
+        state_delete(state);
+        free(state);
+        return -1;
+    }
     LOG("Now dunping tha file: \n");
-    tokenslist_debug_print(list);
+    LOGDO(tokenslist_debug_print(list));
+    LOG("Now tha defines:\n");
+    LOGDO(defines_debug_print(&(state->defines)));
     LOG("Cleaning up...\n");
     tokenslist_delete(list);
+    state_delete(state);
+    free(state);
+    free(list);
     return 0;
 }
