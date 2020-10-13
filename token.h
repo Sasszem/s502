@@ -54,4 +54,6 @@ typedef struct {
     } source;
 } Token;
 
+void token_print(Token *token);
+
 #endif

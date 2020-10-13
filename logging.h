@@ -1,8 +1,9 @@
 #ifndef GUARD_LOGGING
 #define GUARD_LOGGING
 
-#ifdef LOGGING
+#include <stdio.h>
 
+#ifdef LOGGING
 #define LOG(...) printf("\e[33mLOG:\e[39m\t"); printf(__VA_ARGS__)
 #define LOGC(...) printf(__VA_ARGS__);
 #define LOGDO(x) x;

@@ -1,3 +1,5 @@
+#ifndef GUARD_TOKENSLIST
+#define GUARD_TOKENSLIST
 
 #include "token.h"
 
@@ -15,5 +17,6 @@ TokensList* tokenslist_make();
 void tokenslist_add(TokensList *list, Token t);
 void tokenslist_remove(TokensList *list, TokensListElement *el);
 void tokenslist_delete(TokensList *list);
-void token_print(Token *token);
 void tokenslist_debug_print(TokensList *list);
+
+#endif

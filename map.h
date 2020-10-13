@@ -1,3 +1,5 @@
+#ifndef GUARD_MAP
+#define GUARD_MAP
 
 #define DEFINE_MAX_LEN 16
 
@@ -17,5 +19,4 @@ void map_empty(Map *d);
 int map_get(Map *d, char *name);
 void map_debug_print(Map *d);
 
-
-
+#endif
