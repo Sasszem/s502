@@ -34,7 +34,7 @@ void tokenslist_add(TokensList *list, Token t) {
     list->tail = elem;
 }
 
-void tokenslist_remove(TokensList *list, TokensListElement *el) {
+TokensListElement* tokenslist_remove(TokensList *list, TokensListElement *el) {
     if (list->head == el)
         list->head = el->next;
     if (list->tail == el)
@@ -45,7 +45,9 @@ void tokenslist_remove(TokensList *list, TokensListElement *el) {
     if (el->prev!=NULL) {
         el->prev->next = el->next;
     }
+    TokensListElement *next = el->next;
     free(el);
+    return next;
 }
 
 void tokenslist_delete(TokensList *list) {

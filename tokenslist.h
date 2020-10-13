@@ -15,7 +15,7 @@ typedef struct {
 
 TokensList* tokenslist_make();
 void tokenslist_add(TokensList *list, Token t);
-void tokenslist_remove(TokensList *list, TokensListElement *el);
+TokensListElement* tokenslist_remove(TokensList *list, TokensListElement *el);
 void tokenslist_delete(TokensList *list);
 void tokenslist_debug_print(TokensList *list);
 
