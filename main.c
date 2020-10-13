@@ -1,4 +1,4 @@
-
+#define __USE_MINGW_ANSI_STDIO 1
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -7,220 +7,21 @@
 #define LOGGING 1
 #include "logging.h"
 
-enum tokenType {
-    TT_INSTR,
-    TT_PREPROC,
-    TT_LABEL
-};
-
-enum AddressMode {
-    AM_IMPLIED,
-    AM_INDIRECT,
-    AM_INVALID
-}; 
-
-enum TokenPreprocType {
-    TPT_INCLUDE,
-    TPT_DEFINE,
-    TPT_ORG,
-    TPT_DATA,
-    TPT_START
-};
-
-struct TokenLabel {
-    int addr;
-};
-
-struct TokenPreproc {
-    enum TokenPreprocType type;
-};
-
-struct TokenInstr {
-    enum AddressMode addressmode;
-};
-
-// TODO: define-t enumra cserélni
-#define TOKEN_BUFFER_SIZE 32
-#define TOKEN_SOURCE_FILE_SIZE 32
-
-typedef struct {
-    int binSize;
-    enum tokenType type;
-    union {
-        struct TokenLabel label;
-        struct TokenPreproc preproc;
-        struct TokenInstr instr;
-    } fields;
-    char stripped[TOKEN_BUFFER_SIZE];
-    int len;
-    struct {
-        char fname[TOKEN_SOURCE_FILE_SIZE];
-        int lineno;
-    } source;
-} Token;
-
-#define DEFINE_MAX_LEN 16
-
-struct Define {
-    int value;
-    char name[DEFINE_MAX_LEN];
-    struct Define *next;
-};
-
-typedef struct {
-    struct Define *head, *tail;
-} Defines;
-
-
-struct Define* defines_find(Defines *d, char *key) {
-    struct Define *ptr = d->head;
-    while(ptr!=NULL) {
-        if (strncmp(ptr->name, key, DEFINE_MAX_LEN)==0) {
-            return ptr;
-        }
-        ptr = ptr->next;
-    }
-    return NULL;
-}
-
-
-void defines_set(Defines *d, char *name, int value) {
-    struct Define *ptr = defines_find(d, name);
-    if (ptr==0) {
-        ptr = (struct Define*)malloc(sizeof(struct Define));    
-        ptr->next = NULL;
-        if (d->head==NULL) {
-            d->head = ptr;
-            d->tail = ptr;
-        } else {
-            d->tail->next = ptr;
-            d->tail = ptr; 
-        }
-        strncpy(ptr->name, name, DEFINE_MAX_LEN);
-    }
-
-    ptr->value = value;
-
-}
-
-void defines_delete(Defines *d) {
-    struct Define *ptr;
-    while (d->head!=NULL) {
-        ptr = d->head->next;
-        free(d->head);
-        d->head = ptr;
-    }
-    d->head = NULL;
-    d->tail = NULL;
-}
-
-
-
-/**
- * Get the value of a define by name
- * Returns -1 on not found
- */
-int defines_get(Defines *d, char *name) {
-    LOG("Getting %s\n", name);
-    struct Define *p = defines_find(d, name);
-    if (p==NULL)
-        return -1;
-    return p->value;
-   
-}
-
-
-void defines_debug_print(Defines *d) {
-    struct Define *ptr = d->head;
-    while(ptr!=NULL) {
-        printf("\t%s:\t\t%d\n", ptr->name, ptr->value);
-        ptr = ptr->next;
-    }
-}
-
-void defines_test() {
-    Defines d = {NULL, NULL};
-    defines_set(&d, "DEF1", 1234);
-    defines_set(&d, "DEF2", 4567);
-    defines_debug_print(&d);
-    LOG("DEF1: %d\n", defines_get(&d, "DEF1"));
-    defines_set(&d, "DEF1", 4321);
-    LOGDO(defines_debug_print(&d));
-    LOG("DEF1: %d\n", defines_get(&d, "DEF1"));
-    defines_delete(&d);
-    LOG("DELETE\n");
-    LOG("DEF1: %d\n", defines_get(&d, "DEF1"));
-    LOGDO(defines_debug_print(&d));
-}
+#include "token.h"
+#include "map.h"
+#include "tokenslist.h"
 
 typedef struct {int n;} Labels;
 
 
-typedef struct TokensListElement {
-    Token token;
-    struct TokensListElement *next, *prev;
-} TokensListElement;
 
 typedef struct {
-    TokensListElement *head;
-    TokensListElement *tail;
-} TokensList;
-
-typedef struct {
-    Defines defines;
+    Map defines;
     Labels labels;
     TokensList tokens;
 
 } State;
 
-/**
- * Create a new (empty) linekd list for tokens 
- */
-TokensList* tokenslist_make() {
-    TokensList *ret = (TokensList*)malloc(sizeof(TokensList));
-    ret->head = NULL;
-    ret->tail = NULL;
-}
-
-/**
- * Add a token to a linekd list of tokens
- */
-void tokenslist_add(TokensList *list, Token t) {
-    TokensListElement *elem = (TokensListElement*)malloc(sizeof(TokensListElement));
-    elem->next = NULL;
-    elem->prev = NULL;
-    elem->token = t;
-    if (list->head==NULL) {
-        list->head = elem;
-        list->tail = elem;
-        return;
-    }
-    list->tail->next = elem;
-    elem->prev = list->tail;
-    list->tail = elem;
-}
-
-void tokenslist_remove(TokensList *list, TokensListElement *el) {
-    if (list->head == el)
-        list->head = el->next;
-    if (list->tail == el)
-        list->tail = el->prev;
-    
-    if (el->next!=NULL)
-        el->next->prev = el->prev;
-    if (el->prev!=NULL) {
-        el->prev->next = el->next;
-    }
-    free(el);
-}
-
-void tokenslist_delete(TokensList *list) {
-    while (list->head!=NULL) {
-        TokensListElement *n = list->head->next;
-        free(list->head);
-        list->head = n;
-    }
-}
 
 
 /**
@@ -276,13 +77,6 @@ int read_token(FILE *f, Token *t) {
 }
 
 
-/**
- * Pretty-print one token, with its source and length
- */
-void token_print(Token *token) {
-    printf("\t%s:%d:%d\t\t%.*s\n", token->source.fname, token->source.lineno, token->len ,token->len, token->stripped);
-}
-
 
 /**
  * Parse token - test if it's an opcode, a label or a preprocessor statement
@@ -298,7 +92,7 @@ int recognize_token(Token *t) {
         found++;
     }
     if (t->stripped[3]==' ' || t->stripped[3]=='\0') {
-        t->type == TT_INSTR;
+        t->type = TT_INSTR;
         found++;
     }
     if (found!=1) {
@@ -311,21 +105,6 @@ int recognize_token(Token *t) {
     return 0;
 } 
 
-/**
- * Pretty-print all tokens in a list
- */
-void tokenslist_debug_print(TokensList *list) {
-    TokensListElement *ptr = list->head;
-    LOG("Dumping code:\n");
-
-    // pretty suprised this is valid...
-    LOGDO(
-        while (ptr!=NULL) {
-            token_print(&(ptr->token));
-            ptr = ptr->next;
-        }
-    );
-}
 
 /**
  * High-level func to read the contents from a file
@@ -354,7 +133,7 @@ TokensList* read_file(char *name) {
         }
         lineno++;
     } while (res>0);
-    
+
     fclose(f);
     if (res<0) {
         ERROR("line is too long!\n");
@@ -429,7 +208,7 @@ int get_number(State *s, char *str, int count) {
         char number[DEFINE_MAX_LEN];
         strncpy(number, str+ptr+1, count-ptr-1);
         number[count-ptr-1] = 0;
-        int n = defines_get(&(s->defines), number);
+        int n = map_get(&(s->defines), number);
         if (n==-1) {
             ERROR("Undefined constant: %.*s\n", count-ptr-1, str+ptr+1);
             return -1;
@@ -475,7 +254,8 @@ int process_define(State *s, Token t) {
     char def[DEFINE_MAX_LEN];
     strncpy(def, name, num-name);
     def[num-name-1] = 0;
-    defines_set(&(s->defines), def, as_num);
+    map_set(&(s->defines), def, as_num);
+    return 0;
 }
 
 enum PPCommand {
@@ -496,8 +276,6 @@ enum PPCommand do_preprocessor_token(State *s, Token t) {
     LOGDO(token_print(&t));
     
     char *f = t.stripped + 1;
-    char *end = util_find_string_segment(f);
-    //LOG("1st segment: %.*s\n", end-f, f);
 
     if (strncmp(t.stripped+1, "define", strlen("define"))==0) {
         //LOG("Found a define...\n");
@@ -579,7 +357,7 @@ void labels_delete(Labels *l) {
 }
 
 void state_delete(State *s) {
-    defines_delete(&(s->defines));
+    map_empty(&(s->defines));
     tokenslist_delete(&(s->tokens));
     labels_delete(&(s->labels));
 }
@@ -598,7 +376,7 @@ int main() {
     LOG("Now dunping tha file: \n");
     LOGDO(tokenslist_debug_print(list));
     LOG("Now tha defines:\n");
-    LOGDO(defines_debug_print(&(state->defines)));
+    LOGDO(map_debug_print(&(state->defines)));
     LOG("Cleaning up...\n");
     tokenslist_delete(list);
     state_delete(state);

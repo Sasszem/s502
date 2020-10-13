@@ -1,3 +1,6 @@
+#ifndef GUARD_LOGGING
+#define GUARD_LOGGING
+
 #ifdef LOGGING
 
 #define LOG(...) printf("\e[33mLOG:\e[39m\t"); printf(__VA_ARGS__)
@@ -12,3 +15,5 @@
 
 #define ERROR(...) printf("\e[41mERROR\e[49m:\t"); printf(__VA_ARGS__)
 #define ERRORC(...) printf(__VA_ARGS__);
+
+#endif
