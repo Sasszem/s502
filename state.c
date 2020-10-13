@@ -132,6 +132,7 @@ int defines_get(Defines *d, char *name) {
 void defines_debug_print(Defines *d) {
     struct Define *ptr = d->head;
     while(ptr!=NULL) {
+        LOG("%s:\t\t%d\n", ptr->name, ptr->value);
         ptr = ptr->next;
     }
 }
@@ -141,13 +142,13 @@ void defines_test() {
     defines_set(&d, "DEF1", 1234);
     defines_set(&d, "DEF2", 4567);
     defines_debug_print(&d);
-    printf("DEF1: %d\n", defines_get(&d, "DEF1"));
+    LOG("DEF1: %d\n", defines_get(&d, "DEF1"));
     defines_set(&d, "DEF1", 4321);
     defines_debug_print(&d);
-    printf("DEF1: %d\n", defines_get(&d, "DEF1"));
+    LOG("DEF1: %d\n", defines_get(&d, "DEF1"));
     defines_delete(&d);
-    printf("DELETE\n");
-    printf("DEF1: %d\n", defines_get(&d, "DEF1"));
+    LOG("DELETE\n");
+    LOG("DEF1: %d\n", defines_get(&d, "DEF1"));
     defines_debug_print(&d);
 }
 
@@ -249,6 +250,8 @@ int read_token(FILE *f, Token *t) {
     }
     if (t->stripped[ptr-1]==' ')
         ptr--;
+    LOG("READ TOKEN:\n");
+    token_print(t);
     t->stripped[ptr] = 0;
     t->len = ptr;
     if (c==EOF)
@@ -261,7 +264,7 @@ int read_token(FILE *f, Token *t) {
  * Pretty-print one token, with its source and length
  */
 void token_print(Token *token) {
-    printf("%s:%d:%d\t\t%.*s\n", token->source.fname, token->source.lineno, token->len ,token->len, token->stripped);
+    LOGC("\t%s:%d:%d\t\t%.*s\n", token->source.fname, token->source.lineno, token->len ,token->len, token->stripped);
 }
 
 
@@ -283,9 +286,11 @@ int recognize_token(Token *t) {
         found++;
     }
     if (found!=1) {
+        ERROR("Can not recognize token:\n");
+        token_print(t);
         return -1;
     }
-    LOG("Recognized token as %d:\n\t", t->type);
+    LOG("Recognized token as %d:\n", t->type);
     token_print(t);
     return 0;
 } 
@@ -295,6 +300,7 @@ int recognize_token(Token *t) {
  */
 void tokenslist_debug_print(TokensList *list) {
     TokensListElement *ptr = list->head;
+    LOG("Dumping code:\n");
     while (ptr!=NULL) {
         token_print(&(ptr->token));
         ptr = ptr->next;
@@ -329,7 +335,7 @@ TokensList* read_file(char *name) {
     }
     fclose(f);
     if (res<0) {
-        printf("\e[41mERROR\e[49m: line is too long!\n");
+        ERROR("line is too long!\n");
         token_print(&tok);
         tokenslist_delete(tokenslist);
         return NULL;
@@ -342,7 +348,7 @@ int recognize_tokens(TokensList *t) {
     while (ptr!=NULL) {
         int res = recognize_token(&(ptr->token));
         if (res<0){
-            printf("\e[41mERROR\e[49m: Can not recognize token:");
+            ERROR("Can not recognize token:\n");
             token_print(&(ptr->token));
             tokenslist_delete(t);
             return -1;
@@ -373,9 +379,9 @@ int main() {
     //defines_test();
     //return 0;
     TokensList *list = load_file("test.asm");
-    printf("Now dunping tha file: \n");
+    LOG("Now dunping tha file: \n");
     tokenslist_debug_print(list);
-    printf("Cleaning up...\n");
+    LOG("Cleaning up...\n");
     tokenslist_delete(list);
     return 0;
 }
