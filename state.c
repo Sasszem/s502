@@ -325,14 +325,16 @@ TokensList* read_file(char *name) {
     Token tok;
     int lineno = 1;
     int res;
-    while ((res=read_token(f, &tok))>0) {
+    do {
+        res=read_token(f, &tok);
         if (tok.len>0) {
             strncpy(tok.source.fname, name, TOKEN_SOURCE_FILE_SIZE);
             tok.source.lineno = lineno;
             tokenslist_add(tokenslist ,tok);
         }
         lineno++;
-    }
+    } while (res>0);
+    
     fclose(f);
     if (res<0) {
         ERROR("line is too long!\n");
