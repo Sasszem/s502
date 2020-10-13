@@ -113,9 +113,11 @@ void tokenslist_delete(TokensList *list) {
 /**
  * Read a single token into a Token struct from file f
  * - read relevant part
- * - parse relevant part - test if it's an opcode, a label or a preprocessor statement
  * - return 1 on success, 0 on EOF and -1 on error
- **/
+ ***/
+
+// TODO: refactor this
+// TODO: basic docs
 int read_token(FILE *f, Token *t) {
     int seen_whitespace = 1, eol = 0;
     int ptr, c;
@@ -144,19 +146,60 @@ int read_token(FILE *f, Token *t) {
 
         t->stripped[ptr++] = c;
     }
+    if (ptr==TOKEN_BUFFER_SIZE) {
+        t->len = ptr;
+        return -1;
+    }
     if (t->stripped[ptr-1]==' ')
         ptr--;
+    
     t->len = ptr;
-    printf("%.*s\n", t->len, t->stripped);
     if (c==EOF)
         return 0;
     return 1;
 }
 
+
+/**
+ * Pretty-print one token, with its source and length
+ */
+void token_print(Token *token) {
+    printf("%s:%d:%d\t\t%.*s\n", token->source.fname, token->source.lineno, token->len ,token->len, token->stripped);
+}
+
+
+/**
+ * Parse token - test if it's an opcode, a label or a preprocessor statement
+ */
+int recognize_token(Token *t) {
+    int found = 0;
+    if (t->stripped[0]=='.') {
+        t->type = TT_PREPROC;
+        found++;
+    }
+    if (t->stripped[t->len-1]==':') {
+        t->type = TT_LABEL;
+        found++;
+    }
+    if (t->stripped[3]==' ') {
+        t->type == TT_INSTR;
+        found++;
+    }
+    if (found!=1) {
+        return -1;
+    }
+    printf("Recognized token as %d:\n", t->type);
+    token_print(t);
+    return 0;
+} 
+
+/**
+ * Pretty-print all tokens in a list
+ */
 void tokenslist_debug_print(TokensList *list) {
     TokensListElement *ptr = list->head;
     while (ptr!=NULL) {
-        printf("%s:%d:%d\t\t%.*s\n", ptr->token.source.fname, ptr->token.source.lineno, ptr->token.len ,ptr->token.len, ptr->token.stripped);
+        token_print(&(ptr->token));
         ptr = ptr->next;
     }
 }
@@ -189,15 +232,36 @@ TokensList* read_file(char *name) {
     }
     fclose(f);
     if (res<0) {
+        printf("ERROR: line is too long!\n");
+        token_print(&tok);
+        tokenslist_delete(tokenslist);
         return NULL;
     }
     return tokenslist;
+}
+
+int recognize_tokens(TokensList *t) {
+    TokensListElement *ptr = t->head;
+    while (ptr!=NULL) {
+        int res = recognize_token(&(ptr->token));
+        if (res<0){
+            printf("ERROR: Can not recognize token:");
+            token_print(&(ptr->token));
+            tokenslist_delete(t);
+            return -1;
+        }
+        ptr = ptr->next;
+    }
+    return 0;
 }
 
 int main() {
     printf("Reading file...\n");
     TokensList *list = read_file("test.asm");
     if (list==NULL)
+        return -1;
+    printf("Running first analysis...\n");
+    if (recognize_tokens(list)<0)
         return -1;
     printf("Now dunping tha file: \n");
     tokenslist_debug_print(list);
