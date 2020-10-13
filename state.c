@@ -128,14 +128,11 @@ int defines_get(Defines *d, char *name) {
    
 }
 
-// ez talán nem kéne...
-#define NEXT(p) p=p->next
 
 void defines_debug_print(Defines *d) {
     struct Define *ptr = d->head;
     while(ptr!=NULL) {
-        printf("%s:\t\t%d\n", ptr->name, ptr->value);
-        NEXT(ptr);
+        ptr = ptr->next;
     }
 }
 
@@ -300,7 +297,7 @@ void tokenslist_debug_print(TokensList *list) {
     TokensListElement *ptr = list->head;
     while (ptr!=NULL) {
         token_print(&(ptr->token));
-        NEXT(ptr);
+        ptr = ptr->next;
     }
 }
 
