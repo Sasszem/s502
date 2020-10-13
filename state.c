@@ -281,7 +281,7 @@ int recognize_token(Token *t) {
         t->type = TT_LABEL;
         found++;
     }
-    if (t->stripped[3]==' ') {
+    if (t->stripped[3]==' ' || t->stripped[3]=='\0') {
         t->type == TT_INSTR;
         found++;
     }
