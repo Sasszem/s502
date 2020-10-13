@@ -361,7 +361,6 @@ int recognize_tokens(TokensList *t) {
 }
 
 TokensList* load_file(char* name) {
-    TokensList *tl = read_file(name);
     LOG("Reading file...\n");
     TokensList *list = read_file("test.asm");
     if (list==NULL)
@@ -370,7 +369,7 @@ TokensList* load_file(char* name) {
     if (recognize_tokens(list)<0)
         return NULL;
     
-    return tl;
+    return list;
 }
 
 void preprocess(TokensList *tokens) {
