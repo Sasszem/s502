@@ -1,3 +1,9 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+#include "debugmalloc.h"
+
 enum tokenType {
     TT_INSTR,
     TT_PREPROC,
@@ -50,7 +56,82 @@ typedef struct {
     } source;
 } Token;
 
-typedef struct {int n;} Defines;
+#define DEFINE_MAX_LEN 16
+
+struct Define {
+    int value;
+    char name[DEFINE_MAX_LEN];
+    struct Define *next;
+};
+
+typedef struct {
+    struct Define *head, *tail;
+} Defines;
+
+void defines_add(Defines *d, char *name, int value) {
+    struct Define *new = (struct Define*)malloc(sizeof(struct Define));
+    
+    new->next = NULL;
+    strncpy(new->name, name, DEFINE_MAX_LEN);
+    new->value = value;
+
+    if (d->head==NULL) {
+        d->head = new;
+        d->tail = new;
+        return;
+    }
+    d->tail->next = new;
+    d->tail = new;
+}
+
+void defines_delete(Defines *d) {
+    struct Define *ptr;
+    while (d->head!=NULL) {
+        ptr = d->head->next;
+        free(d->head);
+        d->head = ptr;
+    }
+}
+
+
+/**
+ * Get the value of a define by name
+ * Returns -1 on not found
+ */
+int defines_get(Defines *d, char *name) {
+    struct Define *ptr = d->head;
+    while(ptr!=NULL) {
+        if (strncmp(ptr->name, name, DEFINE_MAX_LEN)==0) {
+            return ptr->value;
+        }
+        ptr = ptr->next;
+    }
+    return -1;
+}
+
+// ez talán nem kéne...
+#define NEXT(p) p=p->next
+
+void defines_debug_print(Defines *d) {
+    struct Define *ptr = d->head;
+    while(ptr!=NULL) {
+        printf("%s:\t\t%d\n", ptr->name, ptr->value);
+        NEXT(ptr);
+    }
+}
+
+void defines_test() {
+    Defines d = {NULL, NULL};
+    defines_add(&d, "DEF1", 1234);
+    defines_add(&d, "DEF2", 4567);
+    defines_debug_print(&d);
+    printf("DEF1: %d\n", defines_get(&d, "DEF1"));
+    defines_delete(&d);
+    printf("DELETE");
+    printf("DEF1: %d\n", defines_get(&d, "DEF1"));
+    defines_debug_print(&d);
+}
+
 typedef struct {int n;} Labels;
 
 
@@ -71,10 +152,6 @@ typedef struct {
 
 } State;
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
-#include "debugmalloc.h"
 /**
  * Create a new (empty) linekd list for tokens 
  */
@@ -200,7 +277,7 @@ void tokenslist_debug_print(TokensList *list) {
     TokensListElement *ptr = list->head;
     while (ptr!=NULL) {
         token_print(&(ptr->token));
-        ptr = ptr->next;
+        NEXT(ptr);
     }
 }
 
@@ -256,6 +333,8 @@ int recognize_tokens(TokensList *t) {
 }
 
 int main() {
+    defines_test();
+    return 0;
     printf("Reading file...\n");
     TokensList *list = read_file("test.asm");
     if (list==NULL)
