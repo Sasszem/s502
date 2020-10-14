@@ -118,6 +118,15 @@ enum PPCommand process_ifdef(State *s, Token t) {
     return PPC_IF_FALSE;
 }
 
+enum PPCommand process_ifndef(State *s, Token t) {
+    enum PPCommand ret = process_ifdef(s, t);
+    if (ret==PPC_IF_FALSE)
+        return PPC_IF_TRUE;
+    if (ret==PPC_IF_TRUE)
+        return PPC_IF_FALSE;
+    return PPC_STOP;
+}
+
 struct {tokenprocessor p; char *name;} processors[] = {
     { process_define,   "define"    },
     { process_ifdef,    "ifdef"     },
@@ -125,6 +134,7 @@ struct {tokenprocessor p; char *name;} processors[] = {
     { process_print,    "print"     },
     { process_include,  "define"    },
     { process_endif,    "endif"     },
+    { process_ifndef,   "ifndef"    },
 };
 
 struct {enum PPCommand ret; char *name;} skipProcessors[] = {
