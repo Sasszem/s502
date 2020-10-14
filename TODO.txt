@@ -5,8 +5,12 @@ TODO:
 - process: generate binsizes
 - preprocess: defmul <name> <A> <B> <C> name=A*B+C
 - preprocess: include
-- preprocess: print
-- preprocess: ifndef
 - preprocess: incbin
 
 - parse args (-D)
+
+
+DONE:
+- preprocess: print
+- preprocess: printc
+- preprocess: ifndef
