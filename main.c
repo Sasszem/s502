@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include "debugmalloc.h"
 
-#define LOGGING 1
 #include "logging.h"
 
 #include "map.h"
