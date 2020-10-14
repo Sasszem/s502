@@ -18,7 +18,10 @@ lda #5 ; 5-ot mint konstans A-ba
 .define C 9
 .endif
 .endif
-
+.print Middle of the file
+.define P 5
+.printc P
+.printc ASD
 .define A 5
 .ifdef A
     .define B 8
@@ -28,6 +31,12 @@ lda #5 ; 5-ot mint konstans A-ba
     .ifdef Q
         .define W 9
     .endif
+.endif
+.ifndef KK
+lda #@A
+adc #@B
+sta #@C
+.print INSIDE
 .endif
 ; loop body
 ;loop:
