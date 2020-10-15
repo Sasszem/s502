@@ -132,7 +132,7 @@ struct {tokenprocessor p; char *name;} processors[] = {
     { process_ifdef,    "ifdef"     },
     { process_printc,   "printc"    },
     { process_print,    "print"     },
-    { process_include,  "define"    },
+    { process_include,  "include"   },
     { process_endif,    "endif"     },
     { process_ifndef,   "ifndef"    },
 };
