@@ -12,12 +12,13 @@ lda #5 ; 5-ot mint konstans A-ba
 ;.define C @B
 ;.include "c64.asm"
 .ifdef A
-;.print Defining ASD
-.define ASD 5
-.ifdef ASD
-.define C 9
+    ;.print Defining ASD
+    .define ASD 5
+    .ifdef ASD
+        .define C 9
+    .endif
 .endif
-.endif
+
 .print Middle of the file
 .define P 5
 .printc P
@@ -33,10 +34,16 @@ lda #5 ; 5-ot mint konstans A-ba
     .endif
 .endif
 .ifndef KK
-lda #@A
-adc #@B
-sta #@C
-.print INSIDE
+    lda #@A
+    adc #@B
+    sta #@C
+    .print INSIDE
+.endif
+.ifbeq 8 5
+    .print 8 is beq 5
+.endif
+.ifbeq 5 8
+    .print 5 is beq 8
 .endif
 ; loop body
 ;loop:

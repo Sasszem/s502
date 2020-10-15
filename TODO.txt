@@ -14,3 +14,4 @@ DONE:
 - preprocess: print
 - preprocess: printc
 - preprocess: ifndef
+- preprocess: ifbeq
