@@ -24,7 +24,7 @@ int number_parse_number(char *str, int count) {
         num *= base;
         int digit = number_char_to_digit(str[ptr]);
         if (digit==-1 || digit >=base) {
-            ERROR("Can not interpret number: %.*s\n", count, str);
+            ERROR("Can not interpret number: '%.*s'\n", count, str);
             return -1;
         }
         
