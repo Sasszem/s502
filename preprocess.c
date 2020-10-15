@@ -140,6 +140,7 @@ struct {tokenprocessor p; char *name;} processors[] = {
 struct {enum PPCommand ret; char *name;} skipProcessors[] = {
     { PPC_ENDIF,    "endif" },
     { PPC_IF_TRUE,  "ifdef" },
+    { PPC_IF_TRUE,  "ifndef"},
 };
 
 enum PPCommand do_preprocessor_token(State *s, Token t, int skip) {
