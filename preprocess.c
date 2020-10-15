@@ -56,6 +56,50 @@ enum PPCommand process_define(State *s, Token t) {
     return PPC_NOP;
 }
 
+
+enum PPCommand process_ifbeq(State *s, Token t) {
+    // find string
+    char *ifbeq = t.stripped + 1;
+    
+    char *first = util_find_string_segment(ifbeq) + 1;
+    if (*(first-1)=='\0') {
+        ERROR("Not enough args to ifbeq!\n");
+        token_print(&t);
+        return PPC_STOP;
+    }
+
+    char *second = util_find_string_segment(first) + 1;
+    if (*(second-1)=='\0') {
+        ERROR("Not enough args to ifbeq!\n");
+        token_print(&t);
+        return PPC_STOP;
+    }
+
+    char *send = util_find_string_segment(second);
+    if (*send!='\0') {
+        ERROR("Too many args to ifbeq!\n");
+        token_print(&t);
+        return PPC_STOP;
+    }
+
+    //LOG("First part:\t\t%.*s\n", name-define, define);
+    //LOG("Second part:\t\t%.*s\n", num-name, name);
+    //LOG("Third part:\t\t%.*s\n", nend-num, num);
+    int first_as_num = number_get_number(s, first, second-first-1);
+    if (first_as_num<0) {
+        ERROR("ifbeq first argument not defined!\n");
+        token_print(&t);
+        return PPC_STOP;
+    }
+    int second_as_num = number_get_number(s, second, send-second);
+    if (second_as_num<0) {
+        ERROR("ifbeq second argument not defined!\n");
+        token_print(&t);
+        return PPC_STOP;
+    }
+    return first_as_num>second_as_num ? PPC_IF_TRUE : PPC_IF_FALSE;
+}
+
 enum PPCommand process_endif(State *s, Token t){
     return PPC_ENDIF;
 }
@@ -135,12 +179,14 @@ struct {tokenprocessor p; char *name;} processors[] = {
     { process_include,  "include"   },
     { process_endif,    "endif"     },
     { process_ifndef,   "ifndef"    },
+    { process_ifbeq,    "ifbeq"     },
 };
 
 struct {enum PPCommand ret; char *name;} skipProcessors[] = {
     { PPC_ENDIF,    "endif" },
     { PPC_IF_TRUE,  "ifdef" },
     { PPC_IF_TRUE,  "ifndef"},
+    { PPC_IF_TRUE,  "ifbeq" },
 };
 
 enum PPCommand do_preprocessor_token(State *s, Token t, int skip) {
