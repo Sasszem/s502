@@ -134,10 +134,6 @@ int recognize_tokens(TokensList *t) {
     while (ptr!=NULL) {
         int res = recognize_token(&(ptr->token));
         if (res<0){
-            ERROR("Can not recognize token:\n");
-            token_print(&(ptr->token));
-            tokenslist_delete(t);
-            free(t);
             return -1;
         }
         ptr = ptr->next;
