@@ -76,3 +76,25 @@ void tokenslist_debug_print(TokensList *list) {
         }
     );
 }
+
+/**
+ * Insert the contents of SRC into another list after POS
+ */
+void tokenslist_insert(TokensList *list, TokensListElement *pos, TokensList *src) {
+    TokensListElement *next = pos->next;
+
+    if (src->head == NULL)
+        return;
+
+    // doubly-link starts
+    pos->next = src->head;
+    src->head->prev = pos;
+
+    
+    src->tail->next = next;
+    if (next!=NULL)
+        next->prev = src->tail;
+    
+    src->head = NULL;
+    src->tail = NULL;
+}
