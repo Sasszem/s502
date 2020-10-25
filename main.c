@@ -9,10 +9,19 @@
 #include "tokenslist.h"
 #include "state.h"
 #include "loadfile.h"
+#include "preprocess.h"
 
 int main() {
     State *state = state_make();
-    TokensList *list = load_file(state, "test.asm");
+    TokensList *list = load_file("test.asm");
+
+    if (preprocess(state, list)<0) {
+        tokenslist_delete(list);
+        free(list);
+        state_delete(state);
+        free(state);
+        return -1;
+    }
 
     if (list==NULL) {
         state_delete(state);

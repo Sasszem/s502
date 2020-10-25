@@ -7,7 +7,6 @@
 
 #include "loadfile.h"
 #include "logging.h"
-#include "preprocess.h"
 
 /**
  * Read a single token into a Token struct from file f
@@ -146,16 +145,16 @@ int recognize_tokens(TokensList *t) {
     return 0;
 }
 
-
-TokensList* load_file(State *s, char* name) {
+// this should not be here, or rather all the other function shoudl be elsewhere...
+// TODO: refactor this
+// maybe we can use a monadic pattern here?
+TokensList* load_file(char* name) {
     LOG("Reading file...\n");
-    TokensList *list = read_file("test.asm");
+    TokensList *list = read_file(name);
     if (list==NULL)
         return NULL;
     LOG("Running first analysis...\n");
-    if (recognize_tokens(list)<0)
-        return NULL;
-    if (preprocess(s, list)<0) {
+    if (recognize_tokens(list)<0) {
         tokenslist_delete(list);
         free(list);
         return NULL;
