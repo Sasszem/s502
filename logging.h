@@ -16,5 +16,6 @@
 
 #define ERROR(...) printf("\e[41mERROR\e[49m:\t"); printf(__VA_ARGS__)
 #define ERRORC(...) printf(__VA_ARGS__);
+#define FAIL(...) printf("\e[31mFAIL:\e[39m\t"); printf(__VA_ARGS__)
 
 #endif

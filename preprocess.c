@@ -50,8 +50,11 @@ enum PPCommand process_define(State *s, TokensList *list, TokensListElement *ptr
     //LOG("Second part:\t\t%.*s\n", num-name, name);
     //LOG("Third part:\t\t%.*s\n", nend-num, num);
     int as_num = number_get_number(s, num, nend-num);
-    if (as_num<0)
+    if (as_num<0) {
+        FAIL("Define argument is not valid!\n");
+        token_print(&(ptr->token));
         return PPC_STOP;
+    }
     char def[DEFINE_MAX_LEN];
     strncpy(def, name, num-name);
     def[num-name-1] = 0;
@@ -90,13 +93,13 @@ enum PPCommand process_ifbeq(State *s, TokensList *list, TokensListElement *ptr)
     //LOG("Third part:\t\t%.*s\n", nend-num, num);
     int first_as_num = number_get_number(s, first, second-first-1);
     if (first_as_num<0) {
-        ERROR("ifbeq first argument not defined!\n");
+        FAIL("ifbeq first argument not defined!\n");
         token_print(&(ptr->token));
         return PPC_STOP;
     }
     int second_as_num = number_get_number(s, second, send-second);
     if (second_as_num<0) {
-        ERROR("ifbeq second argument not defined!\n");
+        FAIL("ifbeq second argument not defined!\n");
         token_print(&(ptr->token));
         return PPC_STOP;
     }
@@ -162,8 +165,6 @@ enum PPCommand process_include(State *s, TokensList *list, TokensListElement *pt
         return PPC_STOP;
     }
     tokenslist_insert(list, ptr, f);
-    ERROR("That file:");
-    tokenslist_debug_print(f);
     tokenslist_delete(f);
     free(f);
     return PPC_NOP;
@@ -241,6 +242,7 @@ enum PPCommand do_preprocessor_token(State *s, TokensList *list, TokensListEleme
     }
     
     ERROR("Unknown preprocessor directive: %s\n", f);
+    token_print(&(ptr->token));
     return PPC_STOP;
 }
 /**
@@ -277,8 +279,10 @@ int preprocess(State *s, TokensList *tokens) {
                     skip =0;
                 }
             }
-            if (p==PPC_STOP)
+            if (p==PPC_STOP) {
+                FAIL("Failed to preprocess!\n");
                 return -1;
+            }
         }
         if (skip||skiponce){
             ptr = tokenslist_remove(tokens, ptr);

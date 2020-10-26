@@ -100,8 +100,8 @@ int recognize_token(Token *t) {
 TokensList* read_file(char *name) {
     FILE *f = fopen(name, "r");
     if (f==NULL) {
-        printf("An error occured opening the file %s!\n", name);
-        printf("Error opening file: %s\n", strerror( errno ));
+        ERROR("An error occured opening the file %s!\n", name);
+        ERROR("Error opening file: %s\n", strerror( errno ));
         return NULL;
     }
     TokensList *tokenslist = tokenslist_make();
@@ -134,6 +134,7 @@ int recognize_tokens(TokensList *t) {
     while (ptr!=NULL) {
         int res = recognize_token(&(ptr->token));
         if (res<0){
+            FAIL("Can not recognize token types!\n");
             return -1;
         }
         ptr = ptr->next;
@@ -151,6 +152,7 @@ TokensList* load_file(char* name) {
         return NULL;
     LOG("Running first analysis...\n");
     if (recognize_tokens(list)<0) {
+        FAIL("Failed to load file contents: '%s'\n", name);
         tokenslist_delete(list);
         free(list);
         return NULL;

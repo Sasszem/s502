@@ -16,12 +16,14 @@ int main() {
     TokensList *list = load_file("test.asm");
 
     if (list==NULL) {
+        FAIL("Compilation failed!\n");
         state_delete(state);
         free(state);
         return -1;
     }
 
     if (preprocess(state, list)<0) {
+        FAIL("Compilation failed!\n");
         tokenslist_delete(list);
         free(list);
         state_delete(state);
