@@ -51,10 +51,10 @@ int read_token(FILE *f, Token *t) {
     }
     if (t->stripped[ptr-1]==' ')
         ptr--;
-    LOG("READ TOKEN:\n");
-    LOGDO(token_print(t));
     t->stripped[ptr] = 0;
     t->len = ptr;
+    LOG("READ TOKEN:\n");
+    LOGDO(token_print(t));
     if (c==EOF)
         return 0;
     return 1;
