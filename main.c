@@ -15,15 +15,15 @@ int main() {
     State *state = state_make();
     TokensList *list = load_file("test.asm");
 
-    if (preprocess(state, list)<0) {
-        tokenslist_delete(list);
-        free(list);
+    if (list==NULL) {
         state_delete(state);
         free(state);
         return -1;
     }
 
-    if (list==NULL) {
+    if (preprocess(state, list)<0) {
+        tokenslist_delete(list);
+        free(list);
         state_delete(state);
         free(state);
         return -1;
