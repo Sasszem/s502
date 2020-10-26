@@ -3,26 +3,22 @@
 #include <stdlib.h>
 #include "debugmalloc.h"
 
-State* state_make() {
+State* state_new() {
     State *ret = (State*)malloc(sizeof(State));
     
-    ret->defines.head = NULL;
-    ret->defines.tail = NULL;
-    
-    ret->labels.head = NULL;
-    ret->labels.tail = NULL;
-
-    ret->tokens.head = NULL;
-    ret->tokens.tail = NULL;
+    ret->defines = map_new();
+    ret->labels = map_new();
+    ret->tokens = NULL;
 
     return ret;
 }
 
 
-void state_delete(State *s) {
-    map_empty(&(s->defines));
-    tokenslist_delete(&(s->tokens));
-    map_empty(&(s->labels));
+void state_free(State *s) {
+    map_free(s->defines);
+    tokenslist_free(s->tokens);
+    map_free(s->labels);
+    free(s);
 }
 
 

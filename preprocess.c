@@ -58,7 +58,7 @@ enum PPCommand process_define(State *s, TokensList *list, TokensListElement *ptr
     char def[DEFINE_MAX_LEN];
     strncpy(def, name, num-name);
     def[num-name-1] = 0;
-    map_set(&(s->defines), def, as_num);
+    map_set(s->defines, def, as_num);
     return PPC_NOP;
 }
 
@@ -131,7 +131,7 @@ enum PPCommand process_printc(State *s, TokensList *list, TokensListElement *ptr
     char buffer[DEFINE_MAX_LEN];
     strncpy(buffer, str, send-str);
     buffer[send-str] = 0;
-    int v = map_get(&(s->defines), buffer);
+    int v = map_get(s->defines, buffer);
     printf("\e[44mDEFINE\e[49m:\t%s = ", buffer);
 
     if (v==-1)
@@ -165,8 +165,8 @@ enum PPCommand process_include(State *s, TokensList *list, TokensListElement *pt
         return PPC_STOP;
     }
     tokenslist_insert(list, ptr, f);
-    tokenslist_delete(f);
-    free(f);
+    tokenslist_free(f);
+    f = NULL;
     return PPC_NOP;
 }
 
@@ -187,7 +187,7 @@ enum PPCommand process_ifdef(State *s, TokensList *list, TokensListElement *ptr)
     char name[DEFINE_MAX_LEN];
     strncpy(name, val, vend-val);
     name[vend-val] = 0;
-    if (map_get(&(s->defines), name)!=-1) {
+    if (map_get(s->defines, name)!=-1) {
         return PPC_IF_TRUE;
     }
     return PPC_IF_FALSE;

@@ -13,9 +13,10 @@ typedef struct {
     struct MapEntry *head, *tail;
 } Map;
 
+Map* map_new();
 struct MapEntry* map_find(Map *d, char *key);
 void map_set(Map *d, char *name, int value);
-void map_empty(Map *d);
+void map_free(Map *d);
 int map_get(Map *d, char *name);
 void map_debug_print(Map *d);
 

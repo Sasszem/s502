@@ -6,6 +6,12 @@
 #include "map.h"
 #include "debugmalloc.h"
 
+Map* map_new() {
+    Map* ret = (Map*)malloc(sizeof(Map));
+    ret->head = NULL;
+    ret->tail = NULL;
+    return ret;
+}
 
 
 struct MapEntry* map_find(Map *d, char *key) {
@@ -39,7 +45,7 @@ void map_set(Map *d, char *name, int value) {
 
 }
 
-void map_empty(Map *d) {
+void map_free(Map *d) {
     struct MapEntry *ptr;
     while (d->head!=NULL) {
         ptr = d->head->next;
@@ -48,6 +54,7 @@ void map_empty(Map *d) {
     }
     d->head = NULL;
     d->tail = NULL;
+    free(d);
 }
 
 
@@ -83,7 +90,7 @@ void defines_test() {
     map_set(&d, "DEF1", 4321);
     LOGDO(map_debug_print(&d));
     LOG("DEF1: %d\n", map_get(&d, "DEF1"));
-    map_empty(&d);
+    map_free(&d);
     LOG("DELETE\n");
     LOG("DEF1: %d\n", map_get(&d, "DEF1"));
     LOGDO(map_debug_print(&d));

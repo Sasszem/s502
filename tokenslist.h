@@ -13,11 +13,11 @@ typedef struct {
     TokensListElement *tail;
 } TokensList;
 
-TokensList* tokenslist_make();
+TokensList* tokenslist_new();
 void tokenslist_add(TokensList *list, Token t);
 TokensListElement* tokenslist_remove(TokensList *list, TokensListElement *el);
 void tokenslist_insert(TokensList *list, TokensListElement *target, TokensList *src);
-void tokenslist_delete(TokensList *list);
+void tokenslist_free(TokensList *list);
 void tokenslist_debug_print(TokensList *list);
 
 #endif

@@ -42,7 +42,7 @@ int number_get_number(State *s, char *str, int count) {
         char number[DEFINE_MAX_LEN];
         strncpy(number, str+ptr+1, count-ptr-1);
         number[count-ptr-1] = 0;
-        int n = map_get(&(s->defines), number);
+        int n = map_get(s->defines, number);
         if (n==-1) {
             ERROR("Undefined constant: %.*s\n", count-ptr-1, str+ptr+1);
             return -1;

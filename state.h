@@ -5,14 +5,14 @@
 #include "tokenslist.h"
 
 typedef struct {
-    Map defines;
-    Map labels;
-    TokensList tokens;
+    Map *defines;
+    Map *labels;
+    TokensList *tokens;
 
 } State;
 
 
-State* state_make();
-void state_delete(State *s);
+State* state_new();
+void state_free(State *s);
 
 #endif

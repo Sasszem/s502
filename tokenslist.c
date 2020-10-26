@@ -9,7 +9,7 @@
 /**
  * Create a new (empty) linekd list for tokens 
  */
-TokensList* tokenslist_make() {
+TokensList* tokenslist_new() {
     TokensList *ret = (TokensList*)malloc(sizeof(TokensList));
     ret->head = NULL;
     ret->tail = NULL;    
@@ -50,12 +50,15 @@ TokensListElement* tokenslist_remove(TokensList *list, TokensListElement *el) {
     return next;
 }
 
-void tokenslist_delete(TokensList *list) {
+void tokenslist_free(TokensList *list) {
     while (list->head!=NULL) {
         TokensListElement *n = list->head->next;
         free(list->head);
         list->head = n;
     }
+    list->head = NULL;
+    list->tail = NULL;
+    free(list);
 }
 
 

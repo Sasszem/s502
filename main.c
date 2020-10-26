@@ -12,33 +12,33 @@
 #include "preprocess.h"
 
 int main() {
-    State *state = state_make();
+    State *state = state_new();
     TokensList *list = load_file("test.asm");
 
     if (list==NULL) {
         FAIL("Compilation failed!\n");
-        state_delete(state);
-        free(state);
+        state_free(state);
+        state = NULL;
         return -1;
     }
 
     if (preprocess(state, list)<0) {
         FAIL("Compilation failed!\n");
-        tokenslist_delete(list);
-        free(list);
-        state_delete(state);
-        free(state);
+        tokenslist_free(list);
+        list = NULL;
+        state_free(state);
+        state = NULL;
         return -1;
     }
     
     LOG("Now dunping tha file: \n");
     LOGDO(tokenslist_debug_print(list));
     LOG("Now tha defines:\n");
-    LOGDO(map_debug_print(&(state->defines)));
+    LOGDO(map_debug_print(state->defines));
     LOG("Cleaning up...\n");
-    tokenslist_delete(list);
-    state_delete(state);
-    free(state);
-    free(list);
+    tokenslist_free(list);
+    state_free(state);
+    state = NULL;
+    list = NULL;
     return 0;
 }

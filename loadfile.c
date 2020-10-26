@@ -104,7 +104,7 @@ TokensList* read_file(char *name) {
         ERROR("Error opening file: %s\n", strerror( errno ));
         return NULL;
     }
-    TokensList *tokenslist = tokenslist_make();
+    TokensList *tokenslist = tokenslist_new();
     Token tok;
     int lineno = 1;
     int res;
@@ -122,8 +122,7 @@ TokensList* read_file(char *name) {
     if (res<0) {
         ERROR("line is too long!\n");
         token_print(&tok);
-        tokenslist_delete(tokenslist);
-        free(tokenslist);
+        tokenslist_free(tokenslist);
         return NULL;
     }
     return tokenslist;
@@ -153,8 +152,7 @@ TokensList* load_file(char* name) {
     LOG("Running first analysis...\n");
     if (recognize_tokens(list)<0) {
         FAIL("Failed to load file contents: '%s'\n", name);
-        tokenslist_delete(list);
-        free(list);
+        tokenslist_free(list);
         return NULL;
     }
     return list;
