@@ -1,0 +1,26 @@
+Conventions
+
+Naming
+- everything in snake_case
+- functions should start with module name
+
+Structure
+
+Objects
+- no one should possess a direct instance of any object, only pointers
+- constructors should return with a pointer, or NULL
+- destructors (named free) should free ALL memory associated with the object
+- deleting an object should always be at MOST 2 lines - calling object_free and setting the ptr to NULL (later can be omitted)
+
+Error handling
+- functions should return 0 to indicate success, or negative to indicate error
+- most errors should cause the program to end
+- error handling should still free all allocated resources (memory, files)
+- all functions should signal their failed state on receiving an error, but the root cause should be distinct
+
+Commenting
+- All functions should have a docs comment specifying what they do, what they return and how they can fail
+
+Misc:
+- No globals
+- Include guards on every file
