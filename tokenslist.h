@@ -3,11 +3,17 @@
 
 #include "token.h"
 
+/**
+ * An element of a TokensList
+ */
 typedef struct TokensListElement {
     Token token;
     struct TokensListElement *next, *prev;
 } TokensListElement;
 
+/**
+ * A doubly-linked list for storing Tokens
+ */
 typedef struct {
     TokensListElement *head;
     TokensListElement *tail;

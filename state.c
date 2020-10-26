@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include "debugmalloc.h"
 
+/**
+ * Create a new State object
+ */
 State* state_new() {
     State *ret = (State*)malloc(sizeof(State));
     
@@ -13,7 +16,10 @@ State* state_new() {
     return ret;
 }
 
-
+/**
+ * Free a State object
+ * Pointer should be nulled after this!
+ */
 void state_free(State *s) {
     map_free(s->defines);
     tokenslist_free(s->tokens);

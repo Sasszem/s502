@@ -4,6 +4,15 @@
 #include "map.h"
 #include "tokenslist.h"
 
+/**
+ * Compiler pseudo-global state
+ * - defines
+ * - labels
+ * - tokens?
+ * - (args)
+ * - (settings)
+ * - (opcodes)
+ */
 typedef struct {
     Map *defines;
     Map *labels;

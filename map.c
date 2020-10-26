@@ -6,6 +6,10 @@
 #include "map.h"
 #include "debugmalloc.h"
 
+
+/**
+ * Create a new map with 0 elements
+ */
 Map* map_new() {
     Map* ret = (Map*)malloc(sizeof(Map));
     ret->head = NULL;
@@ -13,7 +17,10 @@ Map* map_new() {
     return ret;
 }
 
-
+/**
+ * Find a key in a map
+ * Returns NULL if not found
+ */
 struct MapEntry* map_find(Map *d, char *key) {
     struct MapEntry *ptr = d->head;
     while(ptr!=NULL) {
@@ -25,7 +32,10 @@ struct MapEntry* map_find(Map *d, char *key) {
     return NULL;
 }
 
-
+/**
+ * Sets a key in the map
+ * Creates a new entry if needed
+ */
 void map_set(Map *d, char *name, int value) {
     struct MapEntry *ptr = map_find(d, name);
     if (ptr==0) {
@@ -45,6 +55,10 @@ void map_set(Map *d, char *name, int value) {
 
 }
 
+/**
+ * Free the map with all associated memory
+ * Frees the map itself, so it's pointer will be invalid!
+ */
 void map_free(Map *d) {
     struct MapEntry *ptr;
     while (d->head!=NULL) {
@@ -60,7 +74,7 @@ void map_free(Map *d) {
 
 
 /**
- * Get the value of a define by name
+ * Get the value of a key
  * Returns -1 on not found
  */
 int map_get(Map *d, char *name) {
@@ -72,26 +86,14 @@ int map_get(Map *d, char *name) {
    
 }
 
-
+/**
+ * Print all key-value pairs of the map
+ * Intended for debugging purposes
+ */
 void map_debug_print(Map *d) {
     struct MapEntry *ptr = d->head;
     while(ptr!=NULL) {
         printf("\t%s:\t\t%d\n", ptr->name, ptr->value);
         ptr = ptr->next;
     }
-}
-
-void defines_test() {
-    Map d = {NULL, NULL};
-    map_set(&d, "DEF1", 1234);
-    map_set(&d, "DEF2", 4567);
-    map_debug_print(&d);
-    LOG("DEF1: %d\n", map_get(&d, "DEF1"));
-    map_set(&d, "DEF1", 4321);
-    LOGDO(map_debug_print(&d));
-    LOG("DEF1: %d\n", map_get(&d, "DEF1"));
-    map_free(&d);
-    LOG("DELETE\n");
-    LOG("DEF1: %d\n", map_get(&d, "DEF1"));
-    LOGDO(map_debug_print(&d));
 }

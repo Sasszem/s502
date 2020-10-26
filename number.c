@@ -2,6 +2,11 @@
 #include <string.h>
 #include "logging.h"
 
+/**
+ * Convert a hex char to a digit
+ * Handles upper or lowercase chars
+ * Returns -1 on failed conversion
+ */
 int number_char_to_digit(char c) {
     if ('0'<=c && c<='9')
         return c-'0';
@@ -12,6 +17,11 @@ int number_char_to_digit(char c) {
     return -1;
 }
 
+/**
+ * Parse a number from a string
+ * Handles base marker $ symbol
+ * Returns -1 on failed parsing
+ */
 int number_parse_number(char *str, int count) {
     int base = 10;
     int ptr = 0;
@@ -34,6 +44,12 @@ int number_parse_number(char *str, int count) {
     return num;    
 }
 
+/**
+ * interpret a string as a constant or number
+ * - get the value of a constant
+ * - parse number
+ * Returns -1 on error
+ */
 int number_get_number(State *s, char *str, int count) {
     int ptr = 0;
     if (str[ptr]=='#')

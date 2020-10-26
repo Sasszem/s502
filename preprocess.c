@@ -10,6 +10,10 @@
 #include "number.h"
 #include "loadfile.h"
 
+/**
+ * Internal command type for preprocessor
+ * Token processor functions return these to signal different commands to the preprocessor
+ */
 enum PPCommand {
     PPC_STOP = -1,
     PPC_NOP = 0,
@@ -18,9 +22,17 @@ enum PPCommand {
     PPC_ENDIF,
 };
 
+/**
+ * Token processor function
+ * Should process one token and return a PPCommand
+ */
 typedef enum PPCommand(*tokenprocessor)(State *, TokensList *, TokensListElement*);
 
 
+/**
+ * Process a .define directive
+ * Updates definese
+ */
 enum PPCommand process_define(State *s, TokensList *list, TokensListElement *ptr) {
     // find string
     char *define = ptr->token.stripped + 1;
@@ -62,7 +74,10 @@ enum PPCommand process_define(State *s, TokensList *list, TokensListElement *ptr
     return PPC_NOP;
 }
 
-
+/**
+ * Process an ifbeq directive
+ * Can return PPC_IF_TRUE or PPC_IF_FALSE
+ */
 enum PPCommand process_ifbeq(State *s, TokensList *list, TokensListElement *ptr) {
     // find string
     char *ifbeq = ptr->token.stripped + 1;
@@ -106,10 +121,16 @@ enum PPCommand process_ifbeq(State *s, TokensList *list, TokensListElement *ptr)
     return first_as_num>second_as_num ? PPC_IF_TRUE : PPC_IF_FALSE;
 }
 
+/**
+ * "Process" an endif directive
+ */
 enum PPCommand process_endif(State *s, TokensList *list, TokensListElement *ptr){
     return PPC_ENDIF;
 }
 
+/**
+ * Process a print directive
+ */
 enum PPCommand process_print(State *s, TokensList *list, TokensListElement *ptr) {
     char *str = &(ptr->token.stripped[1]);
     str = util_find_string_segment(str) + 1;
@@ -117,6 +138,10 @@ enum PPCommand process_print(State *s, TokensList *list, TokensListElement *ptr)
     return PPC_NOP;
 }
 
+
+/**
+ * Process a printc directive
+ */
 enum PPCommand process_printc(State *s, TokensList *list, TokensListElement *ptr) {
     char *str = &(ptr->token.stripped[1]);
     str = util_find_string_segment(str) + 1;
@@ -141,6 +166,10 @@ enum PPCommand process_printc(State *s, TokensList *list, TokensListElement *ptr
     return PPC_NOP;
 }
 
+/**
+ * Process an include directive
+ * This modifies the tokenslist directly!
+ */
 enum PPCommand process_include(State *s, TokensList *list, TokensListElement *ptr) {
     char *str = &(ptr->token.stripped[1]);
     str = util_find_string_segment(str) + 1;
@@ -170,6 +199,9 @@ enum PPCommand process_include(State *s, TokensList *list, TokensListElement *pt
     return PPC_NOP;
 }
 
+/**
+ * Process an ifdef directive 
+ */
 enum PPCommand process_ifdef(State *s, TokensList *list, TokensListElement *ptr) {
     char *cmd = &(ptr->token.stripped[1]);
     char *val = util_find_string_segment(cmd) + 1;
@@ -193,6 +225,10 @@ enum PPCommand process_ifdef(State *s, TokensList *list, TokensListElement *ptr)
     return PPC_IF_FALSE;
 }
 
+/**
+ * Process an ifndef directive
+ * Uses process_ifdef internally
+ */
 enum PPCommand process_ifndef(State *s, TokensList *list, TokensListElement *ptr) {
     enum PPCommand ret = process_ifdef(s, list, ptr);
     if (ret==PPC_IF_FALSE)
@@ -202,6 +238,11 @@ enum PPCommand process_ifndef(State *s, TokensList *list, TokensListElement *ptr
     return PPC_STOP;
 }
 
+
+/**
+ * The list of all processor functions and their tokens
+ * Currently compare is kinda broken, so their order DOES matter
+ */
 struct {tokenprocessor p; char *name;} processors[] = {
     { process_define,   "define"    },
     { process_ifdef,    "ifdef"     },
@@ -213,6 +254,9 @@ struct {tokenprocessor p; char *name;} processors[] = {
     { process_ifbeq,    "ifbeq"     },
 };
 
+/**
+ * List of tokens to "process" when skipping tokens due to a falsy if
+ */
 struct {enum PPCommand ret; char *name;} skipProcessors[] = {
     { PPC_ENDIF,    "endif" },
     { PPC_IF_TRUE,  "ifdef" },
@@ -220,6 +264,9 @@ struct {enum PPCommand ret; char *name;} skipProcessors[] = {
     { PPC_IF_TRUE,  "ifbeq" },
 };
 
+/**
+ * Pre-process a single token
+ */
 enum PPCommand do_preprocessor_token(State *s, TokensList *list, TokensListElement *ptr, int skip) {
     LOG("Processing preproessor token:\n");
     LOGDO(token_print(&(ptr->token)));
@@ -245,11 +292,11 @@ enum PPCommand do_preprocessor_token(State *s, TokensList *list, TokensListEleme
     token_print(&(ptr->token));
     return PPC_STOP;
 }
+
 /**
- * Goes trough the tokens in the list
- * - handles defines
- * (- does includes)
- * (- reads trough ifdef'd blocks)
+ * Preprocess the tokens
+ * - Handles conditionals
+ * - (replace constanst inside opcodes)
  */
 int preprocess(State *s, TokensList *tokens) {
     TokensListElement *ptr = tokens->head;

@@ -9,6 +9,9 @@ struct MapEntry {
     struct MapEntry *next;
 };
 
+/**
+ * Simple key->value map (str->int) implemented with a linked list
+ */
 typedef struct {
     struct MapEntry *head, *tail;
 } Map;

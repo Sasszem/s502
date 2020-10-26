@@ -12,11 +12,10 @@
  * Read a single token into a Token struct from file f
  * - read relevant part
  * - return 1 on success, 0 on EOF and -1 on error
- ***/
-
-// TODO: refactor this
-// TODO: basic docs
+ */
 int read_token(FILE *f, Token *t) {
+    
+    // TODO: refactor this
     int seen_whitespace = 1, eol = 0;
     int ptr, c;
     // -1 for trailing nullbyte
@@ -60,8 +59,6 @@ int read_token(FILE *f, Token *t) {
     return 1;
 }
 
-
-
 /**
  * Parse token - test if it's an opcode, a label or a preprocessor statement
  */
@@ -96,6 +93,7 @@ int recognize_token(Token *t) {
  * - parses every line as a token
  * - generates token list
  * - returns said token list
+ * - returns NULL on error
  */
 TokensList* read_file(char *name) {
     FILE *f = fopen(name, "r");
@@ -128,6 +126,10 @@ TokensList* read_file(char *name) {
     return tokenslist;
 }
 
+/**
+ * Do token recognition on all tokens in a list
+ * Returns 0 on success, -1 on error
+ */
 int recognize_tokens(TokensList *t) {
     TokensListElement *ptr = t->head;
     while (ptr!=NULL) {
@@ -144,6 +146,16 @@ int recognize_tokens(TokensList *t) {
 // this should not be here, or rather all the other function shoudl be elsewhere...
 // TODO: refactor this
 // maybe we can use a monadic pattern here?
+
+
+/**
+ * High level function that reads a whole file
+ * - reads file
+ * - tokenises it
+ * - recognizes token types
+ * - returns fiel as TokensList*
+ * - returns NULL on faliure
+ */
 TokensList* load_file(char* name) {
     LOG("Reading file...\n");
     TokensList *list = read_file(name);

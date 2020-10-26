@@ -6,8 +6,9 @@
 #include "tokenslist.h"
 #include "logging.h"
 #include "debugmalloc.h"
+
 /**
- * Create a new (empty) linekd list for tokens 
+ * Create a new (empty) TokensList object 
  */
 TokensList* tokenslist_new() {
     TokensList *ret = (TokensList*)malloc(sizeof(TokensList));
@@ -17,7 +18,7 @@ TokensList* tokenslist_new() {
 }
 
 /**
- * Add a token to a linekd list of tokens
+ * Append a token to the list
  */
 void tokenslist_add(TokensList *list, Token t) {
     TokensListElement *elem = (TokensListElement*)malloc(sizeof(TokensListElement));
@@ -34,6 +35,9 @@ void tokenslist_add(TokensList *list, Token t) {
     list->tail = elem;
 }
 
+/**
+ * Remove a token from the list
+ */
 TokensListElement* tokenslist_remove(TokensList *list, TokensListElement *el) {
     if (list->head == el)
         list->head = el->next;
@@ -50,6 +54,10 @@ TokensListElement* tokenslist_remove(TokensList *list, TokensListElement *el) {
     return next;
 }
 
+/**
+ * Free ALL memory associated with the TokensList object
+ * Pointer should be nulled after this!
+ */
 void tokenslist_free(TokensList *list) {
     while (list->head!=NULL) {
         TokensListElement *n = list->head->next;
