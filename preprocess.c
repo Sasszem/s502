@@ -189,7 +189,7 @@ enum PPCommand process_include(State *s, TokensList *list, TokensListElement *pt
     strncpy(name, str, send-str);
     TokensList *f = load_file(name);
     if (f==NULL) {
-        ERROR("Could not include file!\n");
+        FAIL("Could not include file!\n");
         token_print(&(ptr->token));
         return PPC_STOP;
     }
