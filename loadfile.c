@@ -12,6 +12,11 @@
  * Read a single token into a Token struct from file f
  * - read relevant part
  * - return 1 on success, 0 on EOF and -1 on error
+ * Internal workings:
+ * - read characters into puffer
+ * - only write one whitespace
+ * - don't write ; and any characters after
+ * - stop on EOF and \n
  */
 int read_token(FILE *f, Token *t) {
     
@@ -20,13 +25,19 @@ int read_token(FILE *f, Token *t) {
     int ptr, c;
     // -1 for trailing nullbyte
     for (ptr = 0; ptr<TOKEN_BUFFER_SIZE-1; ) {
+        // read char
         c = fgetc(f);
-        // HANDLE EOF
+
+        // stop condition
         if (c==EOF || c=='\n') {
             break;
         }
+
+        // don't write if already reached a comment
         if (eol)
             continue;
+        
+        // whitespace handling
         if (c=='\t' || c==' ') {
             if (!seen_whitespace) {
                 c = ' ';
@@ -34,30 +45,46 @@ int read_token(FILE *f, Token *t) {
             } else {
                 continue;
             }
-        } else {
+        } else { // all othet chars
             seen_whitespace = 0;
+
+            // mark comment
             if (c==';') {
                 eol = 1;
                 continue;
             }
         }
 
+        // tha actual write
+        // continues skipt this
         t->stripped[ptr++] = c;
     }
+
+    // too long line
     if (ptr==TOKEN_BUFFER_SIZE-1) {
         t->len = ptr;
         return -1;
     }
+
+    // kill trailing whitespace
     if (t->stripped[ptr-1]==' ')
         ptr--;
+    
+    // zero-terminate
     t->stripped[ptr] = 0;
+    // len
     t->len = ptr;
+
+    // log
     if (ptr>0) {
         LOG("READ TOKEN:\n");
         LOGDO(token_print(t));
     }
+
+    // EOF return
     if (c==EOF)
         return 0;
+    
     return 1;
 }
 
