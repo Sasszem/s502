@@ -160,15 +160,11 @@ TokensList* read_file(char *name) {
  * Returns 0 on success, -1 on error
  */
 int recognize_tokens(TokensList *t) {
-    TokensListElement *ptr = t->head;
-    while (ptr!=NULL) {
-        int res = recognize_token(&(ptr->token));
-        if (res<0){
+    for(TokensListElement *ptr = t->head; ptr!=NULL; ptr = ptr->next)
+        if (recognize_token(&(ptr->token)) < 0){
             FAIL("Can not recognize token types!\n");
             return -1;
         }
-        ptr = ptr->next;
-    }
     return 0;
 }
 

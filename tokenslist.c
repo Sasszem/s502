@@ -79,12 +79,8 @@ void tokenslist_debug_print(TokensList *list) {
 
     // pretty suprised this is valid...
     LOGDO(
-        TokensListElement *ptr = list->head;
-
-        while (ptr!=NULL) {
+        for (TokensListElement *ptr = list->head; ptr!=NULL; ptr = ptr->next)
             token_print(&(ptr->token));
-            ptr = ptr->next;
-        }
     );
 }
 

@@ -22,13 +22,9 @@ Map* map_new() {
  * Returns NULL if not found
  */
 struct MapEntry* map_find(Map *d, char *key) {
-    struct MapEntry *ptr = d->head;
-    while(ptr!=NULL) {
-        if (strncmp(ptr->name, key, DEFINE_MAX_LEN)==0) {
+    for (struct MapEntry *ptr = d->head; ptr!=NULL; ptr = ptr->next)
+        if (strncmp(ptr->name, key, DEFINE_MAX_LEN)==0)
             return ptr;
-        }
-        ptr = ptr->next;
-    }
     return NULL;
 }
 
@@ -91,9 +87,6 @@ int map_get(Map *d, char *name) {
  * Intended for debugging purposes
  */
 void map_debug_print(Map *d) {
-    struct MapEntry *ptr = d->head;
-    while(ptr!=NULL) {
+    for (struct MapEntry *ptr = d->head; ptr!=NULL; ptr = ptr->next)
         printf("\t%s:\t\t%d\n", ptr->name, ptr->value);
-        ptr = ptr->next;
-    }
 }
