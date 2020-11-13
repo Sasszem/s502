@@ -2,6 +2,13 @@
 #include <string.h>
 #include "logging.h"
 
+int is_valid_define_char(char c) {
+    return  ('a'<=c && c<='z') ||
+            ('A'<=c && c<='Z') ||
+            ('0'<=c && c<='9') ||
+            c=='_';
+}
+
 /**
  * Convert a hex char to a digit
  * Handles upper or lowercase chars
