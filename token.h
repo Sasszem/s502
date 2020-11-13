@@ -13,29 +13,25 @@ enum tokenType {
 };
 
 enum AddressMode {
-    AM_IMPLIED,
-    AM_INDIRECT,
-    AM_INVALID
-}; 
-
-enum TokenPreprocType {
-    TPT_INCLUDE,
-    TPT_DEFINE,
-    TPT_ORG,
-    TPT_DATA,
-    TPT_START
+    ADRM_ACC = 0,
+    ADRM_ABS,
+    ADRM_ABS_X,
+    ADRM_ABS_Y,
+    ADRM_IMM,
+    ADRM_IMP,
+    ADRM_IND,
+    ADRM_IND_X,
+    ADRM_IND_Y,
+    ADRM_REL,
+    ADRM_ZPG,
+    ADRM_ZPG_X,
+    ADRM_ZPG_Y,
+    ADRM_COUNT
 };
+
 
 struct TokenLabel {
     int addr;
-};
-
-struct TokenPreproc {
-    enum TokenPreprocType type;
-};
-
-struct TokenInstr {
-    enum AddressMode addressmode;
 };
 
 typedef struct {
@@ -43,8 +39,10 @@ typedef struct {
     enum tokenType type;
     union {
         struct TokenLabel label;
-        struct TokenPreproc preproc;
-        struct TokenInstr instr;
+        struct {
+            enum AddressMode addressmode;
+            int number;
+        } instr;
     } fields;
     char stripped[TOKEN_BUFFER_SIZE];
     int len;
