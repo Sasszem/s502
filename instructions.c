@@ -46,11 +46,11 @@ Instruction* instruction_load(char* fname) {
 
             // process data
             if (rowindex == 0) {
-                if (ptr != 3) goto ERROR_FREE;
+                if (ptr != 3) goto ERR_MALFORMED;
                 memcpy(curr->mnem, buff, 3);
                 curr->mnem[3] = 0;
             }             else {
-                if (ptr != 2 && ptr != 0) goto ERROR_FREE;
+                if (ptr != 2 && ptr != 0) goto ERR_MALFORMED;
                 if (ptr)
                     curr->opcs[rowindex - 1] = 16 * number_char_to_digit(buff[0]) + number_char_to_digit(buff[1]);
                 else
@@ -60,7 +60,7 @@ Instruction* instruction_load(char* fname) {
             rowindex++;
             if (x == '\n') {
                 if (rowindex != 14)
-                    goto ERROR_FREE;
+                    goto ERR_MALFORMED;
                 rowindex = 0;
                 row++;
 
@@ -85,34 +85,31 @@ Instruction* instruction_load(char* fname) {
         curr->next = NULL;
     }
 
-
-    printf("%d %d\n", rowindex, ptr);
     fclose(f);
     return list;
-
-
-ERROR_FREE:
-    instruction_free(list);
-
 ERR_MALFORMED:
     ERROR("Malformed instruction line:column: %d : %d\n", row + 1, rowindex + 1);
     ERROR("Malformed instructions/opcodes file: %s\n", fname);
-    fclose(f);
-    return NULL;
+    goto CLEANUP;
 
 ERR_MEM:
-    instruction_free(list);
     ERROR("Memory allocation error in instruction_load()!\n");
+    goto CLEANUP;
+
+CLEANUP:
+    instruction_free(list);
     fclose(f);
+
     return NULL;
 }
 
 
 /**
  * @brief free all memory associated with an Instruction* linked list
- * @param list lsit to free. All references to it will be invalid!
+ * @param list list to free. All references to it will be invalid! Also accepts NULL
  */
 void instruction_free(Instruction* list) {
+    if (!list) return;
     while (list->next != NULL) {
         Instruction* ptr = list->next;
         list->next = ptr->next;

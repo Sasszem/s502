@@ -176,8 +176,7 @@ ERR_MEM:
 
     FAIL("read_file() failed!\n");
     fclose(f);
-    if (tokenslist != NULL)
-        tokenslist_free(tokenslist);
+    tokenslist_free(tokenslist);
     return NULL;
 }
 
@@ -221,8 +220,6 @@ TokensList* load_file(char* name) {
 
 ERROR:
     FAIL("Failed to load file contents: '%s'\n", name);
-    if (list != NULL) {
-        tokenslist_free(list);
-    }
+    tokenslist_free(list);
     return NULL;
 }
