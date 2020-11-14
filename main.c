@@ -9,16 +9,17 @@
 #include "state.h"
 #include "loadfile.h"
 #include "preprocess.h"
+#include "instructions.h"
 
 int main() {
     State *state = state_new();
-    if (state==NULL) {
-        FAIL("Initialization failed!\n");
-        return -1;
-    }
-    TokensList *list = load_file("test.asm");
+    if (!state) goto ERR_INIT;
+    if (state_load_instr(state, "opcodes.csv")<0) goto ERR_INIT;
+    instruction_print(state->instr);
+    LOG("Init done!\n");
 
-    if (list==NULL) {
+    TokensList *list = load_file("test.asm");
+    if (!list) {
         FAIL("Compilation failed!\n");
         state_free(state);
         state = NULL;
@@ -43,5 +44,9 @@ int main() {
     state_free(state);
     state = NULL;
     list = NULL;
-    return 0;
+
+    ERR_INIT:
+        FAIL("Initialization failed!\n");
+        state_free(state);
+        return -1;
 }

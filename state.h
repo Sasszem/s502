@@ -3,7 +3,7 @@
 
 #include "map.h"
 #include "tokenslist.h"
-
+#include "instructions.h"
 /**
  * Compiler pseudo-global state
  * - defines
@@ -17,11 +17,12 @@ typedef struct {
     Map *defines;
     Map *labels;
     TokensList *tokens;
-
+    Instruction *instr;
 } State;
 
 
 State* state_new();
+int state_load_instr(State* s, char *fname);
 void state_free(State *s);
 
 #endif

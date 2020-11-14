@@ -16,21 +16,27 @@ State* state_new() {
         return NULL;
     }
 
-    if ((ret->defines = map_new()) == NULL) {
-        FAIL("state_new() failed!\n");
-        free(ret);
-        return NULL;
-    }
+    if ((ret->defines = map_new()) == NULL) goto ERR;
+    if ((ret->labels = map_new())==NULL) goto ERR;
 
-    if ((ret->labels = map_new())==NULL) {
-        map_free(ret->labels);
-        free(ret);
-        FAIL("state_new() failed!\n");
-        return NULL;
-    }
+    ret->instr = NULL;
     ret->tokens = NULL;
-
     return ret;
+
+ERR:
+    FAIL("state_new() failed!\n");
+    state_free(ret);
+    return 0;
+}
+
+/**
+ * @brief load instructions from a file
+ * @returns 0 on success, -1 on error
+ */
+int state_load_instr(State *s, char *fname) {
+    s->instr = instruction_load(fname);
+    if (s->instr == NULL) return -1;
+    return 0;
 }
 
 /**
@@ -38,9 +44,11 @@ State* state_new() {
  * Pointer should be nulled after this!
  */
 void state_free(State *s) {
+    if (!s) return;
     map_free(s->defines);
     tokenslist_free(s->tokens);
     map_free(s->labels);
+    instruction_free(s->instr);
     free(s);
 }
 

@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "tokenslist.h"
+#include "tokenFunc.h"
 #include "logging.h"
 #include "debugmalloc.h"
 
@@ -72,6 +73,7 @@ TokensListElement* tokenslist_remove(TokensList *list, TokensListElement *el) {
  * Pointer should be nulled after this!
  */
 void tokenslist_free(TokensList *list) {
+    if (!list) return;
     while (list->head!=NULL) {
         TokensListElement *n = list->head->next;
         free(list->head);

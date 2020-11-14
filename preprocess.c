@@ -2,7 +2,8 @@
 #include <stdlib.h>
 
 #include "state.h"
-#include "token.h"
+#include "token_t.h"
+#include "tokenFunc.h"
 #include "logging.h"
 #include "preprocess.h"
 #include "util.h"
@@ -331,6 +332,14 @@ int preprocess(State *s, TokensList *tokens) {
             if (p==PPC_STOP) {
                 FAIL("Failed to preprocess!\n");
                 return -1;
+            }
+        }
+        if (t.type == TT_INSTR) {
+            // set number
+            if (t.len>4) {
+                int ptr = 3;
+                while (t.stripped[ptr]==' ' || t.stripped[ptr]=='(' || t.stripped[ptr]=='#') ptr++;
+                t.fields.instr.number = number_get_number(s, &t.stripped[ptr], 5);
             }
         }
         if (skip||skiponce){

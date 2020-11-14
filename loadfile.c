@@ -5,6 +5,8 @@
 #include <stdlib.h>
 
 #include "loadfile.h"
+#include "token_t.h"
+#include "tokenFunc.h"
 #include "logging.h"
 
 /**

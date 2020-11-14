@@ -65,6 +65,7 @@ int map_set(Map *d, char *name, int value) {
  * Frees the map itself, so it's pointer will be invalid!
  */
 void map_free(Map *d) {
+    if (!d) return;
     struct MapEntry *ptr;
     while (d->head!=NULL) {
         ptr = d->head->next;
