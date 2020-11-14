@@ -1,16 +1,33 @@
 
 #include "state.h"
 #include <stdlib.h>
+#include "logging.h"
 #include "debugmalloc.h"
 
 /**
- * Create a new State object
+ * @brief Create a new State object
+ * @returns the new object or NULL
  */
 State* state_new() {
     State *ret = (State*)malloc(sizeof(State));
     
-    ret->defines = map_new();
-    ret->labels = map_new();
+    if (ret==NULL) {
+        ERROR("Memory allocation error in state_new()");
+        return NULL;
+    }
+
+    if ((ret->defines = map_new()) == NULL) {
+        FAIL("state_new() failed!\n");
+        free(ret);
+        return NULL;
+    }
+
+    if ((ret->labels = map_new())==NULL) {
+        map_free(ret->labels);
+        free(ret);
+        FAIL("state_new() failed!\n");
+        return NULL;
+    }
     ret->tokens = NULL;
 
     return ret;

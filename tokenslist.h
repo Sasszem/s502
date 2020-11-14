@@ -20,7 +20,7 @@ typedef struct {
 } TokensList;
 
 TokensList* tokenslist_new();
-void tokenslist_add(TokensList *list, Token t);
+int tokenslist_add(TokensList *list, Token t);
 TokensListElement* tokenslist_remove(TokensList *list, TokensListElement *el);
 void tokenslist_insert(TokensList *list, TokensListElement *target, TokensList *src);
 void tokenslist_free(TokensList *list);

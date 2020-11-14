@@ -1,7 +1,6 @@
 #define __USE_MINGW_ANSI_STDIO 1
 #include <stdio.h>
 #include <stdlib.h>
-#include "debugmalloc.h"
 
 #include "logging.h"
 
@@ -13,6 +12,10 @@
 
 int main() {
     State *state = state_new();
+    if (state==NULL) {
+        FAIL("Initialization failed!\n");
+        return -1;
+    }
     TokensList *list = load_file("test.asm");
 
     if (list==NULL) {

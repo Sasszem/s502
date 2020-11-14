@@ -8,31 +8,44 @@
 #include "debugmalloc.h"
 
 /**
- * Create a new (empty) TokensList object 
+ * @brief Create a new (empty) TokensList object
+ * @returns the new TokensList* or NULL on error
  */
 TokensList* tokenslist_new() {
     TokensList *ret = (TokensList*)malloc(sizeof(TokensList));
+    
+    if (ret==NULL) {
+        ERROR("Memory allocation error in tokenslist_new()!\n");
+        return NULL;
+    }
+    
     ret->head = NULL;
     ret->tail = NULL;    
     return ret;
 }
 
 /**
- * Append a token to the list
+ * @brief Append a token to the list
+ * @returns 0 on success or -1 on error
  */
-void tokenslist_add(TokensList *list, Token t) {
+int tokenslist_add(TokensList *list, Token t) {
     TokensListElement *elem = (TokensListElement*)malloc(sizeof(TokensListElement));
+    if (elem==NULL) {
+        ERROR("Memory allocation error in tokenslist_add()!\n");
+        return -1;
+    }
     elem->next = NULL;
     elem->prev = NULL;
     elem->token = t;
     if (list->head==NULL) {
         list->head = elem;
         list->tail = elem;
-        return;
+        return 0;
     }
     list->tail->next = elem;
     elem->prev = list->tail;
     list->tail = elem;
+    return 0;
 }
 
 /**

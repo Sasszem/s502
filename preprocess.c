@@ -1,6 +1,5 @@
 #include <string.h>
 #include <stdlib.h>
-#include "debugmalloc.h"
 
 #include "state.h"
 #include "token.h"
@@ -70,7 +69,10 @@ enum PPCommand process_define(State *s, TokensList *list, TokensListElement *ptr
     char def[DEFINE_MAX_LEN];
     strncpy(def, name, num-name);
     def[num-name-1] = 0;
-    map_set(s->defines, def, as_num);
+    if (map_set(s->defines, def, as_num)<0) {
+        FAIL("process_define() failed!\n");
+        return PPC_STOP;
+    }
     return PPC_NOP;
 }
 

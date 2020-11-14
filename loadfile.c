@@ -3,7 +3,6 @@
 #include <errno.h>
 #include <string.h>
 #include <stdlib.h>
-#include "debugmalloc.h"
 
 #include "loadfile.h"
 #include "logging.h"
@@ -145,6 +144,7 @@ TokensList* read_file(char* name) {
     }
 
     TokensList* tokenslist = tokenslist_new();
+    if (tokenslist == NULL) goto ERR_MEM;
     Token tok;
     int lineno = 1;
     int res;
@@ -155,7 +155,7 @@ TokensList* read_file(char* name) {
         if (tok.len > 0) {
             strncpy(tok.source.fname, name, TOKEN_SOURCE_FILE_SIZE);
             tok.source.lineno = lineno;
-            tokenslist_add(tokenslist, tok);
+            if (tokenslist_add(tokenslist, tok) < 0) goto ERR_MEM;
         }
         lineno++;
     } while (res > 0);
@@ -170,6 +170,13 @@ TokensList* read_file(char* name) {
         return NULL;
     }
     return tokenslist;
+ERR_MEM:
+
+    FAIL("read_file() failed!\n");
+    fclose(f);
+    if (tokenslist != NULL)
+        tokenslist_free(tokenslist);
+    return NULL;
 }
 
 /**

@@ -8,10 +8,15 @@
 
 
 /**
- * Create a new map with 0 elements
+ * @brief Create a new map with 0 elements
+ * @return the new map or NULL on error
  */
 Map* map_new() {
     Map* ret = (Map*)malloc(sizeof(Map));
+    if (ret==NULL) {
+        ERROR("Memory allocation error in map_new()!\n");
+        return NULL;
+    }
     ret->head = NULL;
     ret->tail = NULL;
     return ret;
@@ -29,13 +34,17 @@ struct MapEntry* map_find(Map *d, char *key) {
 }
 
 /**
- * Sets a key in the map
- * Creates a new entry if needed
+ * @brief Sets a key in the map
+ * @return 0 on success, -1 on error
  */
-void map_set(Map *d, char *name, int value) {
+int map_set(Map *d, char *name, int value) {
     struct MapEntry *ptr = map_find(d, name);
     if (ptr==0) {
-        ptr = (struct MapEntry*)malloc(sizeof(struct MapEntry));    
+        ptr = (struct MapEntry*)malloc(sizeof(struct MapEntry));
+        if (ptr==NULL) {
+            ERROR("Memory allocation error in map_set()!\n");
+            return -1;
+        }
         ptr->next = NULL;
         if (d->head==NULL) {
             d->head = ptr;
@@ -48,7 +57,7 @@ void map_set(Map *d, char *name, int value) {
     }
 
     ptr->value = value;
-
+    return 0;
 }
 
 /**

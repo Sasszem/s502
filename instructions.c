@@ -30,6 +30,7 @@ Instruction* instruction_load(char* fname) {
         goto ERR_MALFORMED;
     }
     Instruction* list = malloc(sizeof(Instruction));
+    if (list==NULL) goto ERR_MEM;
     list->next = NULL;
     Instruction* curr = list;
 
@@ -64,6 +65,7 @@ Instruction* instruction_load(char* fname) {
                 row++;
 
                 curr->next = malloc(sizeof(Instruction));
+                if (curr->next==NULL) goto ERR_MEM;
                 curr->next->next = NULL;
                 curr = curr->next;
             }
@@ -95,6 +97,12 @@ ERROR_FREE:
 ERR_MALFORMED:
     ERROR("Malformed instruction line:column: %d : %d\n", row + 1, rowindex + 1);
     ERROR("Malformed instructions/opcodes file: %s\n", fname);
+    fclose(f);
+    return NULL;
+
+ERR_MEM:
+    instruction_free(list);
+    ERROR("Memory allocation error in instruction_load()!\n");
     fclose(f);
     return NULL;
 }
