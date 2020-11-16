@@ -32,6 +32,7 @@ typedef struct Instruction {
 //enum AddrMode instruction_get_addr_mode(Token t);
 //int instruction_is_valid(Token t, Instruction* codes);
 Instruction* instruction_load(char* fname);
+Instruction* instruction_find(Instruction* list, char* mnem);
 void instruction_free(Instruction* list);
 void instruction_print(Instruction* list);
 void instruction_print_all(Instruction* list);

@@ -103,6 +103,18 @@ CLEANUP:
     return NULL;
 }
 
+/**
+ * @brief find an instruction based on it's mnemonic. Only checks 3 chars (no need to copy anything)
+ * @return Instr* pointer or NULL
+ */
+Instruction* instruction_find(Instruction *list, char *mnem) {
+    Instruction *ptr;
+    for (ptr = list; ptr != NULL; ptr = ptr->next) {
+        if (memcmp(mnem, ptr->mnem, 3)==0)
+            return ptr;
+    }
+    return NULL;
+}
 
 /**
  * @brief free all memory associated with an Instruction* linked list
