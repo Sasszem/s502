@@ -186,7 +186,7 @@ ERR_MEM:
  */
 int recognize_tokens(TokensList* t) {
     for (TokensListElement* ptr = t->head; ptr != NULL; ptr = ptr->next)
-        if (recognize_token(&(ptr->token)) < 0) {
+        if (recognize_token(ptr->token) < 0) {
             FAIL("Can not recognize token types!\n");
             return -1;
         }

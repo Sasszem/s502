@@ -7,7 +7,7 @@
  * An element of a TokensList
  */
 typedef struct TokensListElement {
-    Token token;
+    Token *token;
     struct TokensListElement *next, *prev;
 } TokensListElement;
 

@@ -31,13 +31,12 @@ TokensList* tokenslist_new() {
  */
 int tokenslist_add(TokensList *list, Token t) {
     TokensListElement *elem = (TokensListElement*)malloc(sizeof(TokensListElement));
-    if (elem==NULL) {
-        ERROR("Memory allocation error in tokenslist_add()!\n");
-        return -1;
-    }
+    if (elem==NULL) goto ERR_MEM;
     elem->next = NULL;
     elem->prev = NULL;
-    elem->token = t;
+    elem->token = malloc(sizeof(Token));
+    if (!elem->token) goto ERR_MEM;
+    *elem->token = t;
     if (list->head==NULL) {
         list->head = elem;
         list->tail = elem;
@@ -47,6 +46,15 @@ int tokenslist_add(TokensList *list, Token t) {
     elem->prev = list->tail;
     list->tail = elem;
     return 0;
+
+    ERR_MEM:
+        if (elem) {
+            if (elem->token)
+                free(elem->token);
+            free(elem);
+        }
+        ERROR("Memory allocation error in tokenslist_add()!\n");
+        return -1;
 }
 
 /**
@@ -64,6 +72,7 @@ TokensListElement* tokenslist_remove(TokensList *list, TokensListElement *el) {
         el->prev->next = el->next;
     }
     TokensListElement *next = el->next;
+    free(el->token);
     free(el);
     return next;
 }
@@ -75,12 +84,8 @@ TokensListElement* tokenslist_remove(TokensList *list, TokensListElement *el) {
 void tokenslist_free(TokensList *list) {
     if (!list) return;
     while (list->head!=NULL) {
-        TokensListElement *n = list->head->next;
-        free(list->head);
-        list->head = n;
+        tokenslist_remove(list, list->head);
     }
-    list->head = NULL;
-    list->tail = NULL;
     free(list);
 }
 
@@ -95,7 +100,7 @@ void tokenslist_debug_print(TokensList *list) {
     // pretty suprised this is valid...
     LOGDO(
         for (TokensListElement *ptr = list->head; ptr!=NULL; ptr = ptr->next)
-            token_print(&(ptr->token));
+            token_print(ptr->token);
     );
 }
 
