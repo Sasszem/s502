@@ -136,16 +136,24 @@ const char* ADRM_NAMES[] = {
 };
 
 /**
+ * @brief debug-print one instruction
+ * @param instr the instruction to print
+ */
+void instruction_print(Instruction *instr) {
+    printf("%s", instr->mnem);
+    for (int i = 0; i < ADRM_COUNT; i++)
+        if (instr->opcs[i] != OPC_INVALID) {
+            printf("\t%s:\t%x\n", ADRM_NAMES[i], instr->opcs[i]);
+        }
+    printf("\n");
+}
+
+/**
  * @brief debug-print all loaded instructions
  * @param list a linked list containing the instructions
  */
-void instruction_print(Instruction* list) {
+void instruction_print_all(Instruction* list) {
     for (; list != NULL; list = list->next) {
-        printf("%s", list->mnem);
-        for (int i = 0; i < ADRM_COUNT; i++)
-            if (list->opcs[i] != OPC_INVALID) {
-                printf("\t%s:\t%x\n", ADRM_NAMES[i], list->opcs[i]);
-            }
-        printf("\n");
+        instruction_print(list);
     }
 }

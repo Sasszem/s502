@@ -34,5 +34,5 @@ typedef struct Instruction {
 Instruction* instruction_load(char* fname);
 void instruction_free(Instruction* list);
 void instruction_print(Instruction* list);
-
+void instruction_print_all(Instruction* list);
 #endif
