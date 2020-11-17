@@ -267,6 +267,92 @@ struct {enum PPCommand ret; char *name;} skipProcessors[] = {
     { PPC_IF_TRUE,  "ifbeq" },
 };
 
+
+/**
+ * @brief very simple int stack
+ */
+typedef struct _stack {
+    int val;
+    struct _stack *next; 
+} stack_el, *stack_ptr;
+
+/**
+ * @brief create an empty stack
+ * @returns stack pointer or NULL on error
+ */
+stack_ptr stack_new() {
+    stack_ptr head = malloc(sizeof(stack_el));
+    if (!head) {
+        ERROR("Memory allocation error in stack_new()!\n");
+        return NULL;
+    }
+    head->next = NULL;
+    return head;
+}
+
+/**
+ * @brief check if the stack is empty or not
+ * @param stack the stack to check
+ * @returns 1 if empty, 0 if not
+ */
+int stack_empty(stack_ptr stack) {
+    return (!stack->next);
+};
+
+/**
+ * @brief push one element to the stack
+ * @param stack stack to push to
+ * @param val value to push
+ * @returns 0 on success, -1 on error
+ */
+int stack_push(stack_ptr stack, int val) {
+    stack_ptr elem = malloc(sizeof(stack_el));
+    if (!elem) {
+        ERROR("Memory allocation error in stack_push()!\n");
+        return -1;
+    }
+    elem->val = val;
+    elem->next = stack->next;
+    stack->next = elem;
+    return 0;
+}
+
+/**
+ * @brief pop the top of the stack
+ * @param stack the stack to pop from
+ * @returns 0 on success, -1 on error (popping from an empty stack)
+ */
+int stack_pop(stack_ptr stack) {
+    if (stack_empty(stack)) return -1;
+    stack_ptr elem = stack->next;
+    stack->next = elem->next;
+    free(elem);
+    return 0;
+}
+
+/**
+ * @brief get the top element of the stack
+ * @param stack the stack to get the top of
+ * @param def default value if the stack is empty
+ * @returns top of the stack or def
+ */
+int stack_top(stack_ptr stack, int def) {
+    if (stack_empty(stack)) return def;
+    return stack->next->val;
+};
+
+
+
+/**
+ * @brief free all memory associated with a stack
+ * @param stack stack pointer. Will be invalid after stack_free!
+ */
+void stack_free(stack_ptr stack) {
+    while (!stack_empty(stack)) stack_pop(stack);
+    free(stack);
+}
+
+
 /**
  * Pre-process a single token
  */
@@ -303,33 +389,43 @@ enum PPCommand do_preprocessor_token(State *s, TokensList *list, TokensListEleme
  */
 int preprocess(State *s, TokensList *tokens) {
     TokensListElement *ptr = tokens->head;
-    int iflevel = 0;
-    int skip = 0, skiponce = 0;
+    stack_ptr ifstack = stack_new();
+    if (!ifstack) {
+        FAIL("Pass 1 init failed!\n");
+        return -1;
+    }
+    int skiponce = 0;
     enum PPCommand p;
     while (ptr!=NULL) {
         if (ptr->token->type == TT_PREPROC) {
-            p = do_preprocessor_token(s, tokens, ptr, skip);
+            p = do_preprocessor_token(s, tokens, ptr, stack_top(ifstack, 0));
             skiponce = 1;
             if (p==PPC_IF_TRUE) {
-                iflevel++;
-            }
-            if (p==PPC_IF_FALSE) {
-                iflevel++;
-                skip = 1;
-            }
-            if (p==PPC_ENDIF) {
-                iflevel--;
-                if (iflevel<0) {
-                    ERROR("More endif's than if's!\n");
-                    token_print(ptr->token);
+                if (stack_push(ifstack, stack_top(ifstack, 0))<0) {
+                    FAIL("Pass one failed!\n");
+                    stack_free(ifstack);
                     return -1;
                 }
-                if (iflevel==0) {
-                    skip =0;
+            }
+            if (p==PPC_IF_FALSE) {
+                if (stack_push(ifstack, 1)<0) {
+                    FAIL("Pass one failed!\n");
+                    stack_free(ifstack);
+                    return -1;
+                }
+            }
+
+            if (p==PPC_ENDIF) {
+                if (stack_pop(ifstack)<0) {
+                    ERROR("More endif's than if's!\n");
+                    token_print(ptr->token);
+                    stack_free(ifstack);
+                    FAIL("Pass 1 failed!\n");
+                    return -1;
                 }
             }
             if (p==PPC_STOP) {
-                FAIL("Failed to preprocess!\n");
+                FAIL("Pass 1 failed!\n");
                 return -1;
             }
         }
@@ -341,7 +437,7 @@ int preprocess(State *s, TokensList *tokens) {
                 ptr->token->fields.instr.number = number_get_number(s, &ptr->token->stripped[idx], 5);
             }
         }
-        if (skip||skiponce){
+        if (stack_top(ifstack, 0)||skiponce){
             ptr = tokenslist_remove(tokens, ptr);
             skiponce = 0;
         } else {
