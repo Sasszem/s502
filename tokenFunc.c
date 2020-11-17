@@ -186,7 +186,7 @@ int token_get_addressmode(Token *t) {
 
 
     // step 7 - absolute
-    if (t->stripped[4] == '(') {
+    {
         // must not have a close )
         if (s_close)
             return -1;
