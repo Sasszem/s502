@@ -431,11 +431,28 @@ int preprocess(State *s, TokensList *tokens) {
         }
         if (ptr->token->type == TT_INSTR) {
             // set number
-            if (ptr->token->len>4) {
+            /*if (ptr->token->len>4) {
                 int idx = 3;
                 while (ptr->token->stripped[idx]==' ' || ptr->token->stripped[idx]=='(' || ptr->token->stripped[idx]=='#') ptr++;
                 ptr->token->fields.instr.number = number_get_number(s, &ptr->token->stripped[idx], 5);
+            }*/
+            if (token_link_instruction(s, ptr->token)<0) {
+                ERROR("Unknown instruction!\n");
+                token_print(ptr->token);
+                FAIL("Pass 1 failed!\n");
+                return -1;
             }
+            if (token_get_addressmode(ptr->token)<0) {
+                ERROR("Invalid instruction-addressmode combination!\n");
+                ERROR("A-mode: %s\n", ADRM_NAMES[ptr->token->fields.instr.addressmode]);
+                token_print(ptr->token);
+                FAIL("Pass 1 failed!\n");
+                return -1;
+            }
+            token_print(ptr->token);
+            LOG("Instruction: \n");
+            instruction_print(ptr->token->fields.instr.inst);
+            LOG("A-mode: %s\n", ADRM_NAMES[ptr->token->fields.instr.addressmode]);
         }
         if (stack_top(ifstack, 0)||skiponce){
             ptr = tokenslist_remove(tokens, ptr);
