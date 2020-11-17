@@ -1,0 +1,75 @@
+Assembly steps
+2.5 pass
+
+0. read and tokenize
+- reading of file
+- removing clutter like whitespaces and comments
+- identifying token types
+
+1. process
+- preprocessor directives
+- substitute defines
+(this two must be done in the same pass, as we allow redefines)
+- calls pass 0 on other files via include
+- validate instruction mnemonics
+- recognize addr modes (assume 8 bit differences for label branches)
+- determine bin sizes (based on addr modes)
+- validate opcode + addr mode combinations
+- record label locations
+- generate (partial) binary data
+Breakdown:
+- preproc: do & drop
+- opcode:
+   - validate mnem
+   - identify addr mode
+   - determine size
+   - validate pass 1 (label subst can cause problems that will be identified on substitution)
+   - generate bin data (- labels of course)
+- label: record position
+
+
+2. labels
+- substitute labels
+- report too far jump errors
+
+3. generate binary
+- just concat all the binary data
+
+Data structures
+
+Stored data:
+- code -> linked list of complex structs
+- defines -> key-value store (str->int)
+- labels -> key-value store
+- opcodes -> linked list of arrays
+- settings -> ??? key-value ?
+
+Operations on code:
+- push new token to the end
+- pop token at position
+- insert another list into position
+- iteration
+- ORDER DOES MATTER!
+- (debug print)
+For this reason I'm using a doubly linked list
+I also use a container struct that only has a head and tail pointer, but this way we don't have to worry about changed head/tail
+All operations operate on `TokensList*`s or `TokensListElement*`s (later can only read)
+
+Operations on defines/labels/possibly settings
+- get value of key
+- set value of key
+- no need to delete/count
+- value is int
+- order does not matter
+- (debug print)
+Now this means internals are not important to other parts of the program, all details can be abstracted. The simplest possible implementation would be backed by a singly linked list
+All operations operate on `Map*`s
+
+Operations on opcodes:
+- push new
+- look up by mnemonic
+- (debug print)
+- order does not matter
+Implementation details can be abstracted, we can have only simple higher-level interface functions, like `get` or `push`
+get(Opcodes*store, char* mnem, enum addrmode)
+loading is only necessery once, breaking it up into re-useable parts is not needed, but might result in more readable code.

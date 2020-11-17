@@ -1,0 +1,9 @@
+Questions to Szkup
+- object model - ok
+- pass Tokens by ref? - possily better
+- logging - modular or macro? - possibly, commandline would be better, and possibly add log levels
+- csv reading - necessary / elegant?
+- specs
+- error handling - its ok
+- ifdef vs ifndef - ifndef can give error message mentioning ifdef - fix it
+- malloc error - should handle them
