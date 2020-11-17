@@ -19,6 +19,8 @@ enum AddressMode {
     ADRM_COUNT
 };
 
+extern const char *ADRM_NAMES[ADRM_COUNT+1];
+
 enum {
     OPC_INVALID = 0xff
 };
