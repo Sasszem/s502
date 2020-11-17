@@ -5,7 +5,7 @@ ldx #0;
 loop:
     sta %SCREEN, X
     inx
-    cpx 10
+    cpx #10
     bne loop ; loop until x is 10
 
 rts
