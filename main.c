@@ -15,7 +15,6 @@ int main() {
     State *state = state_new();
     if (!state) goto ERR_INIT;
     if (state_load_instr(state, "opcodes.csv")<0) goto ERR_INIT;
-    instruction_print(state->instr);
     LOG("Init done!\n");
 
     TokensList *list = load_file("test.asm");
@@ -45,6 +44,8 @@ int main() {
     state = NULL;
     list = NULL;
 
+    return 0;
+    
     ERR_INIT:
         FAIL("Initialization failed!\n");
         state_free(state);
