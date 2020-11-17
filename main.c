@@ -8,7 +8,7 @@
 #include "tokenslist.h"
 #include "state.h"
 #include "loadfile.h"
-#include "preprocess.h"
+#include "pass_one.h"
 #include "instructions.h"
 
 int main() {
@@ -25,7 +25,7 @@ int main() {
         return -1;
     }
 
-    if (preprocess(state, list)<0) {
+    if (pass_one(state, list)<0) {
         FAIL("Compilation failed!\n");
         tokenslist_free(list);
         list = NULL;
