@@ -70,6 +70,12 @@ int pass_one(State *s, TokensList *tokens) {
                 return -1;
             }
             if (token_get_addressmode(ptr->token)<0) {
+                ERROR("Can not determine instruction address mode!\n");
+                token_print(ptr->token);
+                FAIL("Pass 1 failed!\n");
+                return -1;
+            }
+            if (ptr->token->fields.instr.inst->opcs[ptr->token->fields.instr.addressmode]==OPC_INVALID) {
                 ERROR("Invalid instruction-addressmode combination!\n");
                 ERROR("A-mode: %s\n", ADRM_NAMES[ptr->token->fields.instr.addressmode]);
                 token_print(ptr->token);
