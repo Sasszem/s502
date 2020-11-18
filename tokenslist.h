@@ -26,4 +26,11 @@ void tokenslist_insert(TokensList *list, TokensListElement *target, TokensList *
 void tokenslist_free(TokensList *list);
 void tokenslist_debug_print(TokensList *list);
 
+/**
+ * @brief Do token recognition on all tokens in a list
+ * @param t tokenslist to use
+ * @returns 0 on success, -1 on error
+ */
+int tokenslist_recognize(TokensList* t);
+
 #endif

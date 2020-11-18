@@ -122,3 +122,13 @@ void tokenslist_insert(TokensList *list, TokensListElement *pos, TokensList *src
     src->head = NULL;
     src->tail = NULL;
 }
+
+
+int tokenslist_recognize(TokensList* t) {
+    for (TokensListElement* ptr = t->head; ptr != NULL; ptr = ptr->next)
+        if (token_recognize(ptr->token) < 0) {
+            FAIL("Can not recognize token types!\n");
+            return -1;
+        }
+    return 0;
+}

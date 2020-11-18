@@ -3,6 +3,7 @@
 #include "util.h"
 
 #include "state.h"
+#include "logging.h"
 
 /**
  * Pretty-print one token, with its source and length
@@ -203,4 +204,45 @@ int token_get_addressmode(Token *t) {
     }
 
     return -1;
+}
+
+
+/**
+ * @brief Parse token - test if it's an opcode, a label or a preprocessor statement
+ * @param t token to recognize - will be modified in-place
+ * @returns 0 on success, -1 on error
+ */
+int token_recognize(Token* t) {
+    // how many token types does it fit
+    int found = 0;
+
+    // directive - starts with a dot
+    if (t->stripped[0] == '.') {
+        t->type = TT_PREPROC;
+        found++;
+    }
+
+    // label - ends with a ':'
+    if (t->stripped[t->len - 1] == ':') {
+        t->type = TT_LABEL;
+        found++;
+    }
+
+    // instruction - 3rd char is a space or len is 3
+    if (t->stripped[3] == ' ' || t->stripped[3] == '\0') {
+        t->type = TT_INSTR;
+        found++;
+    }
+
+    // 0 or more than one match is a problem
+    if (found != 1) {
+        ERROR("Can not recognize token:\n");
+        token_print(t);
+        return -1;
+    }
+
+    LOG(4, "Recognized token as %d:\n", t->type);
+    LOGDO(4, token_print(t));
+
+    return 0;
 }

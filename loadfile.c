@@ -90,44 +90,6 @@ int read_token(FILE* f, Token* t) {
 }
 
 /**
- * Parse token - test if it's an opcode, a label or a preprocessor statement
- */
-int recognize_token(Token* t) {
-    // how many token types does it fit
-    int found = 0;
-
-    // directive - starts with a dot
-    if (t->stripped[0] == '.') {
-        t->type = TT_PREPROC;
-        found++;
-    }
-
-    // label - ends with a ':'
-    if (t->stripped[t->len - 1] == ':') {
-        t->type = TT_LABEL;
-        found++;
-    }
-
-    // instruction - 3rd char is a space or len is 3
-    if (t->stripped[3] == ' ' || t->stripped[3] == '\0') {
-        t->type = TT_INSTR;
-        found++;
-    }
-
-    // 0 or more than one match is a problem
-    if (found != 1) {
-        ERROR("Can not recognize token:\n");
-        token_print(t);
-        return -1;
-    }
-
-    LOG(4, "Recognized token as %d:\n", t->type);
-    LOGDO(4, token_print(t));
-
-    return 0;
-}
-
-/**
  * High-level func to read the contents from a file
  * - reads file contents
  * - parses every line as a token
@@ -180,19 +142,6 @@ ERR_MEM:
     return NULL;
 }
 
-/**
- * Do token recognition on all tokens in a list
- * Returns 0 on success, -1 on error
- */
-int recognize_tokens(TokensList* t) {
-    for (TokensListElement* ptr = t->head; ptr != NULL; ptr = ptr->next)
-        if (recognize_token(ptr->token) < 0) {
-            FAIL("Can not recognize token types!\n");
-            return -1;
-        }
-    return 0;
-}
-
 // this should not be here, or rather all the other function shoudl be elsewhere...
 // TODO: refactor this
 // maybe we can use a monadic pattern here?
@@ -213,7 +162,7 @@ TokensList* load_file(char* name) {
         goto ERROR;
 
     LOG(3, "Running first analysis...\n");
-    if (recognize_tokens(list) < 0)
+    if (tokenslist_recognize(list) < 0)
         goto ERROR;
 
     return list;
