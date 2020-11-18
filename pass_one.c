@@ -82,10 +82,10 @@ int pass_one(State *s, TokensList *tokens) {
                 FAIL("Pass 1 failed!\n");
                 return -1;
             }
-            token_print(ptr->token);
-            LOG("Instruction: \n");
-            instruction_print(ptr->token->fields.instr.inst);
-            LOG("A-mode: %s\n", ADRM_NAMES[ptr->token->fields.instr.addressmode]);
+            LOGDO(3, token_print(ptr->token));
+            LOG(3, "Instruction: \n");
+            LOGDO(3, instruction_print(ptr->token->fields.instr.inst));
+            LOG(3, "A-mode: %s\n", ADRM_NAMES[ptr->token->fields.instr.addressmode]);
         }
         if (istack_top(ifstack, 0)||skiponce){
             ptr = tokenslist_remove(tokens, ptr);

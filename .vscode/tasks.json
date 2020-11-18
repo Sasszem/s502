@@ -22,30 +22,6 @@
                 "kind": "build",
                 "isDefault": true
             },
-        },
-        {
-            "type": "shell",
-            "label": "Build with debug",
-            "command": "C:\\Program Files\\CodeBlocks\\MinGW\\bin\\gcc.exe",
-            "args": [
-                "-Wall",
-                "-Werror",
-                "-DLOGGING=1",
-                "-g",
-                "${fileDirname}\\**.c",
-                "-o",
-                "${fileDirname}\\main.exe"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
         }
     ],
     "version": "2.0.0"

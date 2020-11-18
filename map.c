@@ -84,7 +84,7 @@ void map_free(Map *d) {
  * Returns -1 on not found
  */
 int map_get(Map *d, char *name) {
-    LOG("Getting %s\n", name);
+    LOG(5, "Getting %s\n", name);
     struct MapEntry *p = map_find(d, name);
     if (p==NULL)
         return -1;

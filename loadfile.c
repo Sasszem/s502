@@ -78,8 +78,8 @@ int read_token(FILE* f, Token* t) {
 
     // log
     if (ptr > 0) {
-        LOG("READ TOKEN:\n");
-        LOGDO(token_print(t));
+        LOG(5, "READ TOKEN:\n");
+        LOGDO(5, token_print(t));
     }
 
     // EOF return
@@ -121,8 +121,8 @@ int recognize_token(Token* t) {
         return -1;
     }
 
-    LOG("Recognized token as %d:\n", t->type);
-    LOGDO(token_print(t));
+    LOG(4, "Recognized token as %d:\n", t->type);
+    LOGDO(4, token_print(t));
 
     return 0;
 }
@@ -206,13 +206,13 @@ int recognize_tokens(TokensList* t) {
  * - returns NULL on faliure
  */
 TokensList* load_file(char* name) {
-    LOG("Reading file...\n");
+    LOG(3, "Reading file...\n");
 
     TokensList* list = read_file(name);
     if (list == NULL)
         goto ERROR;
 
-    LOG("Running first analysis...\n");
+    LOG(3, "Running first analysis...\n");
     if (recognize_tokens(list) < 0)
         goto ERROR;
 

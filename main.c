@@ -11,11 +11,16 @@
 #include "pass_one.h"
 #include "instructions.h"
 
-int main() {
+int main(int argc, char**argv) {
+    if (argc>=2) {
+        int a;
+        sscanf(argv[1], "%d", &a);
+        logging_level(a);
+    }
     State *state = state_new();
     if (!state) goto ERR_INIT;
     if (state_load_instr(state, "opcodes.csv")<0) goto ERR_INIT;
-    LOG("Init done!\n");
+    LOG(2, "Init done!\n");
 
     TokensList *list = load_file("test.asm");
     if (!list) {
@@ -34,11 +39,11 @@ int main() {
         return -1;
     }
     
-    LOG("Now dunping tha file: \n");
-    LOGDO(tokenslist_debug_print(list));
-    LOG("Now tha defines:\n");
-    LOGDO(map_debug_print(state->defines));
-    LOG("Cleaning up...\n");
+    LOG(2, "Now dunping tha file: \n");
+    LOGDO(2, tokenslist_debug_print(list));
+    LOG(2, "Now tha defines:\n");
+    LOGDO(2, map_debug_print(state->defines));
+    LOG(2, "Cleaning up...\n");
     tokenslist_free(list);
     state_free(state);
     state = NULL;

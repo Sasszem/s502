@@ -95,13 +95,10 @@ void tokenslist_free(TokensList *list) {
  * Pretty-print all tokens in a list
  */
 void tokenslist_debug_print(TokensList *list) {
-    LOG("Dumping code:\n");
+    LOG(0, "Dumping code:\n");
 
-    // pretty suprised this is valid...
-    LOGDO(
-        for (TokensListElement *ptr = list->head; ptr!=NULL; ptr = ptr->next)
-            token_print(ptr->token);
-    );
+    for (TokensListElement *ptr = list->head; ptr!=NULL; ptr = ptr->next)
+        token_print(ptr->token);
 }
 
 /**

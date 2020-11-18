@@ -177,7 +177,7 @@ enum PPCommand process_include(State *s, TokensList *list, TokensListElement *pt
         token_print(ptr->token);
         return PPC_STOP;
     }
-    LOG("Including '%.*s'\n", (int)(send-str), str);
+    LOG(3, "Including '%.*s'\n", (int)(send-str), str);
     char name[FILENAME_MAX];
     strncpy(name, str, send-str);
     TokensList *f = load_file(name);
@@ -261,8 +261,8 @@ struct {enum PPCommand ret; char *name;} skipProcessors[] = {
  * Pre-process a single token
  */
 enum PPCommand do_preprocessor_token(State *s, TokensList *list, TokensListElement *ptr, int skip) {
-    LOG("Processing preproessor token:\n");
-    LOGDO(token_print(ptr->token));
+    LOG(4, "Processing preproessor token:\n");
+    LOGDO(4, token_print(ptr->token));
     
     char *f = ptr->token->stripped + 1;
 
