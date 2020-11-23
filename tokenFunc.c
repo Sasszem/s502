@@ -223,6 +223,8 @@ int token_analyze_instruction(State *s, Token* t) {
         goto ERR;
     }
 
+    t->binSize = 1 + ADRM_SIZES[t->fields.instr.addressmode];
+
     return 0;
 
 
