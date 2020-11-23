@@ -147,6 +147,23 @@ const char* ADRM_NAMES[] = {
     "ERROR! OVERINDEX!",
 };
 
+int ADRM_SIZES[ADRM_COUNT + 1] = {
+    0,      // ACC
+    2,      // ABS
+    2,      // ABS_X
+    2,      // ABS_Y
+    1,      // IMM
+    0,      // IMP
+    2,      // IND
+    1,      // IND_X
+    1,      // IND_Y
+    1,      // REL
+    1,      // ZPG
+    1,      // ZPG_X
+    1,      // ZPG_Y
+    -1,
+};
+
 /**
  * @brief debug-print one instruction
  * @param instr the instruction to print
