@@ -231,6 +231,35 @@ enum PPCommand process_ifndef(State *s, TokensList *list, TokensListElement *ptr
     return PPC_STOP;
 }
 
+/**
+ * Process an org directive 
+ */
+enum PPCommand process_org(State *s, TokensList *list, TokensListElement *ptr) {
+    char *cmd = &(ptr->token->stripped[1]);
+    char *val = util_find_string_segment(cmd) + 1;
+    if (*(val-1)!=' ') {
+        ERROR("Too few arguments for org!");
+        token_print(ptr->token);
+        return PPC_STOP;
+    }
+    char *vend = util_find_string_segment(val);
+    if (*vend!='\0'){
+        ERROR("Too many arguments for org!");
+        token_print(ptr->token);
+        return PPC_STOP;
+    }
+    int num = number_get_number(s, val, vend-val);
+    if (num<0) {
+        if (num==NUMBER_LABEL_UNDEF) {
+            ERROR("Can not use undefined labels with org!\n");
+        }
+        FAIL("process_org() failed!");
+        return PPC_STOP;
+    }
+    s->PC = num;
+    LOG(3, "PC = %d\n", num);
+    return PPC_NOP;
+}
 
 /**
  * The list of all processor functions and their tokens
@@ -245,6 +274,7 @@ struct {tokenprocessor p; char *name;} processors[] = {
     { process_endif,    "endif"     },
     { process_ifndef,   "ifndef"    },
     { process_ifbeq,    "ifbeq"     },
+    { process_org,      "org"       },
 };
 
 /**
