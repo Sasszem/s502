@@ -20,6 +20,7 @@
  * - stop on EOF and \n
  */
 int read_token(FILE* f, Token* t) {
+    t->binSize = 0;
 
     int seen_whitespace = 1, eol = 0;
     int ptr, c;
