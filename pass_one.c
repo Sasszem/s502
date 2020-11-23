@@ -63,22 +63,7 @@ int pass_one(State *s, TokensList *tokens) {
                 while (ptr->token->stripped[idx]==' ' || ptr->token->stripped[idx]=='(' || ptr->token->stripped[idx]=='#') ptr++;
                 ptr->token->fields.instr.number = number_get_number(s, &ptr->token->stripped[idx], 5);
             }*/
-            if (token_link_instruction(s, ptr->token)<0) {
-                ERROR("Unknown instruction!\n");
-                token_print(ptr->token);
-                FAIL("Pass 1 failed!\n");
-                return -1;
-            }
-            if (token_get_addressmode(ptr->token)<0) {
-                ERROR("Can not determine instruction address mode!\n");
-                token_print(ptr->token);
-                FAIL("Pass 1 failed!\n");
-                return -1;
-            }
-            if (ptr->token->fields.instr.inst->opcs[ptr->token->fields.instr.addressmode]==OPC_INVALID) {
-                ERROR("Invalid instruction-addressmode combination!\n");
-                ERROR("A-mode: %s\n", ADRM_NAMES[ptr->token->fields.instr.addressmode]);
-                token_print(ptr->token);
+            if (token_analyze_instruction(s, ptr->token)<0) {
                 FAIL("Pass 1 failed!\n");
                 return -1;
             }

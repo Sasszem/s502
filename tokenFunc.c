@@ -206,6 +206,31 @@ int token_get_addressmode(Token *t) {
     return -1;
 }
 
+int token_analyze_instruction(State *s, Token* t) {
+    if (token_link_instruction(s, t) < 0) {
+        ERROR("Unknown instruction!\n");
+        goto ERR;
+                
+        
+    }
+    if (token_get_addressmode(t) < 0) {
+        ERROR("Can not determine instruction address mode!\n");
+        goto ERR;
+    }
+    if (t->fields.instr.inst->opcs[t->fields.instr.addressmode]==OPC_INVALID) {
+        ERROR("Invalid instruction-addressmode combination!\n");
+        ERROR("A-mode: %s\n", ADRM_NAMES[t->fields.instr.addressmode]);
+        goto ERR;
+    }
+
+    return 0;
+
+
+ERR:
+    token_print(t);
+    FAIL("Error while analyzing token: \n");
+    return -1;
+}
 
 /**
  * @brief Parse token - test if it's an opcode, a label or a preprocessor statement
