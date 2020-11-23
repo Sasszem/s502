@@ -74,7 +74,7 @@ int pass_one(State *s, TokensList *tokens) {
             LOG(3, "A-mode: %s\n", ADRM_NAMES[ptr->token->fields.instr.addressmode]);
         }
         if (ptr->token->type == TT_LABEL) {
-            char labelname[DEFINE_MAX_LEN];
+            char labelname[MAP_MAX_KEY_LEN];
             strncpy(labelname, ptr->token->stripped, ptr->token->len-1);
             LOG(5, "Label: %s\n", labelname);
             if (map_find(s->labels, labelname)) {

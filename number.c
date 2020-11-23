@@ -62,7 +62,7 @@ int number_get_number(State *s, char *str, int count) {
     if (str[ptr]=='#')
         ptr++;
     if (str[ptr]=='@') {
-        char number[DEFINE_MAX_LEN];
+        char number[MAP_MAX_KEY_LEN];
         strncpy(number, str+ptr+1, count-ptr-1);
         number[count-ptr-1] = 0;
         int n = map_get(s->defines, number);

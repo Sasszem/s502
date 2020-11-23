@@ -57,7 +57,7 @@ enum PPCommand process_define(State *s, TokensList *list, TokensListElement *ptr
         token_print(ptr->token);
         return PPC_STOP;
     }
-    char def[DEFINE_MAX_LEN];
+    char def[MAP_MAX_KEY_LEN];
     strncpy(def, name, num-name);
     def[num-name-1] = 0;
     if (map_set(s->defines, def, as_num)<0) {
@@ -146,7 +146,7 @@ enum PPCommand process_printc(State *s, TokensList *list, TokensListElement *ptr
         return PPC_STOP;
     }
 
-    char buffer[DEFINE_MAX_LEN];
+    char buffer[MAP_MAX_KEY_LEN];
     strncpy(buffer, str, send-str);
     buffer[send-str] = 0;
     int v = map_get(s->defines, buffer);
@@ -209,7 +209,7 @@ enum PPCommand process_ifdef(State *s, TokensList *list, TokensListElement *ptr)
         token_print(ptr->token);
         return PPC_STOP;
     }
-    char name[DEFINE_MAX_LEN];
+    char name[MAP_MAX_KEY_LEN];
     strncpy(name, val, vend-val);
     name[vend-val] = 0;
     if (map_get(s->defines, name)!=-1) {
@@ -250,7 +250,7 @@ enum PPCommand process_org(State *s, TokensList *list, TokensListElement *ptr) {
     }
     int num = number_get_number(s, val, vend-val);
     if (num<0) {
-        if (num==NUMBER_LABEL_UNDEF) {
+        if (num<0) {
             ERROR("Can not use undefined labels with org!\n");
         }
         FAIL("process_org() failed!");
