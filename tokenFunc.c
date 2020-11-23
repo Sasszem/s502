@@ -8,17 +8,17 @@
 /**
  * Pretty-print one token, with its source and length
  */
-void token_print(Token *token) {
-    printf("\t%s:%d:%d\t\t'%.*s'\n", token->source.fname, token->source.lineno, token->len ,token->len, token->stripped);
+void token_print(Token* token) {
+    printf("\t%s:%d:%d\t\t'%.*s'\n", token->source.fname, token->source.lineno, token->len, token->len, token->stripped);
 }
 
 /**
  * @brief find and link the instruction entry for a token
  * @return 0 on success, -1 on error
  */
-int token_link_instruction(State *s, Token *token) {
+int token_link_instruction(State* s, Token* token) {
     token->fields.instr.inst = instruction_find(s->instr, token->stripped);
-    if (token->fields.instr.inst==NULL) return -1;
+    if (token->fields.instr.inst == NULL) return -1;
     return 0;
 }
 
@@ -60,7 +60,7 @@ For these reasons, addr mode identification works the following way:
 
 1) Token ends after OPC (len=3)         => Implied
 
-2) Token len is 5, 
+2) Token len is 5,
 ends with  'A' or 'a'                   => Accumlator
 
 3) 4th char is a #                      => Immidiate
@@ -92,7 +92,7 @@ This _should_ work, but is not perfect. It should be possible to refactor this i
  * Returns 0 on success and -1 on error
  * (modifies the token in-place)
  */
-int token_get_addressmode(Token *t) {
+int token_get_addressmode(Token* t) {
 
     // step 1 - implied
     if (t->len == 3) {
@@ -102,7 +102,7 @@ int token_get_addressmode(Token *t) {
 
 
     // step 2 - acc
-    if (t->len==5 && util_match_char(t->stripped[4], 'a')) {
+    if (t->len == 5 && util_match_char(t->stripped[4], 'a')) {
         t->fields.instr.addressmode = ADRM_ACC;
         return 0;
     }
@@ -116,7 +116,7 @@ int token_get_addressmode(Token *t) {
 
 
     // step 4 - relative
-    if (t->fields.instr.inst->opcs[ADRM_REL]!=OPC_INVALID) {
+    if (t->fields.instr.inst->opcs[ADRM_REL] != OPC_INVALID) {
         // this can ONLY be a relative
         t->fields.instr.addressmode = ADRM_REL;
         return 0;
@@ -127,25 +127,25 @@ int token_get_addressmode(Token *t) {
     // step 5,6,7 have a few checks in common
     // so we can avoid code duplication by fatoring that out
 
-    int s_x = 0, s_y = 0, s_close=0, s_sep = 0; // seen x, y, close or coma
-        
-    for (int i = 0; i<t->len; i++) {
+    int s_x = 0, s_y = 0, s_close = 0, s_sep = 0; // seen x, y, close or coma
+
+    for (int i = 0; i < t->len; i++) {
         if (util_match_char(t->stripped[i], 'x') && s_sep)
             s_x = 1;
         if (util_match_char(t->stripped[i], 'y') && s_sep)
             s_y = 1;
-        if (t->stripped[i]==',')
+        if (t->stripped[i] == ',')
             s_sep = 1;
-        if (t->stripped[i]==')')
+        if (t->stripped[i] == ')')
             s_close = 1;
     }
 
     // must have a separator if it has an index
     if ((s_x || s_y) && !s_sep)
         return -1;
-        
+
     // can not have both indexes
-    if (s_x&&s_y)
+    if (s_x && s_y)
         return -1;
 
     // end of common chekcs
@@ -164,7 +164,7 @@ int token_get_addressmode(Token *t) {
         }
 
         // Set according to index
-        t->fields.instr.addressmode = s_x ? ADRM_ZPG_X : ADRM_ZPG_Y; 
+        t->fields.instr.addressmode = s_x ? ADRM_ZPG_X : ADRM_ZPG_Y;
         return 0;
     }
 
@@ -173,7 +173,7 @@ int token_get_addressmode(Token *t) {
         // must have a close )
         if (!s_close)
             return -1;
-        
+
         // no index - normal inderect
         if (!(s_x || s_y)) {
             t->fields.instr.addressmode = ADRM_IND;
@@ -181,7 +181,7 @@ int token_get_addressmode(Token *t) {
         }
 
         // Set according to index
-        t->fields.instr.addressmode = s_x ? ADRM_IND_X : ADRM_IND_Y; 
+        t->fields.instr.addressmode = s_x ? ADRM_IND_X : ADRM_IND_Y;
         return 0;
     }
 
@@ -191,7 +191,7 @@ int token_get_addressmode(Token *t) {
         // must not have a close )
         if (s_close)
             return -1;
-        
+
         // no index - normal absolute
         if (!(s_x || s_y)) {
             t->fields.instr.addressmode = ADRM_ABS;
@@ -199,25 +199,25 @@ int token_get_addressmode(Token *t) {
         }
 
         // Set according to index
-        t->fields.instr.addressmode = s_x ? ADRM_ABS_X : ADRM_ABS_Y; 
+        t->fields.instr.addressmode = s_x ? ADRM_ABS_X : ADRM_ABS_Y;
         return 0;
     }
 
     return -1;
 }
 
-int token_analyze_instruction(State *s, Token* t) {
+int token_analyze_instruction(State* s, Token* t) {
     if (token_link_instruction(s, t) < 0) {
         ERROR("Unknown instruction!\n");
         goto ERR;
-                
-        
+
+
     }
     if (token_get_addressmode(t) < 0) {
         ERROR("Can not determine instruction address mode!\n");
         goto ERR;
     }
-    if (t->fields.instr.inst->opcs[t->fields.instr.addressmode]==OPC_INVALID) {
+    if (t->fields.instr.inst->opcs[t->fields.instr.addressmode] == OPC_INVALID) {
         ERROR("Invalid instruction-addressmode combination!\n");
         ERROR("A-mode: %s\n", ADRM_NAMES[t->fields.instr.addressmode]);
         goto ERR;
