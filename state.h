@@ -18,6 +18,7 @@ typedef struct {
     Map *labels;
     TokensList *tokens;
     Instruction *instr;
+    int PC;
 } State;
 
 

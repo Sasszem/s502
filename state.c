@@ -21,6 +21,7 @@ State* state_new() {
 
     ret->instr = NULL;
     ret->tokens = NULL;
+    ret->PC = 0;
     return ret;
 
 ERR:
