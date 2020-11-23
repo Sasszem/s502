@@ -4,6 +4,7 @@
 #include "pass_one.h"
 #include "preprocess.h"
 #include <stdlib.h>
+#include <string.h>
 #include "logging.h"
 #include "tokenFunc.h"
 
@@ -72,6 +73,20 @@ int pass_one(State *s, TokensList *tokens) {
             LOGDO(3, instruction_print(ptr->token->fields.instr.inst));
             LOG(3, "A-mode: %s\n", ADRM_NAMES[ptr->token->fields.instr.addressmode]);
         }
+        if (ptr->token->type == TT_LABEL) {
+            char labelname[DEFINE_MAX_LEN];
+            strncpy(labelname, ptr->token->stripped, ptr->token->len-1);
+            LOG(5, "Label: %s\n", labelname);
+            if (map_find(s->labels, labelname)) {
+                ERROR("Can not re-define label '%s'\n", labelname);
+                token_print(ptr->token);
+                return -1;
+            }
+            map_set(s->labels, labelname, s->PC);
+            LOG(3, "Set label: '%s' to %d\n", labelname, s->PC);
+            skiponce = 1;
+        }
+        s->PC += ptr->token->binSize;
         if (istack_top(ifstack, 0)||skiponce){
             ptr = tokenslist_remove(tokens, ptr);
             skiponce = 0;
