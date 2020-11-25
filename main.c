@@ -43,6 +43,8 @@ int main(int argc, char**argv) {
     LOGDO(2, tokenslist_debug_print(list));
     LOG(2, "Now tha defines:\n");
     LOGDO(2, map_debug_print(state->defines));
+    LOG(2, "And the labels:\n");
+    LOGDO(2, map_debug_print(state->labels));
     LOG(2, "Cleaning up...\n");
     tokenslist_free(list);
     state_free(state);
