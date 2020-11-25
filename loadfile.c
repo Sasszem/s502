@@ -35,6 +35,8 @@ int read_token(FILE* f, Token* t) {
             break;
         }
 
+        if (c=='\r') continue; // damn line endings!
+
         // don't write if already reached a comment
         if (eol)
             continue;

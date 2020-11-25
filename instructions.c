@@ -40,6 +40,7 @@ Instruction* instruction_load(char* fname) {
     int ptr = 0;
     int row = 1;
     while (x = fgetc(f), x != EOF) {
+        if (x=='\r') continue; // quick and dirty fix for linux opening a windows file
         if (x == ';' || x == '\n') {
             // end of column
             buff[ptr] = 0;
