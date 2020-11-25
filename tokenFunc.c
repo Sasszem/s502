@@ -277,6 +277,11 @@ int token_recognize(Token* t) {
 }
 
 int token_get_operand(State *s, Token* t) {
+    if (t->binSize==1) {
+        t->fields.instr.number = 0;
+        return 0;
+    }
+
     char buf[MAP_MAX_KEY_LEN];
     char *begin = &t->stripped[4];
     char *end;
