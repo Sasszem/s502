@@ -24,6 +24,7 @@ typedef struct {
         enum AddressMode addressmode;
         int number;
         Instruction *inst;
+        int address;
     } instr;
 
     char stripped[TOKEN_BUFFER_SIZE];

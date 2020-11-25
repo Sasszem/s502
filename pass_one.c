@@ -58,12 +58,7 @@ int pass_one(State *s) {
             }
         }
         if (ptr->token->type == TT_INSTR) {
-            // set number
-            /*if (ptr->token->len>4) {
-                int idx = 3;
-                while (ptr->token->stripped[idx]==' ' || ptr->token->stripped[idx]=='(' || ptr->token->stripped[idx]=='#') ptr++;
-                ptr->token->fields.instr.number = number_get_number(s, &ptr->token->stripped[idx], 5);
-            }*/
+            ptr->token->instr.address = s->PC;
             if (token_analyze_instruction(s, ptr->token)<0) {
                 FAIL("Pass 1 failed!\n");
                 return -1;
