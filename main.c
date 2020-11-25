@@ -14,7 +14,7 @@
 int pass_two(State *s) {
     for (TokensListElement* ptr = s->tokens->head; ptr!=NULL; ptr = ptr->next) {
         int ret = token_get_operand(s, ptr->token);
-        if (ret<0 || ptr->token->fields.instr.number<0) {
+        if (ret<0 || ptr->token->instr.number<0) {
             if (ret==0) {
                 ERROR("Undefined label reference!\n");
             }
@@ -31,15 +31,15 @@ int token_compile(Token *t, char** dataptr) {
         ERROR("Not implemented yet!\n");
         return 0;
     }
-    int size = 1 + ADRM_SIZES[t->fields.instr.addressmode];
+    int size = 1 + ADRM_SIZES[t->instr.addressmode];
     char *data = malloc(size);
     *dataptr = data;
-    data[0] = t->fields.instr.inst->opcs[t->fields.instr.addressmode];
+    data[0] = t->instr.inst->opcs[t->instr.addressmode];
     if (size>1) {
-        data[1] = t->fields.instr.number & 0xff;
+        data[1] = t->instr.number & 0xff;
     }
     if (size>2) {
-        data[2] = (t->fields.instr.number>>8) & 0xff;
+        data[2] = (t->instr.number>>8) & 0xff;
     }
     return size;
 }

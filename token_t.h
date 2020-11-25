@@ -20,14 +20,12 @@ struct TokenLabel {
 typedef struct {
     int binSize;
     enum tokenType type;
-    union {
-        struct TokenLabel label;
-        struct {
-            enum AddressMode addressmode;
-            int number;
-            Instruction *inst;
-        } instr;
-    } fields;
+    struct {
+        enum AddressMode addressmode;
+        int number;
+        Instruction *inst;
+    } instr;
+
     char stripped[TOKEN_BUFFER_SIZE];
     int len;
     struct {

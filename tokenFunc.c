@@ -18,8 +18,8 @@ void token_print(Token* token) {
  * @return 0 on success, -1 on error
  */
 int token_link_instruction(State* s, Token* token) {
-    token->fields.instr.inst = instruction_find(s->instr, token->stripped);
-    if (token->fields.instr.inst == NULL) return -1;
+    token->instr.inst = instruction_find(s->instr, token->stripped);
+    if (token->instr.inst == NULL) return -1;
     return 0;
 }
 
@@ -97,29 +97,29 @@ int token_get_addressmode(Token* t) {
 
     // step 1 - implied
     if (t->len == 3) {
-        t->fields.instr.addressmode = ADRM_IMP;
+        t->instr.addressmode = ADRM_IMP;
         return 0;
     }
 
 
     // step 2 - acc
     if (t->len == 5 && util_match_char(t->stripped[4], 'a')) {
-        t->fields.instr.addressmode = ADRM_ACC;
+        t->instr.addressmode = ADRM_ACC;
         return 0;
     }
 
 
     // step 3 - imm
     if (t->stripped[4] == '#') {
-        t->fields.instr.addressmode = ADRM_IMM;
+        t->instr.addressmode = ADRM_IMM;
         return 0;
     }
 
 
     // step 4 - relative
-    if (t->fields.instr.inst->opcs[ADRM_REL] != OPC_INVALID) {
+    if (t->instr.inst->opcs[ADRM_REL] != OPC_INVALID) {
         // this can ONLY be a relative
-        t->fields.instr.addressmode = ADRM_REL;
+        t->instr.addressmode = ADRM_REL;
         return 0;
     }
 
@@ -160,12 +160,12 @@ int token_get_addressmode(Token* t) {
 
         // no index - normal zpg
         if (!(s_x || s_y)) {
-            t->fields.instr.addressmode = ADRM_ZPG;
+            t->instr.addressmode = ADRM_ZPG;
             return 0;
         }
 
         // Set according to index
-        t->fields.instr.addressmode = s_x ? ADRM_ZPG_X : ADRM_ZPG_Y;
+        t->instr.addressmode = s_x ? ADRM_ZPG_X : ADRM_ZPG_Y;
         return 0;
     }
 
@@ -177,12 +177,12 @@ int token_get_addressmode(Token* t) {
 
         // no index - normal inderect
         if (!(s_x || s_y)) {
-            t->fields.instr.addressmode = ADRM_IND;
+            t->instr.addressmode = ADRM_IND;
             return 0;
         }
 
         // Set according to index
-        t->fields.instr.addressmode = s_x ? ADRM_IND_X : ADRM_IND_Y;
+        t->instr.addressmode = s_x ? ADRM_IND_X : ADRM_IND_Y;
         return 0;
     }
 
@@ -195,12 +195,12 @@ int token_get_addressmode(Token* t) {
 
         // no index - normal absolute
         if (!(s_x || s_y)) {
-            t->fields.instr.addressmode = ADRM_ABS;
+            t->instr.addressmode = ADRM_ABS;
             return 0;
         }
 
         // Set according to index
-        t->fields.instr.addressmode = s_x ? ADRM_ABS_X : ADRM_ABS_Y;
+        t->instr.addressmode = s_x ? ADRM_ABS_X : ADRM_ABS_Y;
         return 0;
     }
 
@@ -218,13 +218,13 @@ int token_analyze_instruction(State* s, Token* t) {
         ERROR("Can not determine instruction address mode!\n");
         goto ERR;
     }
-    if (t->fields.instr.inst->opcs[t->fields.instr.addressmode] == OPC_INVALID) {
+    if (t->instr.inst->opcs[t->instr.addressmode] == OPC_INVALID) {
         ERROR("Invalid instruction-addressmode combination!\n");
-        ERROR("A-mode: %s\n", ADRM_NAMES[t->fields.instr.addressmode]);
+        ERROR("A-mode: %s\n", ADRM_NAMES[t->instr.addressmode]);
         goto ERR;
     }
 
-    t->binSize = 1 + ADRM_SIZES[t->fields.instr.addressmode];
+    t->binSize = 1 + ADRM_SIZES[t->instr.addressmode];
 
     return 0;
 
@@ -259,7 +259,7 @@ int token_recognize(Token* t) {
     // instruction - 3rd char is a space or len is 3
     if (t->stripped[3] == ' ' || t->stripped[3] == '\0') {
         t->type = TT_INSTR;
-        t->fields.instr.number = -1;
+        t->instr.number = -1;
         found++;
     }
 
@@ -278,7 +278,7 @@ int token_recognize(Token* t) {
 
 int token_get_operand(State *s, Token* t) {
     if (t->binSize==1) {
-        t->fields.instr.number = 0;
+        t->instr.number = 0;
         return 0;
     }
 
@@ -297,6 +297,6 @@ int token_get_operand(State *s, Token* t) {
     if (n==NUMBER_LABEL_NODEF) {
         return 0;
     }
-    t->fields.instr.number = n;
+    t->instr.number = n;
     return 0;
 }
