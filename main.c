@@ -34,6 +34,19 @@ int token_compile(Token *t, char** dataptr) {
     int size = 1 + ADRM_SIZES[t->instr.addressmode];
     char *data = malloc(size);
     *dataptr = data;
+    if (t->instr.addressmode==ADRM_REL) {
+        //ERROR("Not implemented!\n");
+        //return 0;
+        int n = t->instr.number - t->instr.address - 2;
+        
+        if (CHAR_MIN>n || CHAR_MAX<n) {
+            ERROR("Relative addressing jump too far!\n");
+            printf("Target: %x, from: %x (diff: %x)\n", t->instr.number, t->instr.address, n);
+            token_print(t);
+            return -1;
+        }
+        t->instr.number = n;
+    }
     data[0] = t->instr.inst->opcs[t->instr.addressmode];
     if (size>1) {
         data[1] = t->instr.number & 0xff;
