@@ -29,7 +29,7 @@ int pass_two(State *s) {
 int token_compile(Token *t, char** dataptr) {
     if (t->type!=TT_INSTR) {
         ERROR("Not implemented yet!\n");
-        return 0;
+        return -1;
     }
     int size = 1 + ADRM_SIZES[t->instr.addressmode];
     char *data = malloc(size);
@@ -54,11 +54,30 @@ int token_compile(Token *t, char** dataptr) {
     if (size>2) {
         data[2] = (t->instr.number>>8) & 0xff;
     }
-    return size;
+    return 0;
 }
 
 
 int write_data(State *s) {
+    int len = 0;
+    for (TokensListElement *ptr = s->tokens->head; ptr!=NULL; ptr = ptr->next) len += ptr->token->binSize;
+
+    char *data = malloc(len);
+    int j = 0;
+    for (TokensListElement *ptr = s->tokens->head; ptr!=NULL; ptr = ptr->next) {
+        char *tdata;
+        int n = token_compile(ptr->token, &tdata);
+        if (n<0) {
+            FAIL("Could not compile data!\n");
+            free(tdata);
+            return -1;
+        }
+        for (int i = 0; i<ptr->token->binSize; i++) data[j+i] = tdata[i];
+        j += ptr->token->binSize;
+        free(tdata);
+    }
+
+
     FILE *f = fopen(s->outfile, "wb");
     if (!f) {
         
@@ -66,18 +85,8 @@ int write_data(State *s) {
         ERROR("Error opening file: %s\n", strerror(errno));
         return -1;
     }
-    for (TokensListElement *ptr = s->tokens->head; ptr!=NULL; ptr = ptr->next) {
-        char *data;
-        int n = token_compile(ptr->token, &data);
-        //token_print(ptr->token);
-        fwrite(data, 1, n, f);
-        /*printf("Data: ");
-        for (int i = 0; i<n; i++) {
-            printf("%02hhx ", data[i]);
-        }
-        printf("\n");*/
-        free(data);
-    }
+    fwrite(data, 1, len, f);
+    free(data);
     fclose(f);
     ERROR("Done!\n");
     return 0;
