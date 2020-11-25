@@ -1,11 +1,12 @@
 #include "tokenFunc.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "util.h"
 #include "number.h"
 #include "state.h"
 #include "logging.h"
-
+#include "debugmalloc.h"
 /**
  * Pretty-print one token, with its source and length
  */
@@ -298,5 +299,36 @@ int token_get_operand(State *s, Token* t) {
         return 0;
     }
     t->instr.number = n;
+    return 0;
+}
+
+int token_compile(Token *t, char** dataptr) {
+    if (t->type!=TT_INSTR) {
+        ERROR("Not implemented yet!\n");
+        return -1;
+    }
+    int size = 1 + ADRM_SIZES[t->instr.addressmode];
+    char *data = malloc(size);
+    *dataptr = data;
+    if (t->instr.addressmode==ADRM_REL) {
+        //ERROR("Not implemented!\n");
+        //return 0;
+        int n = t->instr.number - t->instr.address - 2;
+        
+        if (-128>n || 127<n) {
+            ERROR("Relative addressing jump too far!\n");
+            printf("Target: %x, from: %x (diff: %x)\n", t->instr.number, t->instr.address, n);
+            token_print(t);
+            return -1;
+        }
+        t->instr.number = n;
+    }
+    data[0] = t->instr.inst->opcs[t->instr.addressmode];
+    if (size>1) {
+        data[1] = t->instr.number & 0xff;
+    }
+    if (size>2) {
+        data[2] = (t->instr.number>>8) & 0xff;
+    }
     return 0;
 }
