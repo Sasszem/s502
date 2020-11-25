@@ -4,16 +4,14 @@
 
 #include "logging.h"
 
-#include "map.h"
-#include "tokenslist.h"
 #include "state.h"
 #include "loadfile.h"
 #include "pass_one.h"
 #include "instructions.h"
 
 #include "tokenFunc.h"
-int pass_two(State *s, TokensList *t) {
-    for (TokensListElement* ptr = t->head; ptr!=NULL; ptr = ptr->next) {
+int pass_two(State *s) {
+    for (TokensListElement* ptr = s->tokens->head; ptr!=NULL; ptr = ptr->next) {
         int ret = token_get_operand(s, ptr->token);
         if (ret<0 || ptr->token->fields.instr.number<0) {
             if (ret==0) {
@@ -46,12 +44,12 @@ int token_compile(Token *t, char** dataptr) {
 }
 
 
-int write_data(State *s, TokensList *t) {
-    FILE *f = fopen("out", "wb");
+int write_data(State *s) {
+    FILE *f = fopen(s->outfile, "wb");
     if (!f) {
         
     }
-    for (TokensListElement *ptr = t->head; ptr!=NULL; ptr = ptr->next) {
+    for (TokensListElement *ptr = s->tokens->head; ptr!=NULL; ptr = ptr->next) {
         char *data;
         int n = token_compile(ptr->token, &data);
         token_print(ptr->token);
@@ -74,44 +72,43 @@ int main(int argc, char**argv) {
     
     LOG(2, "Init done!\n");
 
-    TokensList *list = load_file("test.asm");
-    if (!list) {
+    state->tokens = load_file(state->infile);
+    if (!state->tokens) {
         FAIL("Compilation failed!\n");
         state_free(state);
         state = NULL;
         return -1;
     }
 
-    if (pass_one(state, list)<0) {
+    if (pass_one(state)<0) {
         FAIL("Compilation failed!\n");
-        tokenslist_free(list);
-        list = NULL;
         state_free(state);
         state = NULL;
         return -1;
     }
     
-    if (pass_two(state, list)<0) {
+    if (pass_two(state)<0) {
         FAIL("Compilation failed!\n");
-        tokenslist_free(list);
-        list = NULL;
         state_free(state);
         state = NULL;
         return -1;
     }
-    write_data(state, list);
+    if (write_data(state)<0) {
+        FAIL("Compilation failed!\n");
+        state_free(state);
+        state = NULL;
+        return -1;  
+    }
 
     LOG(2, "Now dunping tha file: \n");
-    LOGDO(2, tokenslist_debug_print(list));
+    LOGDO(2, tokenslist_debug_print(state->tokens));
     LOG(2, "Now tha defines:\n");
     LOGDO(2, map_debug_print(state->defines));
     LOG(2, "And the labels:\n");
     LOGDO(2, map_debug_print(state->labels));
     LOG(2, "Cleaning up...\n");
-    tokenslist_free(list);
     state_free(state);
     state = NULL;
-    list = NULL;
 
     return 0;
     

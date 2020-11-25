@@ -15,8 +15,8 @@
  * @param tokens all tokens loaded so far
  * @returns 0 on success, -1 on error
  */
-int pass_one(State *s, TokensList *tokens) {
-    TokensListElement *ptr = tokens->head;
+int pass_one(State *s) {
+    TokensListElement *ptr = s->tokens->head;
     istack_ptr ifstack = istack_new();
     if (!ifstack) {
         FAIL("Pass 1 init failed!\n");
@@ -26,7 +26,7 @@ int pass_one(State *s, TokensList *tokens) {
     enum PPCommand p;
     while (ptr!=NULL) {
         if (ptr->token->type == TT_PREPROC) {
-            p = do_preprocessor_token(s, tokens, ptr, istack_top(ifstack, 0));
+            p = do_preprocessor_token(s, ptr, istack_top(ifstack, 0));
             skiponce = 1;
             if (p==PPC_IF_TRUE) {
                 if (istack_push(ifstack, istack_top(ifstack, 0))<0) {
@@ -93,7 +93,7 @@ int pass_one(State *s, TokensList *tokens) {
         }
         s->PC += ptr->token->binSize;
         if (istack_top(ifstack, 0)||skiponce){
-            ptr = tokenslist_remove(tokens, ptr);
+            ptr = tokenslist_remove(s->tokens, ptr);
             skiponce = 0;
         } else {
             ptr = ptr->next;

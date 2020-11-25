@@ -4,6 +4,6 @@
 #include "tokenslist.h"
 #include "state.h"
 
-int pass_one(State *s, TokensList *tokens);
+int pass_one(State *s);
 
 #endif

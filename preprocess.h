@@ -16,6 +16,6 @@ enum PPCommand {
     PPC_ENDIF,
 };
 
-enum PPCommand do_preprocessor_token(State *s, TokensList *list, TokensListElement *ptr, int skip);
+enum PPCommand do_preprocessor_token(State *s, TokensListElement *ptr, int skip);
 
 #endif

@@ -290,7 +290,8 @@ struct {enum PPCommand ret; char *name;} skipProcessors[] = {
 /**
  * Pre-process a single token
  */
-enum PPCommand do_preprocessor_token(State *s, TokensList *list, TokensListElement *ptr, int skip) {
+enum PPCommand do_preprocessor_token(State *s, TokensListElement *ptr, int skip) {
+    TokensList *list = s->tokens;
     LOG(4, "Processing preproessor token:\n");
     LOGDO(4, token_print(ptr->token));
     
