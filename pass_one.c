@@ -68,6 +68,10 @@ int pass_one(State *s, TokensList *tokens) {
                 FAIL("Pass 1 failed!\n");
                 return -1;
             }
+            if (token_get_operand(s, ptr->token)<0) {
+                FAIL("Pass 1 failed!\n");
+                return -1;
+            }
             LOGDO(3, token_print(ptr->token));
             LOG(3, "Instruction: \n");
             LOGDO(3, instruction_print(ptr->token->fields.instr.inst));
@@ -76,6 +80,7 @@ int pass_one(State *s, TokensList *tokens) {
         if (ptr->token->type == TT_LABEL) {
             char labelname[MAP_MAX_KEY_LEN];
             strncpy(labelname, ptr->token->stripped, ptr->token->len-1);
+            labelname[ptr->token->len-1] = 0;
             LOG(5, "Label: %s\n", labelname);
             if (map_find(s->labels, labelname)) {
                 ERROR("Can not re-define label '%s'\n", labelname);

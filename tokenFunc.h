@@ -11,5 +11,6 @@ int token_get_addressmode(Token* t);
 int token_link_instruction(State* s, Token* token);
 int token_recognize(Token* t);
 int token_analyze_instruction(State* s, Token* t);
+int token_get_operand(State* s, Token* t);
 
 #endif

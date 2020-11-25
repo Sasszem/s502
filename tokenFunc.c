@@ -1,7 +1,8 @@
 #include "tokenFunc.h"
 #include <stdio.h>
+#include <string.h>
 #include "util.h"
-
+#include "number.h"
 #include "state.h"
 #include "logging.h"
 
@@ -258,6 +259,7 @@ int token_recognize(Token* t) {
     // instruction - 3rd char is a space or len is 3
     if (t->stripped[3] == ' ' || t->stripped[3] == '\0') {
         t->type = TT_INSTR;
+        t->fields.instr.number = -1;
         found++;
     }
 
@@ -271,5 +273,25 @@ int token_recognize(Token* t) {
     LOG(4, "Recognized token as %d:\n", t->type);
     LOGDO(4, token_print(t));
 
+    return 0;
+}
+
+int token_get_operand(State *s, Token* t) {
+    char buf[MAP_MAX_KEY_LEN];
+    char *begin = &t->stripped[4];
+    char *end;
+    for (; *begin != 0 && (*begin == ' ' || *begin == '*' || *begin=='(' || *begin=='#'); begin++);
+    for (end = begin; *end!=0 && *end!=')' && *end!=',' && *end!=' '; end++); 
+    end--;
+    strncpy(buf, begin, end-begin+1);
+    int n = number_get_number(s, buf, end-begin+1);
+    if (n==NUMBER_ERROR) {
+        FAIL("Opcode operand parsing failed!\n");
+        return -1;
+    }
+    if (n==NUMBER_LABEL_NODEF) {
+        return 0;
+    }
+    t->fields.instr.number = n;
     return 0;
 }
