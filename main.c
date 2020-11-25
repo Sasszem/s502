@@ -1,7 +1,8 @@
 #define __USE_MINGW_ANSI_STDIO 1
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
+#include <errno.h>
 #include "logging.h"
 
 #include "state.h"
@@ -48,18 +49,24 @@ int write_data(State *s) {
     FILE *f = fopen(s->outfile, "wb");
     if (!f) {
         
+        ERROR("An error occured opening the file %s!\n", s->outfile);
+        ERROR("Error opening file: %s\n", strerror(errno));
+        return -1;
     }
     for (TokensListElement *ptr = s->tokens->head; ptr!=NULL; ptr = ptr->next) {
         char *data;
         int n = token_compile(ptr->token, &data);
-        token_print(ptr->token);
-        printf("Data: ");
+        //token_print(ptr->token);
+        fwrite(data, 1, n, f);
+        /*printf("Data: ");
         for (int i = 0; i<n; i++) {
             printf("%02hhx ", data[i]);
         }
-        printf("\n");
+        printf("\n");*/
         free(data);
     }
+    fclose(f);
+    ERROR("Done!\n");
     return 0;
 }
 
