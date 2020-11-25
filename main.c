@@ -66,14 +66,12 @@ int write_data(State *s, TokensList *t) {
 }
 
 int main(int argc, char**argv) {
-    if (argc>=2) {
-        int a;
-        sscanf(argv[1], "%d", &a);
-        logging_level(a);
-    }
+    logging_level(0);
     State *state = state_new();
     if (!state) goto ERR_INIT;
     if (state_load_instr(state, "opcodes.csv")<0) goto ERR_INIT;
+    if (state_parse_commandline(state, argc, argv)<0) goto ERR_INIT;
+    
     LOG(2, "Init done!\n");
 
     TokensList *list = load_file("test.asm");
