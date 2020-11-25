@@ -8,11 +8,6 @@
 #include "instructions.h"
 
 
-/**
- * @brief Load instruction and opcode info from file
- * @param fname file name to load from
- * @return Linked list with instructions or NULL on error
- */
 Instruction* instruction_load(char* fname) {
     FILE* f = fopen(fname, "r");
     if (f == NULL) {
@@ -104,10 +99,7 @@ CLEANUP:
     return NULL;
 }
 
-/**
- * @brief find an instruction based on it's mnemonic. Only checks 3 chars (no need to copy anything)
- * @return Instr* pointer or NULL
- */
+
 Instruction* instruction_find(Instruction *list, char *mnem) {
     Instruction *ptr;
     for (ptr = list; ptr != NULL; ptr = ptr->next) {
@@ -117,10 +109,7 @@ Instruction* instruction_find(Instruction *list, char *mnem) {
     return NULL;
 }
 
-/**
- * @brief free all memory associated with an Instruction* linked list
- * @param list list to free. All references to it will be invalid! Also accepts NULL
- */
+
 void instruction_free(Instruction* list) {
     if (!list) return;
     while (list->next != NULL) {
@@ -130,6 +119,7 @@ void instruction_free(Instruction* list) {
     }
     free(list);
 }
+
 
 const char* ADRM_NAMES[] = {
     "Accumlator",
@@ -148,6 +138,7 @@ const char* ADRM_NAMES[] = {
     "ERROR! OVERINDEX!",
 };
 
+
 int ADRM_SIZES[ADRM_COUNT + 1] = {
     0,      // ACC
     2,      // ABS
@@ -165,10 +156,7 @@ int ADRM_SIZES[ADRM_COUNT + 1] = {
     -1,
 };
 
-/**
- * @brief debug-print one instruction
- * @param instr the instruction to print
- */
+
 void instruction_print(Instruction *instr) {
     printf("%s", instr->mnem);
     for (int i = 0; i < ADRM_COUNT; i++)
@@ -178,10 +166,6 @@ void instruction_print(Instruction *instr) {
     printf("\n");
 }
 
-/**
- * @brief debug-print all loaded instructions
- * @param list a linked list containing the instructions
- */
 void instruction_print_all(Instruction* list) {
     for (; list != NULL; list = list->next) {
         instruction_print(list);
