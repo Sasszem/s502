@@ -24,38 +24,51 @@ int pass_two(State *s) {
     return 0;
 }
 
-
-
-int write_data(State *s) {
+/**
+ * @brief compile tokens and concat binary data
+ * @param list list of tokens to compile
+ * @param n pointer to return length of binary data to
+ * @returns puffer to data or NULL on error
+ * 
+ * The resulting buffer should be freed by the callee!
+ */
+char *concat_bin(TokensList *list, int* n) {
     int len = 0;
-    for (TokensListElement *ptr = s->tokens->head; ptr!=NULL; ptr = ptr->next) len += ptr->token->binSize;
-
+    for (TokensListElement *ptr = list->head; ptr!=NULL; ptr = ptr->next) len += ptr->token->binSize;
+    *n = len;
     char *data = malloc(len);
     int j = 0;
-    for (TokensListElement *ptr = s->tokens->head; ptr!=NULL; ptr = ptr->next) {
+    for (TokensListElement *ptr = list->head; ptr!=NULL; ptr = ptr->next) {
         char *tdata;
         int n = token_compile(ptr->token, &tdata);
         if (n<0) {
-            FAIL("Could not compile data!\n");
             free(tdata);
-            return -1;
+            return NULL;
         }
         for (int i = 0; i<ptr->token->binSize; i++) data[j+i] = tdata[i];
         j += ptr->token->binSize;
         free(tdata);
     }
 
+    return data;
+}
+
+int write_data(State *s) {
+    int l;
+    char *data = concat_bin(s->tokens, &l);
+    if (!data) {
+        FAIL("Could not compile data!\n");
+        return -1;
+    }
 
     FILE *f = fopen(s->outfile, "wb");
     if (!f) {
-        
         ERROR("An error occured opening the file %s!\n", s->outfile);
         ERROR("Error opening file: %s\n", strerror(errno));
         return -1;
     }
-    fwrite(data, 1, len, f);
+    fwrite(data, 1, l, f);
     free(data);
     fclose(f);
-    ERROR("Done!\n");
     return 0;
 }
