@@ -5,10 +5,7 @@
 #include <string.h>
 #include "debugmalloc.h"
 
-/**
- * @brief Create a new State object
- * @returns the new object or NULL
- */
+
 State* state_new() {
     State *ret = (State*)malloc(sizeof(State));
     
@@ -33,20 +30,14 @@ ERR:
     return 0;
 }
 
-/**
- * @brief load instructions from a file
- * @returns 0 on success, -1 on error
- */
+
 int state_load_instr(State *s, char *fname) {
     s->instr = instruction_load(fname);
     if (s->instr == NULL) return -1;
     return 0;
 }
 
-/**
- * Free a State object
- * Pointer should be nulled after this!
- */
+
 void state_free(State *s) {
     if (!s) return;
     map_free(s->defines);
@@ -56,6 +47,10 @@ void state_free(State *s) {
     free(s);
 }
 
+/**
+ * @brief print some help on the useage of the program
+ * @param pname argv[0] (executable name)
+ */
 void print_help(char* pname) {
     printf("6502 compiler program\nMade by Laszlo Barath in 2020\n\n");
     printf("Useage:\n> %s [args] <inputfile>\n", pname);
@@ -68,25 +63,14 @@ void print_help(char* pname) {
     printf("\n");
 }
 
+/**
+ * @brief print the "use --help" text
+ */
 void print_short_help() {
     printf("Use the '-h' or --help switches to get more info!\n");
 }
 
-/**
- * @brief parse command line arguments and update state
- * @param s state to update
- * @param argc as in main()
- * @param argv as in main()
- * @returns 0 on success, -1 on error
- * 
- * Undestands:
- * -o --out
- * -d --define
- * -l --log
- * last parameter is input file
- * 
- * prints usage if has a problem 
- */
+
 int state_parse_commandline(State *s, int argc, char** argv) {
     for (int i = 1; i<argc; i++) {
         if (!strcmp(argv[i], "-o") || !strcmp(argv[i], "--out")) {
