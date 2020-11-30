@@ -2,7 +2,7 @@
 #include "istack.h"
 #include "state.h"
 #include "pass_one.h"
-#include "preprocess.h"
+#include "directive.h"
 #include <stdlib.h>
 #include <string.h>
 #include "logging.h"

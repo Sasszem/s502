@@ -237,7 +237,7 @@ ERR:
 }
 
 /**
- * @brief Parse token - test if it's an opcode, a label or a preprocessor statement
+ * @brief Parse token - test if it's an opcode, a label or a directive
  * @param t token to recognize - will be modified in-place
  * @returns 0 on success, -1 on error
  */
@@ -247,7 +247,7 @@ int token_recognize(Token* t) {
 
     // directive - starts with a dot
     if (t->stripped[0] == '.') {
-        t->type = TT_PREPROC;
+        t->type = TT_DIRECTIVE;
         found++;
     }
 

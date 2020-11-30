@@ -5,25 +5,30 @@
 #include "token_t.h"
 #include "tokenFunc.h"
 #include "logging.h"
-#include "preprocess.h"
+#include "directive.h"
 #include "util.h"
 #include "number.h"
 #include "loadfile.h"
 #include "istack.h"
 
 
+
 /**
- * Token processor function
- * Should process one token and return a PPCommand
+ * @brief Token processor function
+ * Should process one token and return a DIRCommand
+ * 
+ * The reason why it takes a TokensListElemnt* and not just a Token* is that we need to do an insert to it's position (in require)
  */
-typedef enum PPCommand(*tokenprocessor)(State *, TokensList *, TokensListElement*);
+typedef enum DIRCommand(*tokenprocessor)(State *,TokensListElement *ptr);
 
 
 /**
- * Process a .define directive
- * Updates definese
+ * @brief Process an ifbeq directive
+ * @return DIR_NOP or DIR_STOP
+ * @param s current state
+ * @param ptr pointer to element to process
  */
-enum PPCommand process_define(State *s, TokensList *list, TokensListElement *ptr) {
+enum DIRCommand process_define(State *s, TokensListElement *ptr) {
     // find string
     char *define = ptr->token->stripped + 1;
     
@@ -31,21 +36,21 @@ enum PPCommand process_define(State *s, TokensList *list, TokensListElement *ptr
     if (*(name-1)=='\0') {
         ERROR("Not enough args to define!\n");
         token_print(ptr->token);
-        return PPC_STOP;
+        return DIR_STOP;
     }
 
     char *num = util_find_string_segment(name) + 1;
     if (*(num-1)=='\0') {
         ERROR("Not enough args to define!\n");
         token_print(ptr->token);
-        return PPC_STOP;
+        return DIR_STOP;
     }
 
     char *nend = util_find_string_segment(num);
     if (*nend!='\0') {
         ERROR("Too many args to define!\n");
         token_print(ptr->token);
-        return PPC_STOP;
+        return DIR_STOP;
     }
 
     //LOG("First part:\t\t%.*s\n", name-define, define);
@@ -55,23 +60,23 @@ enum PPCommand process_define(State *s, TokensList *list, TokensListElement *ptr
     if (as_num<0) {
         FAIL("Define argument is not valid!\n");
         token_print(ptr->token);
-        return PPC_STOP;
+        return DIR_STOP;
     }
     char def[MAP_MAX_KEY_LEN];
     strncpy(def, name, num-name);
     def[num-name-1] = 0;
     if (map_set(s->defines, def, as_num)<0) {
         FAIL("process_define() failed!\n");
-        return PPC_STOP;
+        return DIR_STOP;
     }
-    return PPC_NOP;
+    return DIR_NOP;
 }
 
 /**
- * Process an ifbeq directive
- * Can return PPC_IF_TRUE or PPC_IF_FALSE
+ * @brief Process an ifbeq directive
+ * @return DIR_IF_TRUE or DIR_IF_FALSE
  */
-enum PPCommand process_ifbeq(State *s, TokensList *list, TokensListElement *ptr) {
+enum DIRCommand process_ifbeq(State *s, TokensListElement *ptr) {
     // find string
     char *ifbeq = ptr->token->stripped + 1;
     
@@ -79,21 +84,21 @@ enum PPCommand process_ifbeq(State *s, TokensList *list, TokensListElement *ptr)
     if (*(first-1)=='\0') {
         ERROR("Not enough args to ifbeq!\n");
         token_print(ptr->token);
-        return PPC_STOP;
+        return DIR_STOP;
     }
 
     char *second = util_find_string_segment(first) + 1;
     if (*(second-1)=='\0') {
         ERROR("Not enough args to ifbeq!\n");
         token_print(ptr->token);
-        return PPC_STOP;
+        return DIR_STOP;
     }
 
     char *send = util_find_string_segment(second);
     if (*send!='\0') {
         ERROR("Too many args to ifbeq!\n");
         token_print(ptr->token);
-        return PPC_STOP;
+        return DIR_STOP;
     }
 
     //LOG("First part:\t\t%.*s\n", name-define, define);
@@ -103,39 +108,42 @@ enum PPCommand process_ifbeq(State *s, TokensList *list, TokensListElement *ptr)
     if (first_as_num<0) {
         FAIL("ifbeq first argument not defined!\n");
         token_print(ptr->token);
-        return PPC_STOP;
+        return DIR_STOP;
     }
     int second_as_num = number_get_number(s, second, send-second);
     if (second_as_num<0) {
         FAIL("ifbeq second argument not defined!\n");
         token_print(ptr->token);
-        return PPC_STOP;
+        return DIR_STOP;
     }
-    return first_as_num>second_as_num ? PPC_IF_TRUE : PPC_IF_FALSE;
+    return first_as_num>second_as_num ? DIR_IF_TRUE : DIR_IF_FALSE;
 }
 
 /**
- * "Process" an endif directive
+ * @brief "Process" an endif directive
+ * @returns DIR_ENDIF
  */
-enum PPCommand process_endif(State *s, TokensList *list, TokensListElement *ptr){
-    return PPC_ENDIF;
+enum DIRCommand process_endif(State *s, TokensListElement *ptr){
+    return DIR_ENDIF;
 }
 
 /**
- * Process a print directive
+ * @brief Process a print directive
+ * @returns DIR_NOP
  */
-enum PPCommand process_print(State *s, TokensList *list, TokensListElement *ptr) {
+enum DIRCommand process_print(State *s, TokensListElement *ptr) {
     char *str = &(ptr->token->stripped[1]);
     str = util_find_string_segment(str) + 1;
     printf("\e[44mMESSAGE\e[49m\t%s\n", str);
-    return PPC_NOP;
+    return DIR_NOP;
 }
 
 
 /**
- * Process a printc directive
+ * @brief Process a printc directive
+ * @returns DIR_NOP or DIR_STOP
  */
-enum PPCommand process_printc(State *s, TokensList *list, TokensListElement *ptr) {
+enum DIRCommand process_printc(State *s, TokensListElement *ptr) {
     char *str = &(ptr->token->stripped[1]);
     str = util_find_string_segment(str) + 1;
     char *send = util_find_string_segment(str);
@@ -143,7 +151,7 @@ enum PPCommand process_printc(State *s, TokensList *list, TokensListElement *ptr
     if (*send!='\0') {
         ERROR("Too many arguemnts to printc!\n");
         token_print(ptr->token);
-        return PPC_STOP;
+        return DIR_STOP;
     }
 
     char buffer[MAP_MAX_KEY_LEN];
@@ -156,26 +164,29 @@ enum PPCommand process_printc(State *s, TokensList *list, TokensListElement *ptr
         printf("\e[31mNOT DEFINED\e[39m\n");
     else
         printf("%d\n", v);
-    return PPC_NOP;
+    return DIR_NOP;
 }
 
 /**
- * Process an include directive
+ * @brief Process an include directive
+ * @returns DIR_NOP or DIR_STOP
+ * 
+ * Reads another file and inserts the tokens into the list.
  * This modifies the tokenslist directly!
  */
-enum PPCommand process_include(State *s, TokensList *list, TokensListElement *ptr) {
+enum DIRCommand process_include(State *s, TokensListElement *ptr) {
     char *str = &(ptr->token->stripped[1]);
     str = util_find_string_segment(str) + 1;
     if (*(str-1)=='\0') {
         ERROR("Too few argumenst to include!\n");
         token_print(ptr->token);
-        return PPC_STOP;
+        return DIR_STOP;
     }
     char *send = util_find_string_segment(str);
     if (*send!='\0') {
         ERROR("Too many arguments to include!\n");
         token_print(ptr->token);
-        return PPC_STOP;
+        return DIR_STOP;
     }
     LOG(3, "Including '%.*s'\n", (int)(send-str), str);
     char name[FILENAME_MAX];
@@ -184,69 +195,75 @@ enum PPCommand process_include(State *s, TokensList *list, TokensListElement *pt
     if (f==NULL) {
         FAIL("Could not include file!\n");
         token_print(ptr->token);
-        return PPC_STOP;
+        return DIR_STOP;
     }
-    tokenslist_insert(list, ptr, f);
+    tokenslist_insert(s->tokens, ptr, f);
     tokenslist_free(f);
     f = NULL;
-    return PPC_NOP;
+    return DIR_NOP;
 }
 
 /**
- * Process an ifdef directive 
+ * @brief Process an ifdef directive
+ * @returns DIR_STOP, DIR_IF_TRUE or DIR_IF_FALSE
  */
-enum PPCommand process_ifdef(State *s, TokensList *list, TokensListElement *ptr) {
+enum DIRCommand process_ifdef(State *s, TokensListElement *ptr) {
     char *cmd = &(ptr->token->stripped[1]);
     char *val = util_find_string_segment(cmd) + 1;
     if (*(val-1)!=' ') {
         ERROR("Too few arguments for ifdef!");
         token_print(ptr->token);
-        return PPC_STOP;
+        return DIR_STOP;
     }
     char *vend = util_find_string_segment(val);
     if (*vend!='\0'){
         ERROR("Too many arguments for ifdef!");
         token_print(ptr->token);
-        return PPC_STOP;
+        return DIR_STOP;
     }
     char name[MAP_MAX_KEY_LEN];
     strncpy(name, val, vend-val);
     name[vend-val] = 0;
     if (map_get(s->defines, name)!=-1) {
-        return PPC_IF_TRUE;
+        return DIR_IF_TRUE;
     }
-    return PPC_IF_FALSE;
+    return DIR_IF_FALSE;
 }
 
 /**
- * Process an ifndef directive
+ * @brief Process an ifndef directive
+ * @returns DIR_STOP, DIR_IF_TRUE or DIR_IF_FALSE
+ * 
  * Uses process_ifdef internally
  */
-enum PPCommand process_ifndef(State *s, TokensList *list, TokensListElement *ptr) {
-    enum PPCommand ret = process_ifdef(s, list, ptr);
-    if (ret==PPC_IF_FALSE)
-        return PPC_IF_TRUE;
-    if (ret==PPC_IF_TRUE)
-        return PPC_IF_FALSE;
-    return PPC_STOP;
+enum DIRCommand process_ifndef(State *s, TokensListElement *ptr) {
+    enum DIRCommand ret = process_ifdef(s, ptr);
+    if (ret==DIR_IF_FALSE)
+        return DIR_IF_TRUE;
+    if (ret==DIR_IF_TRUE)
+        return DIR_IF_FALSE;
+    return DIR_STOP;
 }
 
 /**
- * Process an org directive 
+ * @brief Process an org directive
+ * @returns DIR_STOP or DIR_NOP
+ * 
+ * Modifies state PC
  */
-enum PPCommand process_org(State *s, TokensList *list, TokensListElement *ptr) {
+enum DIRCommand process_org(State *s, TokensListElement *ptr) {
     char *cmd = &(ptr->token->stripped[1]);
     char *val = util_find_string_segment(cmd) + 1;
     if (*(val-1)!=' ') {
         ERROR("Too few arguments for org!");
         token_print(ptr->token);
-        return PPC_STOP;
+        return DIR_STOP;
     }
     char *vend = util_find_string_segment(val);
     if (*vend!='\0'){
         ERROR("Too many arguments for org!");
         token_print(ptr->token);
-        return PPC_STOP;
+        return DIR_STOP;
     }
     int num = number_get_number(s, val, vend-val);
     if (num<0) {
@@ -254,16 +271,18 @@ enum PPCommand process_org(State *s, TokensList *list, TokensListElement *ptr) {
             ERROR("Can not use undefined labels with org!\n");
         }
         FAIL("process_org() failed!");
-        return PPC_STOP;
+        return DIR_STOP;
     }
     s->PC = num;
     LOG(3, "PC = %d\n", num);
-    return PPC_NOP;
+    return DIR_NOP;
 }
 
 /**
- * The list of all processor functions and their tokens
- * Currently compare is kinda broken, so their order DOES matter
+ * @brief The list of all processor functions and their tokens
+ * 
+ * Their order DOES matter as comparision can not check end of strings as tokens do not end after directive names.
+ * (namely printc must come before print or will get falsely reconized as a print) 
  */
 struct {tokenprocessor p; char *name;} processors[] = {
     { process_define,   "define"    },
@@ -278,21 +297,18 @@ struct {tokenprocessor p; char *name;} processors[] = {
 };
 
 /**
- * List of tokens to "process" when skipping tokens due to a falsy if
+ * @brief List of tokens to "process" when skipping tokens due to a falsy if
  */
-struct {enum PPCommand ret; char *name;} skipProcessors[] = {
-    { PPC_ENDIF,    "endif" },
-    { PPC_IF_TRUE,  "ifdef" },
-    { PPC_IF_TRUE,  "ifndef"},
-    { PPC_IF_TRUE,  "ifbeq" },
+struct {enum DIRCommand ret; char *name;} skipProcessors[] = {
+    { DIR_ENDIF,    "endif" },
+    { DIR_IF_TRUE,  "ifdef" },
+    { DIR_IF_TRUE,  "ifndef"},
+    { DIR_IF_TRUE,  "ifbeq" },
 };
 
-/**
- * Pre-process a single token
- */
-enum PPCommand do_preprocessor_token(State *s, TokensListElement *ptr, int skip) {
-    TokensList *list = s->tokens;
-    LOG(4, "Processing preproessor token:\n");
+
+enum DIRCommand do_directive_token(State *s, TokensListElement *ptr, int skip) {
+    LOG(4, "Processing directive token:\n");
     LOGDO(4, token_print(ptr->token));
     
     char *f = ptr->token->stripped + 1;
@@ -303,16 +319,16 @@ enum PPCommand do_preprocessor_token(State *s, TokensListElement *ptr, int skip)
                 return skipProcessors[i].ret;
             }
         }
-        return PPC_NOP;
+        return DIR_NOP;
     }
 
     for (int i = 0; i<sizeof(processors)/sizeof(processors[0]); i++) {
         if (strncmp(f, processors[i].name, strlen(processors[i].name))==0) {
-            return processors[i].p(s, list, ptr);
+            return processors[i].p(s, ptr);
         }
     }
     
-    ERROR("Unknown preprocessor directive: %s\n", f);
+    ERROR("Unknown directive: %s\n", f);
     token_print(ptr->token);
-    return PPC_STOP;
+    return DIR_STOP;
 }

@@ -9,7 +9,7 @@
 
 enum tokenType {
     TT_INSTR,
-    TT_PREPROC,
+    TT_DIRECTIVE,
     TT_LABEL
 };
 
