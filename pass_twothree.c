@@ -1,3 +1,4 @@
+#include "debugmalloc.h"
 #include "state.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,7 +7,6 @@
 #include "pass_twothree.h"
 #include "tokenFunc.h"
 #include "logging.h"
-#include "debugmalloc.h"
 
 
 int pass_two(State *s) {
@@ -42,6 +42,7 @@ char *concat_bin(TokensList *list, int* n) {
         char *tdata;
         int n = token_compile(ptr->token, &tdata);
         if (n<0) {
+            free(data);
             free(tdata);
             return NULL;
         }
