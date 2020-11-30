@@ -8,10 +8,7 @@
 #include "logging.h"
 #include "debugmalloc.h"
 
-/**
- * @brief Create a new (empty) TokensList object
- * @returns the new TokensList* or NULL on error
- */
+
 TokensList* tokenslist_new() {
     TokensList *ret = (TokensList*)malloc(sizeof(TokensList));
     
@@ -25,10 +22,7 @@ TokensList* tokenslist_new() {
     return ret;
 }
 
-/**
- * @brief Append a token to the list
- * @returns 0 on success or -1 on error
- */
+
 int tokenslist_add(TokensList *list, Token t) {
     TokensListElement *elem = (TokensListElement*)malloc(sizeof(TokensListElement));
     if (elem==NULL) goto ERR_MEM;
@@ -57,9 +51,7 @@ int tokenslist_add(TokensList *list, Token t) {
         return -1;
 }
 
-/**
- * Remove a token from the list
- */
+
 TokensListElement* tokenslist_remove(TokensList *list, TokensListElement *el) {
     if (list->head == el)
         list->head = el->next;
@@ -77,10 +69,7 @@ TokensListElement* tokenslist_remove(TokensList *list, TokensListElement *el) {
     return next;
 }
 
-/**
- * Free ALL memory associated with the TokensList object
- * Pointer should be nulled after this!
- */
+
 void tokenslist_free(TokensList *list) {
     if (!list) return;
     while (list->head!=NULL) {
@@ -91,9 +80,7 @@ void tokenslist_free(TokensList *list) {
 
 
 
-/**
- * Pretty-print all tokens in a list
- */
+
 void tokenslist_debug_print(TokensList *list) {
     LOG(0, "Dumping code:\n");
 
@@ -101,9 +88,7 @@ void tokenslist_debug_print(TokensList *list) {
         token_print(ptr->token);
 }
 
-/**
- * Insert the contents of SRC into another list after POS
- */
+
 void tokenslist_insert(TokensList *list, TokensListElement *pos, TokensList *src) {
     TokensListElement *next = pos->next;
 
