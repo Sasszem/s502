@@ -7,10 +7,6 @@
 #include "debugmalloc.h"
 
 
-/**
- * @brief Create a new map with 0 elements
- * @return the new map or NULL on error
- */
 Map* map_new() {
     Map* ret = (Map*)malloc(sizeof(Map));
     if (ret == NULL) {
@@ -23,22 +19,23 @@ Map* map_new() {
 }
 
 /**
- * Find a key in a map
- * Returns NULL if not found
+ * @memberof Map
+ * @private
+ * @brief Find a key in a map
+ * @returns NULL if not found
+ * @param map map to search in
+ * @param key key to search for
  */
-struct MapEntry* map_find(Map* d, char* key) {
-    for (struct MapEntry* ptr = d->head; ptr != NULL; ptr = ptr->next)
+struct MapEntry* map_find(Map* map, char* key) {
+    for (struct MapEntry* ptr = map->head; ptr != NULL; ptr = ptr->next)
         if (strncmp(ptr->name, key, MAP_MAX_KEY_LEN) == 0)
             return ptr;
     return NULL;
 }
 
-/**
- * @brief Sets a key in the map
- * @return 0 on success, -1 on error
- */
-int map_set(Map* d, char* name, int value) {
-    struct MapEntry* ptr = map_find(d, name);
+
+int map_set(Map* map, char* name, int value) {
+    struct MapEntry* ptr = map_find(map, name);
     if (ptr == 0) {
         ptr = (struct MapEntry*)malloc(sizeof(struct MapEntry));
         if (ptr == NULL) {
@@ -46,12 +43,12 @@ int map_set(Map* d, char* name, int value) {
             return -1;
         }
         ptr->next = NULL;
-        if (d->head == NULL) {
-            d->head = ptr;
-            d->tail = ptr;
+        if (map->head == NULL) {
+            map->head = ptr;
+            map->tail = ptr;
         } else {
-            d->tail->next = ptr;
-            d->tail = ptr;
+            map->tail->next = ptr;
+            map->tail = ptr;
         }
         strncpy(ptr->name, name, MAP_MAX_KEY_LEN);
     }
@@ -60,43 +57,32 @@ int map_set(Map* d, char* name, int value) {
     return 0;
 }
 
-/**
- * Free the map with all associated memory
- * Frees the map itself, so it's pointer will be invalid!
- */
-void map_free(Map* d) {
-    if (!d) return;
+
+void map_free(Map* map) {
+    if (!map) return;
     struct MapEntry* ptr;
-    while (d->head != NULL) {
-        ptr = d->head->next;
-        free(d->head);
-        d->head = ptr;
+    while (map->head != NULL) {
+        ptr = map->head->next;
+        free(map->head);
+        map->head = ptr;
     }
-    d->head = NULL;
-    d->tail = NULL;
-    free(d);
+    map->head = NULL;
+    map->tail = NULL;
+    free(map);
 }
 
 
-
-/**
- * Get the value of a key
- * Returns -1 on not found
- */
-int map_get(Map* d, char* name) {
+int map_get(Map* map, char* name) {
     LOG(5, "Getting %s\n", name);
-    struct MapEntry* p = map_find(d, name);
+    struct MapEntry* p = map_find(map, name);
     if (p == NULL)
         return -1;
     return p->value;
 
 }
 
-/**
- * Print all key-value pairs of the map
- * Intended for debugging purposes
- */
-void map_debug_print(Map* d) {
-    for (struct MapEntry* ptr = d->head; ptr != NULL; ptr = ptr->next)
+
+void map_debug_print(Map* map) {
+    for (struct MapEntry* ptr = map->head; ptr != NULL; ptr = ptr->next)
         printf("\t%s:\t\t%d\n", ptr->name, ptr->value);
 }
