@@ -7,14 +7,17 @@
 #include "state.h"
 #include "logging.h"
 #include "debugmalloc.h"
-/**
- * Pretty-print one token, with its source and length
- */
+
 void token_print(Token* token) {
     printf("\t%s:%d:%d\t\t'%.*s'\n", token->source.fname, token->source.lineno, token->len, token->len, token->stripped);
+    if (token->type==TT_INSTR || token->instr.number>0) {
+        printf("Target: %d\n", token->instr.number);
+    }
 }
 
 /**
+ * @memberof Token
+ * @private
  * @brief find and link the instruction entry for a token
  * @return 0 on success, -1 on error
  */
@@ -90,8 +93,11 @@ This _should_ work, but is not perfect. It should be possible to refactor this i
 */
 
 /**
- * Determine the address mode of a token
- * Returns 0 on success and -1 on error
+ * @memberof Token
+ * @private
+ * @brief Determine the address mode of a token
+ * @returns 0 on success and -1 on error
+ * 
  * (modifies the token in-place)
  */
 int token_get_addressmode(Token* t) {
@@ -208,12 +214,11 @@ int token_get_addressmode(Token* t) {
     return -1;
 }
 
+
 int token_analyze_instruction(State* s, Token* t) {
     if (token_link_instruction(s, t) < 0) {
         ERROR("Unknown instruction!\n");
         goto ERR;
-
-
     }
     if (token_get_addressmode(t) < 0) {
         ERROR("Can not determine instruction address mode!\n");
@@ -236,11 +241,7 @@ ERR:
     return -1;
 }
 
-/**
- * @brief Parse token - test if it's an opcode, a label or a directive
- * @param t token to recognize - will be modified in-place
- * @returns 0 on success, -1 on error
- */
+
 int token_recognize(Token* t) {
     // how many token types does it fit
     int found = 0;
@@ -277,6 +278,14 @@ int token_recognize(Token* t) {
     return 0;
 }
 
+/**
+ * @memberof Token
+ * @private
+ * @brief parse the operand of the instruction as a number
+ * 
+ * Modifies the token in-places.
+ * Does NOT fail if operand is an undefined label!
+ */
 int token_get_operand(State *s, Token* t) {
     if (t->binSize==1) {
         t->instr.number = 0;
@@ -311,8 +320,6 @@ int token_compile(Token *t, char** dataptr) {
     char *data = malloc(size);
     *dataptr = data;
     if (t->instr.addressmode==ADRM_REL) {
-        //ERROR("Not implemented!\n");
-        //return 0;
         int n = t->instr.number - t->instr.address - 2;
         
         if (-128>n || 127<n) {
