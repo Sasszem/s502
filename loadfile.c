@@ -10,6 +10,11 @@
 #include "logging.h"
 
 /**
+ * @brief magic token reader function
+ * @param f file to read from
+ * @param t token to read into
+ * @returns 1 on success, 0 on EOF and -1 on error
+ * 
  * Read a single token into a Token struct from file f
  * - read relevant part
  * - return 1 on success, 0 on EOF and -1 on error
@@ -93,6 +98,10 @@ int read_token(FILE* f, Token* t) {
 }
 
 /**
+ * @brief read all tokens from a file
+ * @param name file name to read tokens from
+ * @returns list of all tokens or NULL on error
+ * 
  * High-level func to read the contents from a file
  * - reads file contents
  * - parses every line as a token
@@ -145,18 +154,7 @@ ERR_MEM:
     return NULL;
 }
 
-// this should not be here, or rather all the other function shoudl be elsewhere...
-// TODO: refactor this
-// maybe we can use a monadic pattern here?
 
-/**
- * High level function that reads a whole file
- * - reads file
- * - tokenises it
- * - recognizes token types
- * - returns fiel as TokensList*
- * - returns NULL on faliure
- */
 TokensList* load_file(char* name) {
     LOG(3, "Reading file...\n");
 
