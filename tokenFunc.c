@@ -325,7 +325,7 @@ int token_compile(State* s, Token* t, char** dataptr) {
 
         if (-128 > n || 127 < n) {
             ERROR("Relative addressing jump too far!\n");
-            printf("Target: %x, from: %x (diff: %x)\n", t->instr.number, t->instr.address, n);
+            printf("Target: $%x, from: $%x (diff: $%x)\n", t->instr.number, t->instr.address, n);
             token_print(t);
             free(data);
             *dataptr = NULL;

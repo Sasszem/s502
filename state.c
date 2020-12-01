@@ -135,7 +135,7 @@ int state_parse_commandline(State* s, int argc, char** argv) {
                 return -1;
             }
             if (argv[i][0] == '-') {
-                ERROR("Output file name ('%s') can not start with a dash ('-')!\n", argv[i]);
+                ERROR("Input file name ('%s') can not start with a dash ('-')!\n", argv[i]);
                 return -1;
             }
             strncpy(s->infile, argv[i], STATE_MAX_STRING_LEN);

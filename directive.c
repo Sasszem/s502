@@ -218,13 +218,13 @@ enum DIRCommand process_ifdef(State* s, TokensListElement* ptr) {
     char* cmd = &(ptr->token->stripped[1]);
     char* val = util_find_string_segment(cmd) + 1;
     if (*(val - 1) != ' ') {
-        ERROR("Too few arguments for ifdef!");
+        ERROR("Too few arguments for ifdef!\n");
         token_print(ptr->token);
         return DIR_STOP;
     }
     char* vend = util_find_string_segment(val);
     if (*vend != '\0') {
-        ERROR("Too many arguments for ifdef!");
+        ERROR("Too many arguments for ifdef!\n");
         token_print(ptr->token);
         return DIR_STOP;
     }
@@ -262,13 +262,13 @@ enum DIRCommand process_org(State* s, TokensListElement* ptr) {
     char* cmd = &(ptr->token->stripped[1]);
     char* val = util_find_string_segment(cmd) + 1;
     if (*(val - 1) != ' ') {
-        ERROR("Too few arguments for org!");
+        ERROR("Too few arguments for org!\n");
         token_print(ptr->token);
         return DIR_STOP;
     }
     char* vend = util_find_string_segment(val);
     if (*vend != '\0') {
-        ERROR("Too many arguments for org!");
+        ERROR("Too many arguments for org!\n");
         token_print(ptr->token);
         return DIR_STOP;
     }
@@ -277,7 +277,6 @@ enum DIRCommand process_org(State* s, TokensListElement* ptr) {
         if (num < 0) {
             ERROR("Can not use undefined labels with org!\n");
         }
-        FAIL("process_org() failed!");
         return DIR_STOP;
     }
     s->PC = num;
@@ -418,7 +417,7 @@ int compile_data(State* s, Token* t, char** dataptr) {
             }
             buff[p++] = num & 0xff;
             buff[p++] = (num >> 8) & 0xff;
-        }         else if (arr[i][0] == '"') {
+        } else if (arr[i][0] == '"') {
             if (arr[i][strlen(arr[i]) - 1] != '"') {
                 ERROR("Malformed string in .data! (no whitespaces allowed even in quotes)\n");
                 token_print(t);
@@ -427,7 +426,7 @@ int compile_data(State* s, Token* t, char** dataptr) {
             }
             for (int j = 1; j < strlen(arr[i]) - 1; j++)
                 buff[p++] = arr[i][j];
-        }         else {
+        } else {
             int num = number_get_number(s, arr[i], strlen(arr[i]));
             if (num < 0 || num >> 8) {
                 ERROR("Invalid byte in .data!\n");
