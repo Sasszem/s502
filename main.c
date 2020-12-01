@@ -17,32 +17,10 @@ int main(int argc, char** argv) {
     LOG(2, "Init done!\n");
 
     state->tokens = load_file(state->infile);
-    if (!state->tokens) {
-        FAIL("Compilation failed!\n");
-        state_free(state);
-        state = NULL;
-        return -1;
-    }
-
-    if (pass_one(state) < 0) {
-        FAIL("Compilation failed!\n");
-        state_free(state);
-        state = NULL;
-        return -1;
-    }
-
-    if (pass_two(state) < 0) {
-        FAIL("Compilation failed!\n");
-        state_free(state);
-        state = NULL;
-        return -1;
-    }
-    if (write_data(state) < 0) {
-        FAIL("Compilation failed!\n");
-        state_free(state);
-        state = NULL;
-        return -1;
-    }
+    if (!state->tokens) goto ERR_COMP;
+    if (pass_one(state) < 0) goto ERR_COMP;
+    if (pass_two(state) < 0) goto ERR_COMP;
+    if (write_data(state) < 0) goto ERR_COMP;
 
 
     LOG(2, "Now dunping tha file: \n");
@@ -60,5 +38,11 @@ int main(int argc, char** argv) {
 ERR_INIT:
     FAIL("Initialization failed!\n");
     state_free(state);
+    return -1;
+
+ERR_COMP:
+    FAIL("Compilation failed!\n");
+    state_free(state);
+    state = NULL;
     return -1;
 }
