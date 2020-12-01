@@ -1,2 +1,4 @@
 debugmalloc.h
 *.exe
+latex/
+html/
