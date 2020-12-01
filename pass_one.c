@@ -93,6 +93,7 @@ int pass_one(State* s) {
             ptr = ptr->next;
         }
     }
+    istack_free(ifstack);
     return 0;
 
 
