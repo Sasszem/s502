@@ -311,7 +311,7 @@ int token_compile(State* s, Token* t, char** dataptr) {
             return directive_compile(s, t, dataptr);
         }
         // should NEVER reach this:
-        ERROR("Something went terribly wrong!\}");
+        ERROR("Something went terribly wrong!\n");
         ERROR("A LABEL in last pass!\n");
         return -1;
     }
