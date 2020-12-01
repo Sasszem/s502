@@ -11,7 +11,7 @@
 
 int pass_one(State* s) {
     TokensListElement* ptr = s->tokens->head;
-    
+
     // stack to store state of conditionals
     // top of stack is the current value
     // 1 means we disabled compilation
@@ -27,7 +27,7 @@ int pass_one(State* s) {
 
     // on all tokens
     while (ptr != NULL) {
-        
+
         ///////////////
         // DIRECTIVE //
         ///////////////
@@ -72,7 +72,7 @@ int pass_one(State* s) {
             labelname[ptr->token->len - 1] = 0;
 
             LOG(5, "Label: %s\n", labelname);
-            if (map_get(s->labels, labelname)>=0) {
+            if (map_get(s->labels, labelname) >= 0) {
                 ERROR("Can not re-define label '%s'\n", labelname);
                 token_print(ptr->token);
                 goto ERR_FREE;
@@ -85,7 +85,7 @@ int pass_one(State* s) {
         ////////////
         // COMMON //
         ////////////
-        if (istack_top(ifstack, 0) || ptr->token->binSize<=0) {
+        if (istack_top(ifstack, 0) || ptr->token->binSize <= 0) {
             ptr = tokenslist_remove(s->tokens, ptr);
         } else {
             s->PC += ptr->token->binSize;

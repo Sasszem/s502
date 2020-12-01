@@ -10,28 +10,28 @@
 
 
 TokensList* tokenslist_new() {
-    TokensList *ret = (TokensList*)malloc(sizeof(TokensList));
-    
-    if (ret==NULL) {
+    TokensList* ret = (TokensList*)malloc(sizeof(TokensList));
+
+    if (ret == NULL) {
         ERROR("Memory allocation error in tokenslist_new()!\n");
         return NULL;
     }
-    
+
     ret->head = NULL;
-    ret->tail = NULL;    
+    ret->tail = NULL;
     return ret;
 }
 
 
-int tokenslist_add(TokensList *list, Token t) {
-    TokensListElement *elem = (TokensListElement*)malloc(sizeof(TokensListElement));
-    if (elem==NULL) goto ERR_MEM;
+int tokenslist_add(TokensList* list, Token t) {
+    TokensListElement* elem = (TokensListElement*)malloc(sizeof(TokensListElement));
+    if (elem == NULL) goto ERR_MEM;
     elem->next = NULL;
     elem->prev = NULL;
     elem->token = malloc(sizeof(Token));
     if (!elem->token) goto ERR_MEM;
     *elem->token = t;
-    if (list->head==NULL) {
+    if (list->head == NULL) {
         list->head = elem;
         list->tail = elem;
         return 0;
@@ -41,38 +41,38 @@ int tokenslist_add(TokensList *list, Token t) {
     list->tail = elem;
     return 0;
 
-    ERR_MEM:
-        if (elem) {
-            if (elem->token)
-                free(elem->token);
-            free(elem);
-        }
-        ERROR("Memory allocation error in tokenslist_add()!\n");
-        return -1;
+ERR_MEM:
+    if (elem) {
+        if (elem->token)
+            free(elem->token);
+        free(elem);
+    }
+    ERROR("Memory allocation error in tokenslist_add()!\n");
+    return -1;
 }
 
 
-TokensListElement* tokenslist_remove(TokensList *list, TokensListElement *el) {
+TokensListElement* tokenslist_remove(TokensList* list, TokensListElement* el) {
     if (list->head == el)
         list->head = el->next;
     if (list->tail == el)
         list->tail = el->prev;
-    
-    if (el->next!=NULL)
+
+    if (el->next != NULL)
         el->next->prev = el->prev;
-    if (el->prev!=NULL) {
+    if (el->prev != NULL) {
         el->prev->next = el->next;
     }
-    TokensListElement *next = el->next;
+    TokensListElement* next = el->next;
     free(el->token);
     free(el);
     return next;
 }
 
 
-void tokenslist_free(TokensList *list) {
+void tokenslist_free(TokensList* list) {
     if (!list) return;
-    while (list->head!=NULL) {
+    while (list->head != NULL) {
         tokenslist_remove(list, list->head);
     }
     free(list);
@@ -81,16 +81,16 @@ void tokenslist_free(TokensList *list) {
 
 
 
-void tokenslist_debug_print(TokensList *list) {
+void tokenslist_debug_print(TokensList* list) {
     LOG(0, "Dumping code:\n");
 
-    for (TokensListElement *ptr = list->head; ptr!=NULL; ptr = ptr->next)
+    for (TokensListElement* ptr = list->head; ptr != NULL; ptr = ptr->next)
         token_print(ptr->token);
 }
 
 
-void tokenslist_insert(TokensList *list, TokensListElement *pos, TokensList *src) {
-    TokensListElement *next = pos->next;
+void tokenslist_insert(TokensList* list, TokensListElement* pos, TokensList* src) {
+    TokensListElement* next = pos->next;
 
     if (src->head == NULL)
         return;
@@ -99,11 +99,11 @@ void tokenslist_insert(TokensList *list, TokensListElement *pos, TokensList *src
     pos->next = src->head;
     src->head->prev = pos;
 
-    
+
     src->tail->next = next;
-    if (next!=NULL)
+    if (next != NULL)
         next->prev = src->tail;
-    
+
     src->head = NULL;
     src->tail = NULL;
 }

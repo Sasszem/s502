@@ -14,7 +14,7 @@
  * @param f file to read from
  * @param t token to read into
  * @returns 1 on success, 0 on EOF and -1 on error
- * 
+ *
  * Read a single token into a Token struct from file f
  * - read relevant part
  * - return 1 on success, 0 on EOF and -1 on error
@@ -40,7 +40,7 @@ int read_token(FILE* f, Token* t) {
             break;
         }
 
-        if (c=='\r') continue; // damn line endings!
+        if (c == '\r') continue; // damn line endings!
 
         // don't write if already reached a comment
         if (eol)
@@ -101,7 +101,7 @@ int read_token(FILE* f, Token* t) {
  * @brief read all tokens from a file
  * @param name file name to read tokens from
  * @returns list of all tokens or NULL on error
- * 
+ *
  * High-level func to read the contents from a file
  * - reads file contents
  * - parses every line as a token

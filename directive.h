@@ -6,7 +6,7 @@
 
 /**
  * @brief Internal command type for directives
- * 
+ *
  * Token processor functions return these to signal different commands to pass one
  */
 enum DIRCommand {
@@ -23,22 +23,22 @@ enum DIRCommand {
 };
 
 /**
- * @brief process a directive token 
+ * @brief process a directive token
  * @param s state of the compiler
  * @param ptr ptr to the current token in the list
  * @param skip disable compilation flag (1=disabled)
  * @returns DIRCommand to pass 1
- * 
+ *
  * Identifies directive type, and runs a processor function on it.
  */
-enum DIRCommand do_directive_token(State *s, TokensListElement *ptr, int skip);
+enum DIRCommand do_directive_token(State* s, TokensListElement* ptr, int skip);
 
 /**
  * @brief compile a directive token to binary data
  * @returns the number of bytes compiled, -1 on error
- * 
+ *
  * Used for .data's, .pad's, .incbin's
  */
-int directive_compile(State *s, Token *t, char **dataptr);
+int directive_compile(State* s, Token* t, char** dataptr);
 
 #endif

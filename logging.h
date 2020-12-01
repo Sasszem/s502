@@ -19,10 +19,10 @@ int logging_level(int setlevel);
  */
 #define LOG(LVL, ...) if (logging_level(0)>=LVL) {printf("\e[33mLOG:\e[39m\t"); printf(__VA_ARGS__);}
 
-/**
- * @brief Conditional macro. Wraps contents into a conditional based on log level.
- * @param LVL minimum log level
- */
+ /**
+  * @brief Conditional macro. Wraps contents into a conditional based on log level.
+  * @param LVL minimum log level
+  */
 #define LOGDO(LVL, x) if(logging_level(0) >= (LVL)) {x;};
 
 /**

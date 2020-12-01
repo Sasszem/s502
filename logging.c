@@ -4,5 +4,5 @@ int logging_level(int level) {
         current = 1;
     }
     if (level == 0) return current;
-    return current=level;
+    return current = level;
 }

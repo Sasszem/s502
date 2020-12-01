@@ -25,7 +25,7 @@ Instruction* instruction_load(char* fname) {
         goto ERR_MALFORMED;
     }
     Instruction* list = malloc(sizeof(Instruction));
-    if (list==NULL) goto ERR_MEM;
+    if (list == NULL) goto ERR_MEM;
     list->next = NULL;
     Instruction* curr = list;
 
@@ -35,7 +35,7 @@ Instruction* instruction_load(char* fname) {
     int ptr = 0;
     int row = 1;
     while (x = fgetc(f), x != EOF) {
-        if (x=='\r') continue; // quick and dirty fix for linux opening a windows file
+        if (x == '\r') continue; // quick and dirty fix for linux opening a windows file
         if (x == ';' || x == '\n') {
             // end of column
             buff[ptr] = 0;
@@ -45,7 +45,7 @@ Instruction* instruction_load(char* fname) {
                 if (ptr != 3) goto ERR_MALFORMED;
                 memcpy(curr->mnem, buff, 3);
                 curr->mnem[3] = 0;
-            }             else {
+            } else {
                 if (ptr != 2 && ptr != 0) goto ERR_MALFORMED;
                 if (ptr)
                     curr->opcs[rowindex - 1] = 16 * number_char_to_digit(buff[0]) + number_char_to_digit(buff[1]);
@@ -61,7 +61,7 @@ Instruction* instruction_load(char* fname) {
                 row++;
 
                 curr->next = malloc(sizeof(Instruction));
-                if (curr->next==NULL) goto ERR_MEM;
+                if (curr->next == NULL) goto ERR_MEM;
                 curr->next->next = NULL;
                 curr = curr->next;
             }
@@ -100,10 +100,10 @@ CLEANUP:
 }
 
 
-Instruction* instruction_find(Instruction *list, char *mnem) {
-    Instruction *ptr;
+Instruction* instruction_find(Instruction* list, char* mnem) {
+    Instruction* ptr;
     for (ptr = list; ptr != NULL; ptr = ptr->next) {
-        if (memcmp(mnem, ptr->mnem, 3)==0)
+        if (memcmp(mnem, ptr->mnem, 3) == 0)
             return ptr;
     }
     return NULL;
@@ -157,7 +157,7 @@ int ADRM_SIZES[ADRM_COUNT + 1] = {
 };
 
 
-void instruction_print(Instruction *instr) {
+void instruction_print(Instruction* instr) {
     printf("%s", instr->mnem);
     for (int i = 0; i < ADRM_COUNT; i++)
         if (instr->opcs[i] != OPC_INVALID) {

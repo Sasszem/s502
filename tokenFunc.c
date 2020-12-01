@@ -11,7 +11,7 @@
 
 void token_print(Token* token) {
     printf("\t%s:%d:%d\t\t'%.*s'\n", token->source.fname, token->source.lineno, token->len, token->len, token->stripped);
-    if (token->type==TT_INSTR || token->instr.number>0) {
+    if (token->type == TT_INSTR || token->instr.number > 0) {
         printf("Target: %d\n", token->instr.number);
     }
 }
@@ -98,7 +98,7 @@ This _should_ work, but is not perfect. It should be possible to refactor this i
  * @private
  * @brief Determine the address mode of a token
  * @returns 0 on success and -1 on error
- * 
+ *
  * (modifies the token in-place)
  */
 int token_get_addressmode(Token* t) {
@@ -279,34 +279,34 @@ int token_recognize(Token* t) {
     return 0;
 }
 
-int token_get_operand(State *s, Token* t) {
-    if (t->type!=TT_INSTR) return 0;
-    if (t->binSize==1) {
+int token_get_operand(State* s, Token* t) {
+    if (t->type != TT_INSTR) return 0;
+    if (t->binSize == 1) {
         t->instr.number = 0;
         return 0;
     }
 
     char buf[MAP_MAX_KEY_LEN];
-    char *begin = &t->stripped[4];
-    char *end;
-    for (; *begin != 0 && (*begin == ' ' || *begin == '*' || *begin=='(' || *begin=='#'); begin++);
-    for (end = begin; *end!=0 && *end!=')' && *end!=',' && *end!=' '; end++); 
+    char* begin = &t->stripped[4];
+    char* end;
+    for (; *begin != 0 && (*begin == ' ' || *begin == '*' || *begin == '(' || *begin == '#'); begin++);
+    for (end = begin; *end != 0 && *end != ')' && *end != ',' && *end != ' '; end++);
     end--;
-    strncpy(buf, begin, end-begin+1);
-    int n = number_get_number(s, buf, end-begin+1);
-    if (n==NUMBER_ERROR) {
+    strncpy(buf, begin, end - begin + 1);
+    int n = number_get_number(s, buf, end - begin + 1);
+    if (n == NUMBER_ERROR) {
         FAIL("Opcode operand parsing failed!\n");
         return -1;
     }
-    if (n==NUMBER_LABEL_NODEF) {
+    if (n == NUMBER_LABEL_NODEF) {
         return 0;
     }
     t->instr.number = n;
     return 0;
 }
 
-int token_compile(State *s, Token *t, char** dataptr) {
-    if (t->type!=TT_INSTR) {
+int token_compile(State* s, Token* t, char** dataptr) {
+    if (t->type != TT_INSTR) {
         if (t->type == TT_DIRECTIVE) {
             return directive_compile(s, t, dataptr);
         }
@@ -316,12 +316,12 @@ int token_compile(State *s, Token *t, char** dataptr) {
         return -1;
     }
     int size = 1 + ADRM_SIZES[t->instr.addressmode];
-    char *data = malloc(size);
+    char* data = malloc(size);
     *dataptr = data;
-    if (t->instr.addressmode==ADRM_REL) {
+    if (t->instr.addressmode == ADRM_REL) {
         int n = t->instr.number - t->instr.address - 2;
-        
-        if (-128>n || 127<n) {
+
+        if (-128 > n || 127 < n) {
             ERROR("Relative addressing jump too far!\n");
             printf("Target: %x, from: %x (diff: %x)\n", t->instr.number, t->instr.address, n);
             token_print(t);
@@ -332,11 +332,11 @@ int token_compile(State *s, Token *t, char** dataptr) {
         t->instr.number = n;
     }
     data[0] = t->instr.inst->opcs[t->instr.addressmode];
-    if (size>1) {
+    if (size > 1) {
         data[1] = t->instr.number & 0xff;
     }
-    if (size>2) {
-        data[2] = (t->instr.number>>8) & 0xff;
+    if (size > 2) {
+        data[2] = (t->instr.number >> 8) & 0xff;
     }
     return 0;
 }

@@ -12,9 +12,9 @@ struct MapEntry {
 /**
  * @class Map
  * @brief Simple key->value map (str->int)
- * 
- * Implemented with a linked list.    
- * Should only store non-negative values, as "NOT FOUND" value is -1    
+ *
+ * Implemented with a linked list.
+ * Should only store non-negative values, as "NOT FOUND" value is -1
  */
 typedef struct {
     struct MapEntry* head, * tail;
