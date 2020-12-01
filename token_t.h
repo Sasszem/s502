@@ -2,7 +2,7 @@
 #define GUARD_TOKENTYPE
 
 enum {
-    TOKEN_BUFFER_SIZE = 32,
+    TOKEN_BUFFER_SIZE = 63,
     TOKEN_SOURCE_FILE_SIZE = 32,
 };
 
