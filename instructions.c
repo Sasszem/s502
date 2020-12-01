@@ -1,10 +1,10 @@
+#include "debugmalloc.h"
 
 #include <stdio.h>
 #include <errno.h>
 
 #include "logging.h"
 #include "number.h"
-#include "debugmalloc.h"
 #include "instructions.h"
 
 

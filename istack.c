@@ -1,4 +1,7 @@
+#include "debugmalloc.h"
+
 #include <stdlib.h>
+
 #include "logging.h"
 #include "istack.h"
 

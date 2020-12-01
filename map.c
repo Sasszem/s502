@@ -1,10 +1,11 @@
+#include "debugmalloc.h"
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "logging.h"
 #include "map.h"
-#include "debugmalloc.h"
 
 
 Map* map_new() {

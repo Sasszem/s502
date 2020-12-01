@@ -1,12 +1,14 @@
-#include "tokenFunc.h"
+#include "debugmalloc.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
+#include "tokenFunc.h"
 #include "util.h"
 #include "number.h"
 #include "state.h"
 #include "logging.h"
-#include "debugmalloc.h"
 #include "directive.h"
 
 void token_print(Token* token) {

@@ -1,9 +1,11 @@
 #include "debugmalloc.h"
-#include "state.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
 #include <string.h>
+
+#include "state.h"
 #include "pass_twothree.h"
 #include "tokenFunc.h"
 #include "logging.h"

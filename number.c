@@ -1,5 +1,6 @@
-#include "number.h"
 #include <string.h>
+
+#include "number.h"
 #include "logging.h"
 
 

@@ -1,10 +1,11 @@
+#include <stdlib.h>
+#include <string.h>
+
 #include "tokenslist.h"
 #include "istack.h"
 #include "state.h"
 #include "pass_one.h"
 #include "directive.h"
-#include <stdlib.h>
-#include <string.h>
 #include "logging.h"
 #include "tokenFunc.h"
 

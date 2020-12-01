@@ -1,9 +1,10 @@
+#include "debugmalloc.h"
+
+#include <stdlib.h>
+#include <string.h>
 
 #include "state.h"
-#include <stdlib.h>
 #include "logging.h"
-#include <string.h>
-#include "debugmalloc.h"
 
 
 State* state_new() {

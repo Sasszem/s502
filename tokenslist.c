@@ -1,12 +1,12 @@
-#define __USE_MINGW_ANSI_STDIO 1
+#include "debugmalloc.h"
 
+#define __USE_MINGW_ANSI_STDIO 1
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "tokenslist.h"
 #include "tokenFunc.h"
 #include "logging.h"
-#include "debugmalloc.h"
 
 
 TokensList* tokenslist_new() {
