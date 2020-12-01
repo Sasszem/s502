@@ -33,6 +33,16 @@ int token_analyze_instruction(State* s, Token* t);
  * @param dataptr char** to return data to
  * @returns the number of bytes in dataptr
  */
-int token_compile(Token *t, char** dataptr);
+int token_compile(State *s, Token *t, char** dataptr);
+
+/**
+ * @memberof Token
+ * @private
+ * @brief parse the operand of the instruction as a number
+ * 
+ * Modifies the token in-places.
+ * Does NOT fail if operand is an undefined label!
+ */
+int token_get_operand(State *s, Token* t);
 
 #endif

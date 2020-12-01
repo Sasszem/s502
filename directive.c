@@ -129,11 +129,16 @@ enum DIRCommand process_endif(State *s, TokensListElement *ptr){
 
 /**
  * @brief Process a print directive
- * @returns DIR_NOP
+ * @returns DIR_NOP or DIR_STOP
  */
 enum DIRCommand process_print(State *s, TokensListElement *ptr) {
     char *str = &(ptr->token->stripped[1]);
     str = util_find_string_segment(str) + 1;
+    if (*(str-1) == 0) {
+        ERROR("Print with empty message!\n");
+        token_print(ptr->token);
+        return DIR_STOP;
+    }
     printf("\e[44mMESSAGE\e[49m\t%s\n", str);
     return DIR_NOP;
 }

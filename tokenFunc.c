@@ -278,15 +278,8 @@ int token_recognize(Token* t) {
     return 0;
 }
 
-/**
- * @memberof Token
- * @private
- * @brief parse the operand of the instruction as a number
- * 
- * Modifies the token in-places.
- * Does NOT fail if operand is an undefined label!
- */
 int token_get_operand(State *s, Token* t) {
+    if (t->type!=TT_INSTR) return 0;
     if (t->binSize==1) {
         t->instr.number = 0;
         return 0;
@@ -311,7 +304,7 @@ int token_get_operand(State *s, Token* t) {
     return 0;
 }
 
-int token_compile(Token *t, char** dataptr) {
+int token_compile(State *s, Token *t, char** dataptr) {
     if (t->type!=TT_INSTR) {
         ERROR("Not implemented yet!\n");
         return -1;
@@ -327,7 +320,7 @@ int token_compile(Token *t, char** dataptr) {
             printf("Target: %x, from: %x (diff: %x)\n", t->instr.number, t->instr.address, n);
             token_print(t);
             free(data);
-            **dataptr = NULL;
+            *dataptr = NULL;
             return -1;
         }
         t->instr.number = n;

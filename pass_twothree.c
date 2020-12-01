@@ -32,15 +32,15 @@ int pass_two(State *s) {
  * 
  * The resulting buffer should be freed by the callee!
  */
-char *concat_bin(TokensList *list, int* n) {
+char *concat_bin(State *s, int* n) {
     int len = 0;
-    for (TokensListElement *ptr = list->head; ptr!=NULL; ptr = ptr->next) len += ptr->token->binSize;
+    for (TokensListElement *ptr = s->tokens->head; ptr!=NULL; ptr = ptr->next) len += ptr->token->binSize;
     *n = len;
     char *data = malloc(len);
     int j = 0;
-    for (TokensListElement *ptr = list->head; ptr!=NULL; ptr = ptr->next) {
+    for (TokensListElement *ptr = s->tokens->head; ptr!=NULL; ptr = ptr->next) {
         char *tdata;
-        int n = token_compile(ptr->token, &tdata);
+        int n = token_compile(s, ptr->token, &tdata);
         if (n<0) {
             free(data);
             free(tdata);
@@ -56,7 +56,7 @@ char *concat_bin(TokensList *list, int* n) {
 
 int write_data(State *s) {
     int l;
-    char *data = concat_bin(s->tokens, &l);
+    char *data = concat_bin(s, &l);
     if (!data) {
         FAIL("Could not compile data!\n");
         return -1;

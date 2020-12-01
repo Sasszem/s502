@@ -21,9 +21,6 @@ int pass_one(State* s) {
         FAIL("Pass 1 init failed!\n");
         return -1;
     }
-    // skip ONE token
-    // i.e. drop current one
-    int skiponce = 0;
 
     // return value from directive processing
     enum DIRCommand p;
@@ -36,7 +33,6 @@ int pass_one(State* s) {
         ///////////////
         if (ptr->token->type == TT_DIRECTIVE) {
             p = do_directive_token(s, ptr, istack_top(ifstack, 0));
-            skiponce = 1;
 
             if (p == DIR_IF_TRUE)
                 if (istack_push(ifstack, istack_top(ifstack, 0)) < 0) goto ERR_FREE;
@@ -84,15 +80,13 @@ int pass_one(State* s) {
 
             map_set(s->labels, labelname, s->PC);
             LOG(3, "Set label: '%s' to %d\n", labelname, s->PC);
-            skiponce = 1;
         }
 
         ////////////
         // COMMON //
         ////////////
-        if (istack_top(ifstack, 0) || skiponce) {
+        if (istack_top(ifstack, 0) || ptr->token->binSize<=0) {
             ptr = tokenslist_remove(s->tokens, ptr);
-            skiponce = 0;
         } else {
             s->PC += ptr->token->binSize;
             ptr = ptr->next;

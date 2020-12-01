@@ -59,15 +59,20 @@ enum {
 
 /**
  * @class Instruction
+ * @brief linked list member holding instruction data
+ * 
+ * Member of a list which holds data about instructions and opcodes.   
+ * This list should be loaded from file using instruction_load()
  */
 typedef struct Instruction {
-    char mnem[4];   /// 3-letter mnemonic of an instruction + trailing 0
-    unsigned char opcs[ADRM_COUNT]; /// Different combinarions of this instruction. Invalid ones are set to OPC_INVALID
-    struct Instruction* next; /// Next instruction pointer on NULL
+    /// 3-letter mnemonic of an instruction + trailing 0
+    char mnem[4];
+    /// Different combinarions of this instruction. Invalid ones are set to ::OPC_INVALID
+    unsigned char opcs[ADRM_COUNT];
+    /// Next instruction pointer on ::NULL
+    struct Instruction* next;
 } Instruction;
 
-//enum AddrMode instruction_get_addr_mode(Token t);
-//int instruction_is_valid(Token t, Instruction* codes);
 
 /**
  * @memberof Instruction 
@@ -77,7 +82,7 @@ typedef struct Instruction {
  * 
  * Opens the file, parses CSV and returns instruction data.   
  * Checks for simple problems. Prints errors.   
- * Returns NULL on error, and linked list (withut sentinel) otherwise.   
+ * Returns ::NULL on error, and linked list (withut sentinel) otherwise.   
  * Works both on Windows and Linux platforms with the same files.   
  */
 Instruction* instruction_load(char* fname);
@@ -87,7 +92,7 @@ Instruction* instruction_load(char* fname);
  * @brief find the Instruction entry for a given mnemonic
  * @param list linked list head containing loaded instructions
  * @param mnem pointer to string to seatch for
- * @returns instruction list entry or NULL if not found
+ * @returns instruction list entry or ::NULL if not found
  * 
  * Searches the linked list for an instruction entry.   
  * Only checks the first 3 characters, so there is no need to copy the data on the caller side. 
@@ -100,7 +105,7 @@ Instruction* instruction_find(Instruction* list, char* mnem);
  * @param list list to free
  * 
  * Frees all memory associated with the instruction data linked list, including the list head.   
- * Invalidates all pointers to any data within the list, so they should be all NULL-ed!
+ * Invalidates all pointers to any data within the list, so they should be all ::NULL-ed!
  */
 void instruction_free(Instruction* list);
 
@@ -119,7 +124,7 @@ void instruction_print(Instruction* instr);
  * @brief debug-print all instructions in a list
  * @param list list of instructions to print
  * 
- * Fancy-print all instructions from the list using instruction_print   
+ * Fancy-print all instructions from the list using instruction_print()   
  * Useful for debugging 
  */
 void instruction_print_all(Instruction* list);

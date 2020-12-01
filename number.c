@@ -37,33 +37,30 @@ int number_parse_number(char *str, int count) {
 
 
 int number_get_number(State *s, char *str, int count) {
-    int ptr = 0;
-    if (str[ptr]=='#')
-        ptr++;
-    if (str[ptr]=='@') {
+    if (str[0]=='@') {
         // constant parsing
         char number[MAP_MAX_KEY_LEN];
-        strncpy(number, str+ptr+1, count-ptr-1);
-        number[count-ptr-1] = 0;
+        strncpy(number, str+1, count-1);
+        number[count-1] = 0;
         int n = map_get(s->defines, number);
         if (n==-1) {
-            ERROR("Undefined constant: %.*s\n", count-ptr-1, str+ptr+1);
-            return -1;
+            ERROR("Undefined constant: %.*s\n", count-1, str+1);
+            return NUMBER_ERROR;
         }
         return n;
     }
-    if (str[ptr]=='&') {
+    if (str[0]=='&') {
         // label parsing
         char number[MAP_MAX_KEY_LEN];
-        strncpy(number, str+ptr+1, count-ptr-1);
-        number[count-ptr-1] = 0;
+        strncpy(number, str+1, count-1);
+        number[count-1] = 0;
         int n = map_get(s->labels, number);
         if (n==-1) {
-            LOG(2, "Undefined label: %.*s\n", count-ptr-1, str+ptr+1);
+            LOG(2, "Undefined label: %.*s\n", count-1, str+1);
             return NUMBER_LABEL_NODEF;
         }
         return n;
     }
     // pass error (NUMBER_ERROR value)
-    return number_parse_number(str+ptr, count-ptr);
+    return number_parse_number(str, count);
 }
