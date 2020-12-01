@@ -68,6 +68,7 @@ int write_data(State* s) {
     if (!f) {
         ERROR("An error occured opening the file %s!\n", s->outfile);
         ERROR("Error opening file: %s\n", strerror(errno));
+        free(data);
         return -1;
     }
     fwrite(data, 1, l, f);

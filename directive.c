@@ -153,6 +153,12 @@ enum DIRCommand process_print(State* s, TokensListElement* ptr) {
 enum DIRCommand process_printc(State* s, TokensListElement* ptr) {
     char* str = &(ptr->token->stripped[1]);
     str = util_find_string_segment(str) + 1;
+    if (*(str-1)==0) {
+        ERROR("Too few arguments to printc!\n");
+        token_print(ptr->token);
+        return DIR_STOP;
+    }
+    
     char* send = util_find_string_segment(str);
 
     if (*send != '\0') {
@@ -274,9 +280,11 @@ enum DIRCommand process_org(State* s, TokensListElement* ptr) {
     }
     int num = number_get_number(s, val, vend - val);
     if (num < 0) {
-        if (num < 0) {
+        if (num == NUMBER_LABEL_NODEF) {
             ERROR("Can not use undefined labels with org!\n");
         }
+        FAIL("Invalid number with .org!\n");
+        token_print(ptr->token);
         return DIR_STOP;
     }
     s->PC = num;
@@ -413,6 +421,8 @@ int compile_data(State* s, Token* t, char** dataptr) {
                 ERROR("Invalid word in .data!\n");
                 token_print(t);
                 free(arr);
+                free(buff);
+                *dataptr = NULL;
                 return -1;
             }
             buff[p++] = num & 0xff;
@@ -422,6 +432,8 @@ int compile_data(State* s, Token* t, char** dataptr) {
                 ERROR("Malformed string in .data! (no whitespaces allowed even in quotes)\n");
                 token_print(t);
                 free(arr);
+                free(buff);
+                *dataptr = NULL;
                 return -1;
             }
             for (int j = 1; j < strlen(arr[i]) - 1; j++)
@@ -432,6 +444,8 @@ int compile_data(State* s, Token* t, char** dataptr) {
                 ERROR("Invalid byte in .data!\n");
                 token_print(t);
                 free(arr);
+                free(buff);
+                *dataptr = NULL;
                 return -1;
             }
             buff[p++] = num & 0xff;
@@ -447,8 +461,11 @@ int compile_pad(State* s, Token* t, char** dataptr) {
     char** arr = util_split_string(t->stripped, &n);
     if (n == 3) {
         to = number_get_number(s, arr[2], strlen(arr[2]));
-        if (to < 0) {
+        if (to < 0 || to>>8) {
             ERROR("Can not pad with invalid value!\n");
+            token_print(t);
+            *dataptr = NULL;
+            free(arr);
             return -1;
         }
     }
