@@ -7,6 +7,7 @@
 #include "state.h"
 #include "logging.h"
 #include "debugmalloc.h"
+#include "directive.h"
 
 void token_print(Token* token) {
     printf("\t%s:%d:%d\t\t'%.*s'\n", token->source.fname, token->source.lineno, token->len, token->len, token->stripped);
@@ -306,7 +307,12 @@ int token_get_operand(State *s, Token* t) {
 
 int token_compile(State *s, Token *t, char** dataptr) {
     if (t->type!=TT_INSTR) {
-        ERROR("Not implemented yet!\n");
+        if (t->type == TT_DIRECTIVE) {
+            return directive_compile(s, t, dataptr);
+        }
+        // should NEVER reach this:
+        ERROR("Something went terribly wrong!\}");
+        ERROR("A LABEL in last pass!\n");
         return -1;
     }
     int size = 1 + ADRM_SIZES[t->instr.addressmode];

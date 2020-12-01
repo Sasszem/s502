@@ -1,3 +1,4 @@
+#include "debugmalloc.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -284,6 +285,65 @@ enum DIRCommand process_org(State *s, TokensListElement *ptr) {
 }
 
 /**
+ * @brief Process a data directive
+ * @returns DIR_NOP
+ * 
+ * Only counts size, generating binary will be done if all labels are defined (pass 3)
+ */
+enum DIRCommand process_data(State *s, TokensListElement *ptr) {
+    // collect size
+    int size = 0;
+    int n;
+    char **arr = util_split_string(ptr->token->stripped, &n);
+    for (int i = 1; i<n; i++) {
+        if (arr[i][0] == 'w') 
+            size+=2;
+        else if (arr[i][0]=='"')
+            size += strlen(arr[i])-2;
+        else
+            size += 1;
+    }
+    ptr->token->binSize = size;
+    free(arr);
+    return DIR_NOP;
+}
+
+/**
+ * @brief Process a pad directive
+ * @returns DIR_NOP
+ * 
+ */
+enum DIRCommand process_pad(State *s, TokensListElement *ptr) {
+    int n;
+    char **arr = util_split_string(ptr->token->stripped, &n);
+    
+    if (2>n || 3<n) {
+        ERROR("Mismatched number of arguments for .pad!\n");
+        goto ERR;
+    }
+
+    int target = number_get_number(s, arr[1], strlen(arr[1]));
+    if (target<0) {
+        ERROR("Invalid argument in .pad!\n");
+        goto ERR;
+    }
+    int size = target - s->PC;
+    if (size<0) {
+        ERROR("Negative padding! PC=%x, target=%x\n", s->PC, target);
+        goto ERR;
+    } 
+    ptr->token->binSize = size;
+    free(arr);
+    return DIR_NOP;
+
+    ERR:
+        token_print(ptr->token);
+        free(arr);
+        return DIR_STOP;
+}
+
+
+/**
  * @brief The list of all processor functions and their tokens
  * 
  * Their order DOES matter as comparision can not check end of strings as tokens do not end after directive names.
@@ -299,6 +359,8 @@ struct {tokenprocessor p; char *name;} processors[] = {
     { process_ifndef,   "ifndef"    },
     { process_ifbeq,    "ifbeq"     },
     { process_org,      "org"       },
+    { process_data,     "data"      },
+    { process_pad,      "pad"       },
 };
 
 /**
@@ -336,4 +398,80 @@ enum DIRCommand do_directive_token(State *s, TokensListElement *ptr, int skip) {
     ERROR("Unknown directive: %s\n", f);
     token_print(ptr->token);
     return DIR_STOP;
+}
+
+int compile_data(State *s, Token *t, char **dataptr) {
+    char *buff = malloc(t->binSize);
+    int p = 0;
+    int n;
+    char **arr = util_split_string(t->stripped, &n);
+    for (int i = 1; i<n; i++) {
+        LOG(4, ".data entry: '%s'\n", arr[i]);
+        if (arr[i][0] == 'w') {
+            int num = number_get_number(s, &arr[i][2], strlen(&arr[i][2]));
+            if (num<0) {
+                ERROR("Invalid word in .data!\n");
+                token_print(t);
+                free(arr);
+                return -1;
+            }
+            buff[p++] = num&0xff;
+            buff[p++] = (num>>8)&0xff;
+        }
+        else if (arr[i][0]=='"') {
+            if (arr[i][strlen(arr[i])-1]!='"') {
+                ERROR("Malformed string in .data! (no whitespaces allowed even in quotes)\n");
+                token_print(t);
+                free(arr);
+                return -1;
+            }
+            for (int j = 1; j<strlen(arr[i])-1; j++)
+                buff[p++] = arr[i][j];
+        }
+        else {
+            int num = number_get_number(s, arr[i], strlen(arr[i]));
+            if (num<0 || num>>8) {
+                ERROR("Invalid byte in .data!\n");
+                token_print(t);
+                free(arr);
+                return -1;
+            }
+            buff[p++] = num&0xff;
+        }
+    }
+    *dataptr = buff;
+    free(arr);
+    return t->binSize;
+}
+int compile_pad(State *s, Token *t, char **dataptr) {
+    int to = 0;
+    int n;
+    char **arr = util_split_string(t->stripped, &n);
+    if (n==3) {
+        to = number_get_number(s, arr[2], strlen(arr[2]));
+        if (to<0) {
+            ERROR("Can not pad with invalid value!\n");
+            return -1;
+        }
+    }
+    
+    char *buff = malloc(t->binSize);
+    memset(buff, to, t->binSize);
+    *dataptr = buff;
+    free(arr);
+    return t->binSize;
+}
+int compile_incbin(State *s, Token *t, char **dataptr) {
+    ERROR("incbin not implemented yet!\n");
+    return -1;
+}
+int directive_compile(State *s, Token *t, char **dataptr) {
+    // data, pad or incbin
+    if (strncmp(t->stripped, ".data", strlen(".data"))==0)
+        return compile_data(s, t, dataptr);
+    if (strncmp(t->stripped, ".pad", strlen(".pad"))==0)
+        return compile_pad(s, t, dataptr);
+    if (strncmp(t->stripped, ".incbin", strlen(".incbin"))==0)
+        return compile_incbin(s, t, dataptr);
+    return -1;
 }

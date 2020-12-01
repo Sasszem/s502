@@ -33,4 +33,12 @@ enum DIRCommand {
  */
 enum DIRCommand do_directive_token(State *s, TokensListElement *ptr, int skip);
 
+/**
+ * @brief compile a directive token to binary data
+ * @returns the number of bytes compiled, -1 on error
+ * 
+ * Used for .data's, .pad's, .incbin's
+ */
+int directive_compile(State *s, Token *t, char **dataptr);
+
 #endif
