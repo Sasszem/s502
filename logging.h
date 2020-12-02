@@ -28,11 +28,11 @@ int logging_level(int setlevel);
 /**
  * @brief Fancy-print an error (cause of faliure). Works like printf.
  */
-#define ERROR(...) printf("\e[41mERROR\e[49m:\t"); printf(__VA_ARGS__);
+#define ERROR(...) {printf("\e[41mERROR\e[49m:\t"); printf(__VA_ARGS__);}
 
 /**
  * @brief Fancy-print a fail (failed step). Works like printf.
  */
-#define FAIL(...) printf("\e[31mFAIL:\e[39m\t"); printf(__VA_ARGS__);
+#define FAIL(...) {printf("\e[31mFAIL:\e[39m\t"); printf(__VA_ARGS__);}
 
 #endif
