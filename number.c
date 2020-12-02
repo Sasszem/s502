@@ -37,7 +37,8 @@ int number_parse_number(char* str, int count) {
 }
 
 
-int number_get_number(State* s, char* str, int count) {
+int number_get_number(State* s, char* str) {
+    int count = strlen(str);
     if (str[0] == '@') {
         // constant parsing
         char number[MAP_MAX_KEY_LEN];

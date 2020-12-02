@@ -288,14 +288,18 @@ int token_get_operand(State* s, Token* t) {
         return 0;
     }
 
-    char buf[MAP_MAX_KEY_LEN];
     char* begin = &t->stripped[4];
     char* end;
     for (; *begin != 0 && (*begin == ' ' || *begin == '*' || *begin == '(' || *begin == '#'); begin++);
     for (end = begin; *end != 0 && *end != ')' && *end != ',' && *end != ' '; end++);
-    end--;
-    strncpy(buf, begin, end - begin + 1);
-    int n = number_get_number(s, buf, end - begin + 1);
+
+    char *buff = malloc(end-begin+1);
+    strncpy(buff, begin, end-begin+1);
+    buff[end-begin] = 0;
+
+    int n = number_get_number(s, buff);
+    free(buff);
+
     if (n == NUMBER_ERROR) {
         FAIL("Opcode operand parsing failed!\n");
         return -1;

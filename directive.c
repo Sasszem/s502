@@ -44,7 +44,7 @@ enum DIRCommand process_define(State* s, TokensListElement* ptr) {
         goto ERR;
     }
 
-    int as_num = number_get_number(s, line[2], strlen(line[2]));
+    int as_num = number_get_number(s, line[2]);
     if (as_num < 0) {
         if (as_num==NUMBER_LABEL_NODEF)
             ERROR("Can not use undefined labels with define!\n");
@@ -84,8 +84,8 @@ enum DIRCommand process_ifbeq(State* s, TokensListElement* ptr) {
         goto ERR;
     }
 
-    int first_as_num = number_get_number(s, line[1], strlen(line[1]));
-    int second_as_num = number_get_number(s, line[2], strlen(line[2]));
+    int first_as_num = number_get_number(s, line[1]);
+    int second_as_num = number_get_number(s, line[2]);
 
     if (first_as_num < 0 || second_as_num < 0) {
         if (first_as_num==NUMBER_LABEL_NODEF || second_as_num==NUMBER_LABEL_NODEF) {
@@ -235,7 +235,7 @@ enum DIRCommand process_org(State* s, TokensListElement* ptr) {
         ERROR("Mismatched number of arguments for '%s'\n", line[0]);
         goto ERR;
     }
-    int num = number_get_number(s, line[1], strlen(line[1]));
+    int num = number_get_number(s, line[1]);
     if (num < 0) {
         if (num == NUMBER_LABEL_NODEF) {
             ERROR("Can not use undefined labels with org!\n");
@@ -293,7 +293,7 @@ enum DIRCommand process_pad(State* s, TokensListElement* ptr) {
         goto ERR;
     }
 
-    int target = number_get_number(s, line[1], strlen(line[1]));
+    int target = number_get_number(s, line[1]);
     if (target < 0) {
         ERROR("Invalid argument in .pad!\n");
         goto ERR;
@@ -386,7 +386,7 @@ int compile_data(State* s, Token* t, char** dataptr) {
     for (int i = 1; i < n; i++) {
         LOG(4, ".data entry: '%s'\n", arr[i]);
         if (arr[i][0] == 'w') {
-            int num = number_get_number(s, &arr[i][2], strlen(&arr[i][2]));
+            int num = number_get_number(s, &arr[i][2]);
             if (num < 0) {
                 if (num==NUMBER_LABEL_NODEF)
                     ERROR("Label '%s' is not defined!\n", &arr[i][2]);
@@ -411,7 +411,7 @@ int compile_data(State* s, Token* t, char** dataptr) {
             for (int j = 1; j < strlen(arr[i]) - 1; j++)
                 buff[p++] = arr[i][j];
         } else {
-            int num = number_get_number(s, arr[i], strlen(arr[i]));
+            int num = number_get_number(s, arr[i]);
             if (num < 0 || num >> 8) {
                 if (num==NUMBER_LABEL_NODEF)
                     ERROR("Label '%s' is not defined!\n", arr[i]);
@@ -434,7 +434,7 @@ int compile_pad(State* s, Token* t, char** dataptr) {
     int n;
     char** arr = util_split_string(t->stripped, &n);
     if (n == 3) {
-        to = number_get_number(s, arr[2], strlen(arr[2]));
+        to = number_get_number(s, arr[2]);
         if (to < 0 || to>>8) {
             ERROR("Can not pad with invalid value!\n");
             token_print(t);

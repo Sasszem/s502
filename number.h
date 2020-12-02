@@ -20,7 +20,7 @@ enum {
  * - handles modifier symbols
  * Returns NUMBER_ERROR on error, or NUMBER_LABEL_NODEF if number is a valid label with no value
  */
-int number_get_number(State* s, char* str, int count);
+int number_get_number(State* s, char* str);
 
 /**
  * @brief Parse a number from a string
