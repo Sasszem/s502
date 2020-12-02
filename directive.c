@@ -14,6 +14,10 @@
 #include "istack.h"
 
 
+///////////////////////////////////////////////////
+// START OF INDIVIDUAL TOKEN PROCESSOR FUNCTIONS //
+///////////////////////////////////////////////////
+
 
 /**
  * @brief Token processor function
@@ -31,94 +35,76 @@ typedef enum DIRCommand(*tokenprocessor)(State*, TokensListElement* ptr);
  * @param ptr pointer to element to process
  */
 enum DIRCommand process_define(State* s, TokensListElement* ptr) {
-    // find string
-    char* define = ptr->token->stripped + 1;
 
-    char* name = util_find_string_segment(define) + 1;
-    if (*(name - 1) == '\0') {
-        ERROR("Not enough args to define!\n");
-        token_print(ptr->token);
-        return DIR_STOP;
+    int n;
+    char **line = util_split_string(ptr->token->stripped, &n);
+    
+    if (n!=3) {
+        ERROR("Mismatched number of arguments for '%s'\n", line[0]);
+        goto ERR;
     }
 
-    char* num = util_find_string_segment(name) + 1;
-    if (*(num - 1) == '\0') {
-        ERROR("Not enough args to define!\n");
-        token_print(ptr->token);
-        return DIR_STOP;
-    }
-
-    char* nend = util_find_string_segment(num);
-    if (*nend != '\0') {
-        ERROR("Too many args to define!\n");
-        token_print(ptr->token);
-        return DIR_STOP;
-    }
-
-    //LOG("First part:\t\t%.*s\n", name-define, define);
-    //LOG("Second part:\t\t%.*s\n", num-name, name);
-    //LOG("Third part:\t\t%.*s\n", nend-num, num);
-    int as_num = number_get_number(s, num, nend - num);
+    int as_num = number_get_number(s, line[2], strlen(line[2]));
     if (as_num < 0) {
+        if (as_num==NUMBER_LABEL_NODEF)
+            ERROR("Can not use undefined labels with define!\n");
         FAIL("Define argument is not valid!\n");
-        token_print(ptr->token);
-        return DIR_STOP;
+        goto ERR;
     }
+
+    if (strlen(line[1])>MAP_MAX_KEY_LEN-1) {
+        ERROR("Too long constant name! (max is %d chars)\n", MAP_MAX_KEY_LEN-1);
+        goto ERR;    
+    }
+
     char def[MAP_MAX_KEY_LEN];
-    strncpy(def, name, num - name);
-    def[num - name - 1] = 0;
-    if (map_set(s->defines, def, as_num) < 0) {
-        FAIL("process_define() failed!\n");
-        return DIR_STOP;
-    }
+    strncpy(def, line[1], MAP_MAX_KEY_LEN);
+
+    if (map_set(s->defines, def, as_num) < 0) goto ERR;
+    free(line);
     return DIR_NOP;
+
+ERR:
+    FAIL("process_define() failed!\n");
+    token_print(ptr->token);
+    free(line);
+    return DIR_STOP;
 }
 
 /**
  * @brief Process an ifbeq directive
- * @return DIR_IF_TRUE or DIR_IF_FALSE
+ * @return DIR_IF_TRUE or DIR_IF_FALSE or DIR_STOP
  */
 enum DIRCommand process_ifbeq(State* s, TokensListElement* ptr) {
-    // find string
-    char* ifbeq = ptr->token->stripped + 1;
+    int n;
+    char **line = util_split_string(ptr->token->stripped, &n);
 
-    char* first = util_find_string_segment(ifbeq) + 1;
-    if (*(first - 1) == '\0') {
-        ERROR("Not enough args to ifbeq!\n");
-        token_print(ptr->token);
-        return DIR_STOP;
+    if (n!=3) {
+        ERROR("Mismatched number of arguments for '%s'\n", line[0]);
+        goto ERR;
     }
 
-    char* second = util_find_string_segment(first) + 1;
-    if (*(second - 1) == '\0') {
-        ERROR("Not enough args to ifbeq!\n");
-        token_print(ptr->token);
-        return DIR_STOP;
+    int first_as_num = number_get_number(s, line[1], strlen(line[1]));
+    int second_as_num = number_get_number(s, line[2], strlen(line[2]));
+
+    if (first_as_num < 0 || second_as_num < 0) {
+        if (first_as_num==NUMBER_LABEL_NODEF || second_as_num==NUMBER_LABEL_NODEF) {
+            ERROR("Can not forward-ref labels with ifbeq!\n");
+        }
+        else {
+            FAIL("ifbeq argument not defined!\n");
+        }
+        goto ERR;
     }
 
-    char* send = util_find_string_segment(second);
-    if (*send != '\0') {
-        ERROR("Too many args to ifbeq!\n");
-        token_print(ptr->token);
-        return DIR_STOP;
-    }
-
-    //LOG("First part:\t\t%.*s\n", name-define, define);
-    //LOG("Second part:\t\t%.*s\n", num-name, name);
-    //LOG("Third part:\t\t%.*s\n", nend-num, num);
-    int first_as_num = number_get_number(s, first, second - first - 1);
-    if (first_as_num < 0) {
-        FAIL("ifbeq first argument not defined!\n");
-        token_print(ptr->token);
-        return DIR_STOP;
-    }
-    int second_as_num = number_get_number(s, second, send - second);
-    if (second_as_num < 0) {
-        FAIL("ifbeq second argument not defined!\n");
-        token_print(ptr->token);
-        return DIR_STOP;
-    }
+    free(line);
     return first_as_num > second_as_num ? DIR_IF_TRUE : DIR_IF_FALSE;
+
+ERR:
+    token_print(ptr->token);
+    FAIL("process_ifbeq() failed!\n");
+    free(line);
+    return DIR_STOP;
 }
 
 /**
@@ -151,32 +137,25 @@ enum DIRCommand process_print(State* s, TokensListElement* ptr) {
  * @returns DIR_NOP or DIR_STOP
  */
 enum DIRCommand process_printc(State* s, TokensListElement* ptr) {
-    char* str = &(ptr->token->stripped[1]);
-    str = util_find_string_segment(str) + 1;
-    if (*(str-1)==0) {
-        ERROR("Too few arguments to printc!\n");
-        token_print(ptr->token);
-        return DIR_STOP;
-    }
-    
-    char* send = util_find_string_segment(str);
+    int n;
+    char **line = util_split_string(ptr->token->stripped, &n);
 
-    if (*send != '\0') {
-        ERROR("Too many arguemnts to printc!\n");
+    if (n!=2) {
+        ERROR("Mismatched number of arguments for '%s'\n", line[0]);
         token_print(ptr->token);
+        free(line);
         return DIR_STOP;
     }
 
-    char buffer[MAP_MAX_KEY_LEN];
-    strncpy(buffer, str, send - str);
-    buffer[send - str] = 0;
-    int v = map_get(s->defines, buffer);
-    printf("\e[44mDEFINE\e[49m:\t%s = ", buffer);
+    int v = map_get(s->defines, line[1]);
+    printf("\e[44mDEFINE\e[49m:\t%s = ", line[1]);
 
-    if (v == -1)
+    if (v < 0)
         printf("\e[31mNOT DEFINED\e[39m\n");
     else
         printf("%d\n", v);
+
+    free(line);
     return DIR_NOP;
 }
 
@@ -188,31 +167,23 @@ enum DIRCommand process_printc(State* s, TokensListElement* ptr) {
  * This modifies the tokenslist directly!
  */
 enum DIRCommand process_include(State* s, TokensListElement* ptr) {
-    char* str = &(ptr->token->stripped[1]);
-    str = util_find_string_segment(str) + 1;
-    if (*(str - 1) == '\0') {
-        ERROR("Too few argumenst to include!\n");
-        token_print(ptr->token);
+    int n;
+    char **line = util_split_string(ptr->token->stripped, &n);
+    if (n!=2) {
+        ERROR("Mismatched number of arguments for '%s'\n", line[0]);
+        free(line);
         return DIR_STOP;
     }
-    char* send = util_find_string_segment(str);
-    if (*send != '\0') {
-        ERROR("Too many arguments to include!\n");
-        token_print(ptr->token);
-        return DIR_STOP;
-    }
-    LOG(3, "Including '%.*s'\n", (int)(send - str), str);
-    char name[FILENAME_MAX];
-    strncpy(name, str, send - str);
-    TokensList* f = load_file(name);
+    TokensList* f = load_file(line[1]);
     if (f == NULL) {
         FAIL("Could not include file!\n");
         token_print(ptr->token);
+        free(line);
         return DIR_STOP;
     }
     tokenslist_insert(s->tokens, ptr, f);
     tokenslist_free(f);
-    f = NULL;
+    free(line);
     return DIR_NOP;
 }
 
@@ -221,26 +192,19 @@ enum DIRCommand process_include(State* s, TokensListElement* ptr) {
  * @returns DIR_STOP, DIR_IF_TRUE or DIR_IF_FALSE
  */
 enum DIRCommand process_ifdef(State* s, TokensListElement* ptr) {
-    char* cmd = &(ptr->token->stripped[1]);
-    char* val = util_find_string_segment(cmd) + 1;
-    if (*(val - 1) != ' ') {
-        ERROR("Too few arguments for ifdef!\n");
+    int n;
+    char **line = util_split_string(ptr->token->stripped, &n);
+
+    if (n!=2) {
+        ERROR("Mismatched number of arguments for '%s'\n", line[0]);
         token_print(ptr->token);
+        free(line);
         return DIR_STOP;
     }
-    char* vend = util_find_string_segment(val);
-    if (*vend != '\0') {
-        ERROR("Too many arguments for ifdef!\n");
-        token_print(ptr->token);
-        return DIR_STOP;
-    }
-    char name[MAP_MAX_KEY_LEN];
-    strncpy(name, val, vend - val);
-    name[vend - val] = 0;
-    if (map_get(s->defines, name) != -1) {
-        return DIR_IF_TRUE;
-    }
-    return DIR_IF_FALSE;
+    int num = map_get(s->defines, line[1]);
+    free(line);
+    
+    return num<0 ? DIR_IF_FALSE : DIR_IF_TRUE;
 }
 
 /**
@@ -265,31 +229,30 @@ enum DIRCommand process_ifndef(State* s, TokensListElement* ptr) {
  * Modifies state PC
  */
 enum DIRCommand process_org(State* s, TokensListElement* ptr) {
-    char* cmd = &(ptr->token->stripped[1]);
-    char* val = util_find_string_segment(cmd) + 1;
-    if (*(val - 1) != ' ') {
-        ERROR("Too few arguments for org!\n");
-        token_print(ptr->token);
-        return DIR_STOP;
+    int n;
+    char **line = util_split_string(ptr->token->stripped, &n);
+    if (n!=2) {
+        ERROR("Mismatched number of arguments for '%s'\n", line[0]);
+        goto ERR;
     }
-    char* vend = util_find_string_segment(val);
-    if (*vend != '\0') {
-        ERROR("Too many arguments for org!\n");
-        token_print(ptr->token);
-        return DIR_STOP;
-    }
-    int num = number_get_number(s, val, vend - val);
+    int num = number_get_number(s, line[1], strlen(line[1]));
     if (num < 0) {
         if (num == NUMBER_LABEL_NODEF) {
             ERROR("Can not use undefined labels with org!\n");
         }
         FAIL("Invalid number with .org!\n");
-        token_print(ptr->token);
-        return DIR_STOP;
+        goto ERR;
     }
     s->PC = num;
+    free(line);
     LOG(3, "PC = %d\n", num);
     return DIR_NOP;
+
+ERR:
+    free(line);
+    FAIL("process_org() failed!\n");
+    token_print(ptr->token);
+    return DIR_STOP;
 }
 
 /**
@@ -323,14 +286,14 @@ enum DIRCommand process_data(State* s, TokensListElement* ptr) {
  */
 enum DIRCommand process_pad(State* s, TokensListElement* ptr) {
     int n;
-    char** arr = util_split_string(ptr->token->stripped, &n);
+    char** line = util_split_string(ptr->token->stripped, &n);
 
     if (2 > n || 3 < n) {
-        ERROR("Mismatched number of arguments for .pad!\n");
+        ERROR("Mismatched number of arguments for '%s'\n", line[0]);
         goto ERR;
     }
 
-    int target = number_get_number(s, arr[1], strlen(arr[1]));
+    int target = number_get_number(s, line[1], strlen(line[1]));
     if (target < 0) {
         ERROR("Invalid argument in .pad!\n");
         goto ERR;
@@ -341,15 +304,18 @@ enum DIRCommand process_pad(State* s, TokensListElement* ptr) {
         goto ERR;
     }
     ptr->token->binSize = size;
-    free(arr);
+    free(line);
     return DIR_NOP;
 
 ERR:
     token_print(ptr->token);
-    free(arr);
+    free(line);
     return DIR_STOP;
 }
 
+///////////////////////////////////////////
+// END OF TOKEN PROCESSOR FUNCTIONS LIST //
+///////////////////////////////////////////
 
 /**
  * @brief The list of all processor functions and their tokens
@@ -408,6 +374,10 @@ enum DIRCommand do_directive_token(State* s, TokensListElement* ptr, int skip) {
     return DIR_STOP;
 }
 
+//////////////////////////////////
+// PASS 3 DIRECTIVE COMPILATION //
+//////////////////////////////////
+
 int compile_data(State* s, Token* t, char** dataptr) {
     char* buff = malloc(t->binSize);
     int p = 0;
@@ -418,6 +388,8 @@ int compile_data(State* s, Token* t, char** dataptr) {
         if (arr[i][0] == 'w') {
             int num = number_get_number(s, &arr[i][2], strlen(&arr[i][2]));
             if (num < 0) {
+                if (num==NUMBER_LABEL_NODEF)
+                    ERROR("Label '%s' is not defined!\n", &arr[i][2]);
                 ERROR("Invalid word in .data!\n");
                 token_print(t);
                 free(arr);
@@ -441,6 +413,8 @@ int compile_data(State* s, Token* t, char** dataptr) {
         } else {
             int num = number_get_number(s, arr[i], strlen(arr[i]));
             if (num < 0 || num >> 8) {
+                if (num==NUMBER_LABEL_NODEF)
+                    ERROR("Label '%s' is not defined!\n", arr[i]);
                 ERROR("Invalid byte in .data!\n");
                 token_print(t);
                 free(arr);
