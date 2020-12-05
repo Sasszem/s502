@@ -14,7 +14,9 @@ int number_char_to_digit(char c) {
     return NUMBER_ERROR;
 }
 
-int number_parse_number(char* str, int count) {
+int number_parse_number(char* str) {
+    int count = strlen(str);
+
     int base = 10;
     int ptr = 0;
     int num = 0;
@@ -36,33 +38,32 @@ int number_parse_number(char* str, int count) {
     return num;
 }
 
-
-int number_get_number(State* s, char* str) {
-    int count = strlen(str);
-    if (str[0] == '@') {
-        // constant parsing
-        char number[MAP_MAX_KEY_LEN];
-        strncpy(number, str + 1, count - 1);
-        number[count - 1] = 0;
-        int n = map_get(s->defines, number);
-        if (n == -1) {
-            ERROR("Undefined constant: %.*s\n", count - 1, str + 1);
-            return NUMBER_ERROR;
-        }
-        return n;
-    }
-    if (str[0] == '&') {
-        // label parsing
-        char number[MAP_MAX_KEY_LEN];
-        strncpy(number, str + 1, count - 1);
-        number[count - 1] = 0;
-        int n = map_get(s->labels, number);
-        if (n == -1) {
-            LOG(2, "Undefined label: %.*s\n", count - 1, str + 1);
-            return NUMBER_LABEL_NODEF;
+int number_get_raw(State *s, char* str) {
+    if (str[0] == '@' || str[0] == '&') {
+        Map* m = str[0] == '@' ? s->defines : s->labels;
+        int n = map_get(m, &str[1]);
+        if (n < 0) {
+            return str[0] == '@' ? NUMBER_ERROR : NUMBER_LABEL_NODEF;
         }
         return n;
     }
     // pass error (NUMBER_ERROR value)
-    return number_parse_number(str, count);
+    return number_parse_number(str);
+}
+
+int number_get_number(State* s, char* str) {
+
+    int p = (str[0]=='>' ||str[0]=='<')? 1:0;
+    int num = number_get_raw(s, &str[p]);
+    
+    if (num<0) return num;
+
+    num = str[0] == '>' ? num>>8 : num;
+    num &= str[0]=='>' || str[0]=='<' ? 0xff : 0xffff;
+
+    return num;
+}
+
+void number_print_err(int num, char* str) {
+    ERROR("Undefined %s: %s\n", str[0] == '@' ? "constant" : "label", &str[1]);
 }

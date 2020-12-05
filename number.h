@@ -22,18 +22,10 @@ enum {
  */
 int number_get_number(State* s, char* str);
 
-/**
- * @brief Parse a number from a string
- * @returns value or NUMBER_ERROR on failed parsing
- * @param str string to parse
- * @param count length of string to parse
- *
- * Only parses numbers, returns error on labels, defines, etc.
- * Handles base marker $ symbol
- * String is not needed to be 0-terminated
- */
-int number_parse_number(char* str, int count);
 
+int number_parse_number(char* str);
+
+void number_print_err(int num, char* str);
 
 /**
  * @brief Convert a hex char to a digit
