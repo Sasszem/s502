@@ -27,6 +27,12 @@ int util_match_char(char a, char b) {
             );
 }
 
+int util_match_string(char* first, char* second, int count) {
+    for (int i = 0; i<count; i++) {
+        if (!util_match_char(first[i], second[i])) return 1;
+    }
+    return 0;
+}
 
 char** util_split_string(char* str, int* n) {
     // function to split a string into substrings on spaces

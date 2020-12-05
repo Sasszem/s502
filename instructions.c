@@ -6,6 +6,7 @@
 #include "logging.h"
 #include "number.h"
 #include "instructions.h"
+#include "util.h"
 
 
 Instruction* instruction_load(char* fname) {
@@ -103,7 +104,7 @@ CLEANUP:
 Instruction* instruction_find(Instruction* list, char* mnem) {
     Instruction* ptr;
     for (ptr = list; ptr != NULL; ptr = ptr->next) {
-        if (memcmp(mnem, ptr->mnem, 3) == 0)
+        if (util_match_string(mnem, ptr->mnem, 3) == 0)
             return ptr;
     }
     return NULL;

@@ -349,14 +349,11 @@ struct { enum DIRCommand ret; char* name; } skipProcessors[] = {
 
 
 enum DIRCommand do_directive_token(State* s, TokensListElement* ptr, int skip) {
-    LOG(4, "Processing directive token:\n");
-    LOGDO(4, token_print(ptr->token));
-
-    char* f = ptr->token->stripped + 1;
+    char* directive = ptr->token->stripped + 1;
 
     if (skip) {
         for (int i = 0; i < sizeof(skipProcessors) / sizeof(skipProcessors[0]); i++) {
-            if (strncmp(f, skipProcessors[i].name, strlen(skipProcessors[i].name)) == 0) {
+            if (util_match_string(directive, skipProcessors[i].name, strlen(skipProcessors[i].name)) == 0) {
                 return skipProcessors[i].ret;
             }
         }
@@ -364,12 +361,12 @@ enum DIRCommand do_directive_token(State* s, TokensListElement* ptr, int skip) {
     }
 
     for (int i = 0; i < sizeof(processors) / sizeof(processors[0]); i++) {
-        if (strncmp(f, processors[i].name, strlen(processors[i].name)) == 0) {
+        if (util_match_string(directive, processors[i].name, strlen(processors[i].name)) == 0) {
             return processors[i].p(s, ptr);
         }
     }
 
-    ERROR("Unknown directive: %s\n", f);
+    ERROR("Unknown directive: %s\n", directive);
     token_print(ptr->token);
     return DIR_STOP;
 }
@@ -456,11 +453,11 @@ int compile_incbin(State* s, Token* t, char** dataptr) {
 }
 int directive_compile(State* s, Token* t, char** dataptr) {
     // data, pad or incbin
-    if (strncmp(t->stripped, ".data", strlen(".data")) == 0)
+    if (util_match_string(t->stripped, ".data", strlen(".data")) == 0)
         return compile_data(s, t, dataptr);
-    if (strncmp(t->stripped, ".pad", strlen(".pad")) == 0)
+    if (util_match_string(t->stripped, ".pad", strlen(".pad")) == 0)
         return compile_pad(s, t, dataptr);
-    if (strncmp(t->stripped, ".incbin", strlen(".incbin")) == 0)
+    if (util_match_string(t->stripped, ".incbin", strlen(".incbin")) == 0)
         return compile_incbin(s, t, dataptr);
     return -1;
 }

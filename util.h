@@ -3,6 +3,7 @@
 
 char* util_find_string_segment(char* ptr);
 int util_match_char(char a, char b);
+int util_match_string(char* first, char* second, int count);
 
 
 
