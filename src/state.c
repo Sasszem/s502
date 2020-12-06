@@ -77,7 +77,7 @@ int state_parse_commandline(State* s, int argc, char** argv) {
         if (!strcmp(argv[i], "-o") || !strcmp(argv[i], "--out")) {
             // Output argument
             if (i == argc - 1) {
-                ERROR("Argument '%s' excepts a parameter!\n", argv[i]);
+                ERROR("Argument '%s' excepts parameter(s)!\n", argv[i]);
                 print_short_help();
                 return -1;
             }
@@ -94,7 +94,7 @@ int state_parse_commandline(State* s, int argc, char** argv) {
         } else if (!strcmp(argv[i], "-l") || !strcmp(argv[i], "--log")) {
             // Log argument
             if (i == argc - 1) {
-                ERROR("Argument '%s' excepts a parameter!\n", argv[i]);
+                ERROR("Argument '%s' excepts parameter(s)!\n", argv[i]);
                 print_short_help();
                 return -1;
             }
@@ -107,8 +107,8 @@ int state_parse_commandline(State* s, int argc, char** argv) {
             logging_level(level);
         } else if (!strcmp(argv[i], "-d") || !strcmp(argv[i], "--define")) {
             // Define argument
-            if (i == argc - 1) {
-                ERROR("Argument '%s' excepts a parameter!\n", argv[i]);
+            if (i == argc - 2 || i == argc - 1) {
+                ERROR("Argument '%s' excepts parameter(s)!\n", argv[i]);
                 print_short_help();
                 return -1;
             }

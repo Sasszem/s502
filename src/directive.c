@@ -52,7 +52,7 @@ enum DIRCommand process_define(State* s, TokensListElement* ptr) {
     char** line = util_split_string(ptr->token->stripped, &n);
 
     if (n != 3) {
-        ERROR("Mismatched number of arguments for '%s'\n", line[0]);
+        ERROR("Mismatched number of arguments for '%s'\n", line[0]); // define
         goto ERR;
     }
 
@@ -92,7 +92,7 @@ enum DIRCommand process_ifbeq(State* s, TokensListElement* ptr) {
     char** line = util_split_string(ptr->token->stripped, &n);
 
     if (n != 3) {
-        ERROR("Mismatched number of arguments for '%s'\n", line[0]);
+        ERROR("Mismatched number of arguments for '%s'\n", line[0]); // ifbeq
         goto ERR;
     }
 
@@ -152,7 +152,7 @@ enum DIRCommand process_printc(State* s, TokensListElement* ptr) {
     char** line = util_split_string(ptr->token->stripped, &n);
 
     if (n != 2) {
-        ERROR("Mismatched number of arguments for '%s'\n", line[0]);
+        ERROR("Mismatched number of arguments for '%s'\n", line[0]); // printc
         token_print(ptr->token);
         free(line);
         return DIR_STOP;
@@ -181,7 +181,7 @@ enum DIRCommand process_include(State* s, TokensListElement* ptr) {
     int n;
     char** line = util_split_string(ptr->token->stripped, &n);
     if (n != 2) {
-        ERROR("Mismatched number of arguments for '%s'\n", line[0]);
+        ERROR("Mismatched number of arguments for '%s'\n", line[0]); // include
         free(line);
         return DIR_STOP;
     }
@@ -207,7 +207,7 @@ enum DIRCommand process_ifdef(State* s, TokensListElement* ptr) {
     char** line = util_split_string(ptr->token->stripped, &n);
 
     if (n != 2) {
-        ERROR("Mismatched number of arguments for '%s'\n", line[0]);
+        ERROR("Mismatched number of arguments for '%s'\n", line[0]); // ifdef / ifndef
         token_print(ptr->token);
         free(line);
         return DIR_STOP;
@@ -243,7 +243,7 @@ enum DIRCommand process_org(State* s, TokensListElement* ptr) {
     int n;
     char** line = util_split_string(ptr->token->stripped, &n);
     if (n != 2) {
-        ERROR("Mismatched number of arguments for '%s'\n", line[0]);
+        ERROR("Mismatched number of arguments for '%s'\n", line[0]); // org
         goto ERR;
     }
     int num = number_get_number(s, line[1]);
@@ -300,12 +300,12 @@ enum DIRCommand process_pad(State* s, TokensListElement* ptr) {
     char** line = util_split_string(ptr->token->stripped, &n);
 
     if (2 > n || 3 < n) {
-        ERROR("Mismatched number of arguments for '%s'\n", line[0]);
+        ERROR("Mismatched number of arguments for '%s'\n", line[0]); // pad
         goto ERR;
     }
 
     int target = number_get_number(s, line[1]);
-    if (target < 0) {
+    if (target < 0 || target>>8) {
         ERROR("Invalid argument in .pad!\n");
         goto ERR;
     }

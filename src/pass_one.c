@@ -90,7 +90,7 @@ int pass_one(State* s) {
             LOG(5, "Label: %s\n", labelname);
             if (map_get(s->labels, labelname) >= 0) {
                 ERROR("Can not re-define label '%s'\n", labelname);
-                ERROR("(prev. value: $%x = %d\n)", map_get(s->labels, labelname), map_get(s->labels, labelname));
+                ERROR("(prev. value: $%x = %d)\n", map_get(s->labels, labelname), map_get(s->labels, labelname));
                 token_print(ptr->token);
                 goto ERR_FREE;
             }

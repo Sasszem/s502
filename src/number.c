@@ -63,7 +63,3 @@ int number_get_number(State* s, char* str) {
 
     return num;
 }
-
-void number_print_err(int num, char* str) {
-    ERROR("Undefined %s: %s\n", str[0] == '@' ? "constant" : "label", &str[1]);
-}

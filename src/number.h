@@ -25,8 +25,6 @@ int number_get_number(State* s, char* str);
 
 int number_parse_number(char* str);
 
-void number_print_err(int num, char* str);
-
 /**
  * @brief Convert a hex char to a digit
  * @param c char to convert
