@@ -37,7 +37,6 @@ int token_compile(State* s, Token* t, char** dataptr);
 
 /**
  * @memberof Token
- * @private
  * @brief parse the operand of the instruction as a number
  *
  * Modifies the token in-places.

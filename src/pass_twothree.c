@@ -32,7 +32,7 @@ int pass_two(State* s) {
  * @param n pointer to return length of binary data to
  * @returns puffer to data or NULL on error
  *
- * The resulting buffer should be freed by the callee!
+ * The resulting buffer should be freed by the caller!
  */
 char* concat_bin(State* s, int* n) {
     int len = 0;

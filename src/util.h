@@ -15,7 +15,7 @@ int util_match_string(char* first, char* second, int count);
  *
  * Uses a not-so-nice trick to enable easier handling
  * The returned *char[] also contains a buffer with the actual substring data
- * This also means simply freeing it is all what is needed to be done on the callee side
+ * This also means simply freeing it is all what is needed to be done on the caller side
  */
 char** util_split_string(char* str, int* n);
 
