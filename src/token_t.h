@@ -7,6 +7,7 @@ enum {
 };
 
 #include "instructions.h"
+#include "addressmode.h"
 
 /**
  * @brief possible token types

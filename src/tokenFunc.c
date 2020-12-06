@@ -319,7 +319,7 @@ int token_compile(State* s, Token* t, char** dataptr) {
         ERROR("A LABEL in last pass!\n");
         return -1;
     }
-    int size = 1 + ADRM_SIZES[t->instr.addressmode];
+    int size = t->binSize;
     char* data = malloc(size);
     *dataptr = data;
     if (t->instr.addressmode == ADRM_REL) {

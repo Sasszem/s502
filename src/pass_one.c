@@ -8,6 +8,7 @@
 #include "directive.h"
 #include "logging.h"
 #include "tokenFunc.h"
+#include "addressmode.h"
 
 
 int pass_one(State* s) {
