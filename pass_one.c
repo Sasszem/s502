@@ -68,6 +68,12 @@ int pass_one(State* s) {
         // LABEL //
         ///////////
         if (ptr->token->type == TT_LABEL) {
+            if (ptr->token->len>=MAP_MAX_KEY_LEN) {
+                ERROR("Label is too long!");
+                token_print(ptr->token);
+                goto ERR_FREE;
+            }
+
             char labelname[MAP_MAX_KEY_LEN];
             strncpy(labelname, ptr->token->stripped, ptr->token->len - 1);
             labelname[ptr->token->len - 1] = 0;
