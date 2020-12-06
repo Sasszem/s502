@@ -17,24 +17,25 @@ Instruction* instruction_load(char* fname) {
         return NULL;
     }
 
+    int rowindex = 0;
+    char buff[16];
+
+    int ptr = 0;
+    int row = 1;
+    Instruction* list = malloc(sizeof(Instruction));
+
     // ignore first line
     // (Also possibly has BOM for unicode)
-
     int x;
     while (x = fgetc(f), x != '\n' && x != EOF);
     if (x == EOF) {
         goto ERR_MALFORMED;
     }
-    Instruction* list = malloc(sizeof(Instruction));
     if (list == NULL) goto ERR_MEM;
     list->next = NULL;
     Instruction* curr = list;
 
-    char buff[16];
-
-    int rowindex = 0;
-    int ptr = 0;
-    int row = 1;
+    
     while (x = fgetc(f), x != EOF) {
         if (x == '\r') continue; // quick and dirty fix for linux opening a windows file
         if (x == ';' || x == '\n') {

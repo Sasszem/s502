@@ -51,7 +51,8 @@ int map_set(Map* map, char* name, int value) {
             map->tail->next = ptr;
             map->tail = ptr;
         }
-        strncpy(ptr->name, name, MAP_MAX_KEY_LEN);
+        strncpy(ptr->name, name, MAP_MAX_KEY_LEN-1);
+        ptr->name[MAP_MAX_KEY_LEN-1] = 0;
     }
 
     ptr->value = value;

@@ -77,9 +77,15 @@ int pass_one(State* s) {
             }
 
             char labelname[MAP_MAX_KEY_LEN];
-            strncpy(labelname, ptr->token->stripped, ptr->token->len - 1);
+            // pragmas are here because GCC would generate a warning
+            // (thus an error)
+            // that I truncate the string
+            // it's right of course, but also that's my intetntion
+            #pragma GCC diagnostic push
+            #pragma GCC diagnostic ignored "-Wstringop-truncation"
+            strncpy(labelname, ptr->token->stripped, MAP_MAX_KEY_LEN-1);
             labelname[ptr->token->len - 1] = 0;
-
+            #pragma GCC diagnostic pop
             LOG(5, "Label: %s\n", labelname);
             if (map_get(s->labels, labelname) >= 0) {
                 ERROR("Can not re-define label '%s'\n", labelname);

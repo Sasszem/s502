@@ -14,7 +14,7 @@
 int pass_two(State* s) {
     for (TokensListElement* ptr = s->tokens->head; ptr != NULL; ptr = ptr->next) {
         int ret = token_get_operand(s, ptr->token);
-        if (ret < 0 || ptr->token->type==TT_INSTR && ptr->token->instr.number < 0) {
+        if (ret < 0 || (ptr->token->type==TT_INSTR && (ptr->token->instr.number < 0))) {
             if (ret == 0) {
                 ERROR("Undefined label reference!\n");
             }

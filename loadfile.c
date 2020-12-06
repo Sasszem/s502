@@ -129,7 +129,8 @@ TokensList* read_file(char* name) {
     do {
         res = read_token(f, &tok);
         if (tok.len > 0) {
-            strncpy(tok.source.fname, name, TOKEN_SOURCE_FILE_SIZE);
+            strncpy(tok.source.fname, name, TOKEN_SOURCE_FILE_SIZE-1);
+            tok.source.fname[TOKEN_SOURCE_FILE_SIZE-1] = 0;
             tok.source.lineno = lineno;
             if (tokenslist_add(tokenslist, tok) < 0) goto ERR_MEM;
         }
