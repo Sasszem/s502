@@ -2,8 +2,15 @@
 
 #include <stdlib.h>
 
-#include "logging.h"
 #include "istack.h"
+#include "logging.h"
+
+/**
+ * @file 
+ * @brief implement istack member functions
+ * 
+ * See istack.h if doxygen again refuses to show doc comments from there!
+ */
 
 istack_ptr istack_new() {
     istack_ptr head = malloc(sizeof(istack_el));
