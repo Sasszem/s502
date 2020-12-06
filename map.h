@@ -1,7 +1,7 @@
 #ifndef GUARD_MAP
 #define GUARD_MAP
 
-enum { MAP_MAX_KEY_LEN = 16 };
+enum { MAP_MAX_KEY_LEN = 32 };
 
 struct MapEntry {
     int value;
