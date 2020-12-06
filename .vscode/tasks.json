@@ -7,10 +7,11 @@
             "args": [
                 "-Wall",
                 "-Werror",
+                "-O3",
                 "-g",
-                "${fileDirname}\\**.c",
+                "${workspaceFolder}\\src\\**.c",
                 "-o",
-                "${fileDirname}\\main.exe"
+                "${workspaceFolder}\\main.exe"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
