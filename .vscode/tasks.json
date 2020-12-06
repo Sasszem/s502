@@ -11,7 +11,7 @@
                 "-g",
                 "${workspaceFolder}\\src\\**.c",
                 "-o",
-                "${workspaceFolder}\\main.exe"
+                "${workspaceFolder}\\asm.exe"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
