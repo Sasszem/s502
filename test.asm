@@ -48,10 +48,12 @@ jsr &print
 
 ; wait screen with fancy border effect 
 loop:
+.ifdef CRAZY_EFFECT
     lda &C64_BORDER
     inx
-    ;adc #0 ; if X overflow we add 1 from carry
+    adc #0 ; if X overflow we add 1 from carry
     sta &C64_BORDER
+.endif
     ; check if spacebar is pressed
     lda &C64_KEY
     cmp #60
@@ -74,8 +76,9 @@ jsr &C64_CHROUT
 ; ####################
 ; # ACTUAL BALL DEMO #
 ; ####################
-
-.define WAIT 3000
+.ifndef WAIT
+    .define WAIT 3000
+.endif
 gameloop:
     ; we use a 16 bit counter
     ; and only run logic if it's at a spefific value
@@ -128,7 +131,9 @@ gameloop_flipX:
     sec
     sbc &BALLVX
     sta &BALLVX
+.ifdef BORDERCHANGE
     inc &C64_BORDER
+.endif
 
 ; update Y position and velocity
 ; kinda the same deal as with X 
@@ -150,8 +155,9 @@ gameloop_flipY:
     sec
     sbc &BALLVY
     sta &BALLVY
+.ifdef BORDERCHANGE
     inc &C64_BORDER
-
+.endif
 gameloop_draw:
     ; draw the ball
     jsr &make_balladdr
