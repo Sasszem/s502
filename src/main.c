@@ -7,6 +7,19 @@
 #include "pass_one.h"
 #include "tokenFunc.h"
 
+/**
+ * @file
+ * @brief Entry point
+ *
+ * Entry point of the application tying all the steps together
+ */
+
+/**
+ * @brief standard libc main function
+ * @param argc commandline arg count
+ * @param argv commandline arguments
+ * @returns exit code (0 on success, -1 on error)
+ */
 int main(int argc, char** argv) {
     logging_level(1);
     State* state = state_new();
@@ -23,15 +36,14 @@ int main(int argc, char** argv) {
     if (write_data(state) < 0) goto ERR_COMP;
 
 
-    LOG(2, "Now dunping tha file: \n");
+    LOG(2, "Now dunping the file: \n");
     LOGDO(2, tokenslist_debug_print(state->tokens));
-    LOG(2, "Now tha defines:\n");
+    LOG(2, "Now the defined constants:\n");
     LOGDO(2, map_debug_print(state->defines));
     LOG(2, "And the labels:\n");
     LOGDO(2, map_debug_print(state->labels));
     LOG(2, "Cleaning up...\n");
     state_free(state);
-    state = NULL;
 
     return 0;
 
