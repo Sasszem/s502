@@ -5,20 +5,27 @@
 #include "state.h"
 
 /**
- * @brief Internal command type for directives
+ * @file
+ * @brief step 1 and 3 processing for directive tokens
  *
- * Token processor functions return these to signal different commands to pass one
+ * Public interface for directive.h
  */
+
+ /**
+  * @brief Internal command type for directives
+  *
+  * Token processor functions return these to signal different commands to pass one
+  */
 enum DIRCommand {
-    // An error occured, stop compilation
+    /// An error occured, stop compilation
     DIR_STOP = -1,
-    // Nothing special, do nothing (but drop current token)
+    /// Nothing special, do nothing
     DIR_NOP = 0,
-    // A conditional evaluated to true
+    /// A conditional evaluated to true
     DIR_IF_TRUE,
-    // A conditional evaluated to false
+    /// A conditional evaluated to false
     DIR_IF_FALSE,
-    // An endif was encountered, should pop from state stack
+    /// An endif was encountered, should pop from state stack
     DIR_ENDIF,
 };
 
@@ -34,10 +41,11 @@ enum DIRCommand {
 enum DIRCommand do_directive_token(State* s, TokensListElement* ptr, int skip);
 
 /**
- * @brief compile a directive token to binary data
- * @returns the number of bytes compiled, -1 on error
+ * @brief Compile a directive into binary data
+ * @param dataptr return buffer for data
+ * @returns number of bytes in buffer or -1 on error
  *
- * Used for .data's, .pad's, .incbin's
+ * Simply relays it to compile_pad or compile_data
  */
 int directive_compile(State* s, Token* t, char** dataptr);
 

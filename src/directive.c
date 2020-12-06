@@ -13,18 +13,31 @@
 #include "loadfile.h"
 #include "istack.h"
 
-
-///////////////////////////////////////////////////
-// START OF INDIVIDUAL TOKEN PROCESSOR FUNCTIONS //
-///////////////////////////////////////////////////
-
-
 /**
- * @brief Token processor function
- * Should process one token and return a DIRCommand
+ * @file
+ * @brief Implement pass 1 and pass 3 (compile) processing for directive tokens
  *
- * The reason why it takes a TokensListElemnt* and not just a Token* is that we need to do an insert to it's position (in require)
+ * Pass 1 processing is complex processing, exact method depens on the current directive.
+ * For this, I used an array to link directive names to different processing functions.
+ * (also another array for disabled compilation)
+ *
+ * Directives control conditional compilation and can modify the list of currently loaded tokens.
+ * For this reason the common interface for processing functions receives state and full list along the current token, and returns a ::DIRCommand
+ *
  */
+
+ ///////////////////////////////////////////////////
+ // START OF INDIVIDUAL TOKEN PROCESSOR FUNCTIONS //
+ ///////////////////////////////////////////////////
+
+
+ /**
+  * @brief Token processor function
+  *
+  * Should process one token and return a DIRCommand
+  *
+  * The reason why it takes a TokensListElemnt* and not just a Token* is that we need to do an insert to it's position (in require)
+  */
 typedef enum DIRCommand(*tokenprocessor)(State*, TokensListElement* ptr);
 
 
@@ -37,24 +50,24 @@ typedef enum DIRCommand(*tokenprocessor)(State*, TokensListElement* ptr);
 enum DIRCommand process_define(State* s, TokensListElement* ptr) {
 
     int n;
-    char **line = util_split_string(ptr->token->stripped, &n);
-    
-    if (n!=3) {
+    char** line = util_split_string(ptr->token->stripped, &n);
+
+    if (n != 3) {
         ERROR("Mismatched number of arguments for '%s'\n", line[0]);
         goto ERR;
     }
 
     int as_num = number_get_number(s, line[2]);
     if (as_num < 0) {
-        if (as_num==NUMBER_LABEL_NODEF)
+        if (as_num == NUMBER_LABEL_NODEF)
             ERROR("Can not use undefined labels with define!\n");
         FAIL("Define argument is not valid!\n");
         goto ERR;
     }
 
-    if (strlen(line[1])>MAP_MAX_KEY_LEN-1) {
-        ERROR("Too long constant name! (max is %d chars)\n", MAP_MAX_KEY_LEN-1);
-        goto ERR;    
+    if (strlen(line[1]) > MAP_MAX_KEY_LEN - 1) {
+        ERROR("Too long constant name! (max is %d chars)\n", MAP_MAX_KEY_LEN - 1);
+        goto ERR;
     }
 
     char def[MAP_MAX_KEY_LEN];
@@ -77,9 +90,9 @@ ERR:
  */
 enum DIRCommand process_ifbeq(State* s, TokensListElement* ptr) {
     int n;
-    char **line = util_split_string(ptr->token->stripped, &n);
+    char** line = util_split_string(ptr->token->stripped, &n);
 
-    if (n!=3) {
+    if (n != 3) {
         ERROR("Mismatched number of arguments for '%s'\n", line[0]);
         goto ERR;
     }
@@ -88,10 +101,9 @@ enum DIRCommand process_ifbeq(State* s, TokensListElement* ptr) {
     int second_as_num = number_get_number(s, line[2]);
 
     if (first_as_num < 0 || second_as_num < 0) {
-        if (first_as_num==NUMBER_LABEL_NODEF || second_as_num==NUMBER_LABEL_NODEF) {
+        if (first_as_num == NUMBER_LABEL_NODEF || second_as_num == NUMBER_LABEL_NODEF) {
             ERROR("Can not forward-ref labels with ifbeq!\n");
-        }
-        else {
+        } else {
             FAIL("ifbeq argument not defined!\n");
         }
         goto ERR;
@@ -138,9 +150,9 @@ enum DIRCommand process_print(State* s, TokensListElement* ptr) {
  */
 enum DIRCommand process_printc(State* s, TokensListElement* ptr) {
     int n;
-    char **line = util_split_string(ptr->token->stripped, &n);
+    char** line = util_split_string(ptr->token->stripped, &n);
 
-    if (n!=2) {
+    if (n != 2) {
         ERROR("Mismatched number of arguments for '%s'\n", line[0]);
         token_print(ptr->token);
         free(line);
@@ -168,8 +180,8 @@ enum DIRCommand process_printc(State* s, TokensListElement* ptr) {
  */
 enum DIRCommand process_include(State* s, TokensListElement* ptr) {
     int n;
-    char **line = util_split_string(ptr->token->stripped, &n);
-    if (n!=2) {
+    char** line = util_split_string(ptr->token->stripped, &n);
+    if (n != 2) {
         ERROR("Mismatched number of arguments for '%s'\n", line[0]);
         free(line);
         return DIR_STOP;
@@ -193,9 +205,9 @@ enum DIRCommand process_include(State* s, TokensListElement* ptr) {
  */
 enum DIRCommand process_ifdef(State* s, TokensListElement* ptr) {
     int n;
-    char **line = util_split_string(ptr->token->stripped, &n);
+    char** line = util_split_string(ptr->token->stripped, &n);
 
-    if (n!=2) {
+    if (n != 2) {
         ERROR("Mismatched number of arguments for '%s'\n", line[0]);
         token_print(ptr->token);
         free(line);
@@ -203,8 +215,8 @@ enum DIRCommand process_ifdef(State* s, TokensListElement* ptr) {
     }
     int num = map_get(s->defines, line[1]);
     free(line);
-    
-    return num<0 ? DIR_IF_FALSE : DIR_IF_TRUE;
+
+    return num < 0 ? DIR_IF_FALSE : DIR_IF_TRUE;
 }
 
 /**
@@ -230,8 +242,8 @@ enum DIRCommand process_ifndef(State* s, TokensListElement* ptr) {
  */
 enum DIRCommand process_org(State* s, TokensListElement* ptr) {
     int n;
-    char **line = util_split_string(ptr->token->stripped, &n);
-    if (n!=2) {
+    char** line = util_split_string(ptr->token->stripped, &n);
+    if (n != 2) {
         ERROR("Mismatched number of arguments for '%s'\n", line[0]);
         goto ERR;
     }
@@ -375,64 +387,93 @@ enum DIRCommand do_directive_token(State* s, TokensListElement* ptr, int skip) {
 // PASS 3 DIRECTIVE COMPILATION //
 //////////////////////////////////
 
+/**
+ * @brief Compile a .data directive into binary data
+ * @param dataptr return buffer for data
+ * @returns number of bytes in buffer or -1 on error
+ */
 int compile_data(State* s, Token* t, char** dataptr) {
+    // binsize is already calculated in pass 1 processing
     char* buff = malloc(t->binSize);
-    int p = 0;
+    int bufferIdx = 0; // p is current index in buffer
+
+    // split string
     int n;
     char** arr = util_split_string(t->stripped, &n);
+
     for (int i = 1; i < n; i++) {
         LOG(4, ".data entry: '%s'\n", arr[i]);
+
         if (arr[i][0] == 'w') {
+            // word (16 bit)
+            // get word
             int num = number_get_number(s, &arr[i][2]);
             if (num < 0) {
-                if (num==NUMBER_LABEL_NODEF)
+                if (num == NUMBER_LABEL_NODEF)
                     ERROR("Label '%s' is not defined!\n", &arr[i][2]);
                 ERROR("Invalid word in .data!\n");
-                token_print(t);
-                free(arr);
-                free(buff);
-                *dataptr = NULL;
-                return -1;
+                goto ERR;
             }
-            buff[p++] = num & 0xff;
-            buff[p++] = (num >> 8) & 0xff;
+
+            // write
+            buff[bufferIdx++] = num & 0xff;
+            buff[bufferIdx++] = (num >> 8) & 0xff;
+
         } else if (arr[i][0] == '"') {
+            // strings
+
             if (arr[i][strlen(arr[i]) - 1] != '"') {
                 ERROR("Malformed string in .data! (no whitespaces allowed even in quotes)\n");
-                token_print(t);
-                free(arr);
-                free(buff);
-                *dataptr = NULL;
-                return -1;
+                goto ERR;
             }
+
+            // write
             for (int j = 1; j < strlen(arr[i]) - 1; j++)
-                buff[p++] = arr[i][j];
+                buff[bufferIdx++] = arr[i][j];
+
         } else {
+            // byte
+
             int num = number_get_number(s, arr[i]);
             if (num < 0 || num >> 8) {
-                if (num==NUMBER_LABEL_NODEF)
+                if (num == NUMBER_LABEL_NODEF)
                     ERROR("Label '%s' is not defined!\n", arr[i]);
                 ERROR("Invalid byte in .data!\n");
-                token_print(t);
-                free(arr);
-                free(buff);
-                *dataptr = NULL;
-                return -1;
+                goto ERR;
             }
-            buff[p++] = num & 0xff;
+
+            // write
+            buff[bufferIdx++] = num & 0xff;
         }
     }
     *dataptr = buff;
     free(arr);
     return t->binSize;
+
+ERR:
+    token_print(t);
+    free(arr);
+    free(buff);
+    *dataptr = NULL;
+    return -1;
 }
+
+/**
+ * @brief Compile a .pad directive into binary data
+ * @param dataptr return buffer for data
+ * @returns number of bytes in buffer or -1 on error
+ */
 int compile_pad(State* s, Token* t, char** dataptr) {
-    int to = 0;
+    int padwith = 0;
+
+    // split string
     int n;
     char** arr = util_split_string(t->stripped, &n);
+
+
     if (n == 3) {
-        to = number_get_number(s, arr[2]);
-        if (to < 0 || to>>8) {
+        padwith = number_get_number(s, arr[2]);
+        if (padwith < 0 || padwith >> 8) {
             ERROR("Can not pad with invalid value!\n");
             token_print(t);
             *dataptr = NULL;
@@ -441,23 +482,21 @@ int compile_pad(State* s, Token* t, char** dataptr) {
         }
     }
 
+    // allocate buffer and fill it
     char* buff = malloc(t->binSize);
-    memset(buff, to, t->binSize);
+    memset(buff, padwith, t->binSize);
+
+    // return
     *dataptr = buff;
     free(arr);
     return t->binSize;
 }
-int compile_incbin(State* s, Token* t, char** dataptr) {
-    ERROR("incbin not implemented yet!\n");
-    return -1;
-}
+
 int directive_compile(State* s, Token* t, char** dataptr) {
-    // data, pad or incbin
+    // data or pad
     if (util_match_string(t->stripped, ".data", strlen(".data")) == 0)
         return compile_data(s, t, dataptr);
     if (util_match_string(t->stripped, ".pad", strlen(".pad")) == 0)
         return compile_pad(s, t, dataptr);
-    if (util_match_string(t->stripped, ".incbin", strlen(".incbin")) == 0)
-        return compile_incbin(s, t, dataptr);
     return -1;
 }
