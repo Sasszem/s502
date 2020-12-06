@@ -4,6 +4,13 @@
 #include "tokenslist.h"
 
 /**
+ * @file
+ * @brief File reading step
+ */
+
+
+/**
+ *
  * @brief load and parse one file
  *
  * Load file, parse into tokens, build TokensList, identify token types

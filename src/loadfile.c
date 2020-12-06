@@ -9,6 +9,13 @@
 #include "logging.h"
 
 /**
+ * @file
+ * @brief file reading, tokenization and token recognition step
+ *
+ * Full read step
+ */
+
+/**
  * @brief magic token reader function
  * @param f file to read from
  * @param t token to read into
@@ -129,8 +136,8 @@ TokensList* read_file(char* name) {
     do {
         res = read_token(f, &tok);
         if (tok.len > 0) {
-            strncpy(tok.source.fname, name, TOKEN_SOURCE_FILE_SIZE-1);
-            tok.source.fname[TOKEN_SOURCE_FILE_SIZE-1] = 0;
+            strncpy(tok.source.fname, name, TOKEN_SOURCE_FILE_SIZE - 1);
+            tok.source.fname[TOKEN_SOURCE_FILE_SIZE - 1] = 0;
             tok.source.lineno = lineno;
             if (tokenslist_add(tokenslist, tok) < 0) goto ERR_MEM;
         }
@@ -155,7 +162,7 @@ ERR_MEM:
     return NULL;
 }
 
-
+// documented in header
 TokensList* load_file(char* name) {
     LOG(3, "Reading file...\n");
 
