@@ -17,11 +17,11 @@
  * @file
  * @brief Implement pass 1 and pass 3 (compile) processing for directive tokens
  *
- * Pass 1 processing is complex processing, exact method depens on the current directive.
- * For this, I used an array to link directive names to different processing functions.
+ * Pass 1 processing is complex processing, exact method depens on the current directive.<br>
+ * For this, I used an array to link directive names to different processing functions.<br>
  * (also another array for disabled compilation)
  *
- * Directives control conditional compilation and can modify the list of currently loaded tokens.
+ * Directives control conditional compilation and can modify the list of currently loaded tokens.<br>
  * For this reason the common interface for processing functions receives state and full list along the current token, and returns a ::DIRCommand
  *
  */
@@ -34,8 +34,7 @@
  /**
   * @brief Token processor function
   *
-  * Should process one token and return a DIRCommand
-  *
+  * Should process one token and return a DIRCommand<br>
   * The reason why it takes a TokensListElemnt* and not just a Token* is that we need to do an insert to it's position (in require)
   */
 typedef enum DIRCommand(*tokenprocessor)(State*, TokensListElement* ptr);
@@ -175,7 +174,7 @@ enum DIRCommand process_printc(State* s, TokensListElement* ptr) {
  * @brief Process an include directive
  * @returns DIR_NOP or DIR_STOP
  *
- * Reads another file and inserts the tokens into the list.
+ * Reads another file and inserts the tokens into the list.<br>
  * This modifies the tokenslist directly!
  */
 enum DIRCommand process_include(State* s, TokensListElement* ptr) {
@@ -332,7 +331,7 @@ ERR:
 /**
  * @brief The list of all processor functions and their tokens
  *
- * Their order DOES matter as comparision can not check end of strings as tokens do not end after directive names.
+ * Their order DOES matter as comparision can not check end of strings as tokens do not end after directive names.<br>
  * (namely printc must come before print or will get falsely reconized as a print)
  */
 struct { tokenprocessor p; char* name; } processors[] = {
