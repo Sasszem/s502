@@ -4,6 +4,13 @@
 #include <stdio.h>
 
 /**
+ * @file
+ * @brief logging and fancy-printing
+ *
+ * Contains conditional logging macros and fancy-print printf wrappers
+ */
+
+/**
  * @brief pseudo-global accessor
  * @param setlevel new level to set log level to or 0 to don't change
  * @returns current log level
@@ -13,11 +20,12 @@ int logging_level(int setlevel);
 /**
  * @brief logging macro - works like printf
  * @param LVL minimum log level
- * Macro to fancy-print using printf.
- * Can be used like a printf.
+ * 
+ * Macro to fancy-print using printf.<br>
+ * Can be used like a printf.<br>
  * Only prints if log level is set high enough
  */
-#define LOG(LVL, ...) if (logging_level(0)>=LVL) {printf("\e[33mLOG:\e[39m\t"); printf(__VA_ARGS__);}
+#define LOG(LVL, ...) if (logging_level(0)>=(LVL)) {printf("\e[33mLOG:\e[39m\t"); printf(__VA_ARGS__);}
 
  /**
   * @brief Conditional macro. Wraps contents into a conditional based on log level.
