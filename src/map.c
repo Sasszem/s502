@@ -7,6 +7,12 @@
 #include "logging.h"
 #include "map.h"
 
+/**
+ * @file
+ * @brief Map member functions
+ *
+ * See map.h for Map class!
+ */
 
 Map* map_new() {
     Map* ret = (Map*)malloc(sizeof(Map));
@@ -15,7 +21,6 @@ Map* map_new() {
         return NULL;
     }
     ret->head = NULL;
-    ret->tail = NULL;
     return ret;
 }
 
@@ -43,16 +48,10 @@ int map_set(Map* map, char* name, int value) {
             ERROR("Memory allocation error in map_set()!\n");
             return -1;
         }
-        ptr->next = NULL;
-        if (map->head == NULL) {
-            map->head = ptr;
-            map->tail = ptr;
-        } else {
-            map->tail->next = ptr;
-            map->tail = ptr;
-        }
-        strncpy(ptr->name, name, MAP_MAX_KEY_LEN-1);
-        ptr->name[MAP_MAX_KEY_LEN-1] = 0;
+        ptr->next = map->head;
+        map->head = ptr;
+        strncpy(ptr->name, name, MAP_MAX_KEY_LEN - 1);
+        ptr->name[MAP_MAX_KEY_LEN - 1] = 0;
     }
 
     ptr->value = value;
@@ -69,7 +68,6 @@ void map_free(Map* map) {
         map->head = ptr;
     }
     map->head = NULL;
-    map->tail = NULL;
     free(map);
 }
 
