@@ -82,6 +82,7 @@ int read_token(FILE* f, Token* t) {
     t->stripped[ptr] = 0;
     // len
     t->len = ptr;
+    t->instr.number = 0;
 
     // log
     if (ptr > 0) {
