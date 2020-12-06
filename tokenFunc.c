@@ -13,9 +13,6 @@
 
 void token_print(Token* token) {
     printf("\t%s:%d:%d\t\t'%.*s'\n", token->source.fname, token->source.lineno, token->len, token->len, token->stripped);
-    if (token->type == TT_INSTR || token->instr.number > 0) {
-        printf("Target: %d\n", token->instr.number);
-    }
 }
 
 /**
@@ -301,6 +298,7 @@ int token_get_operand(State* s, Token* t) {
     free(buff);
 
     if (n == NUMBER_ERROR) {
+        token_print(t);
         FAIL("Opcode operand parsing failed!\n");
         return -1;
     }
