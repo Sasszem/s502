@@ -10,11 +10,16 @@
 #include "tokenFunc.h"
 #include "logging.h"
 
+/**
+ * @file
+ * @brief implement processing steps 2-3
+ * @see pass_twothree.h
+ */
 
 int pass_two(State* s) {
     for (TokensListElement* ptr = s->tokens->head; ptr != NULL; ptr = ptr->next) {
         int ret = token_get_operand(s, ptr->token);
-        if (ret < 0 || (ptr->token->type==TT_INSTR && (ptr->token->instr.number < 0))) {
+        if (ret < 0 || (ptr->token->type == TT_INSTR && (ptr->token->instr.number < 0))) {
             if (ret == 0) {
                 ERROR("Undefined label reference!\n");
             }
@@ -35,19 +40,24 @@ int pass_two(State* s) {
  * The resulting buffer should be freed by the caller!
  */
 char* concat_bin(State* s, int* n) {
+    // count len
     int len = 0;
     for (TokensListElement* ptr = s->tokens->head; ptr != NULL; ptr = ptr->next) len += ptr->token->binSize;
     *n = len;
+
+    // alloc & fill buffer
     char* data = malloc(len);
     int j = 0;
     for (TokensListElement* ptr = s->tokens->head; ptr != NULL; ptr = ptr->next) {
         char* tdata;
         int n = token_compile(s, ptr->token, &tdata);
         if (n < 0) {
+            // some error happened
             free(data);
             free(tdata);
             return NULL;
         }
+        // write data
         for (int i = 0; i < ptr->token->binSize; i++) data[j + i] = tdata[i];
         j += ptr->token->binSize;
         free(tdata);
@@ -57,6 +67,8 @@ char* concat_bin(State* s, int* n) {
 }
 
 int write_data(State* s) {
+    // first concat, then write
+    // this way we only write (and destroy possible prev. file) if we can do that
     int l;
     char* data = concat_bin(s, &l);
     if (!data) {

@@ -4,6 +4,13 @@
 #include "state.h"
 
 /**
+ * @file
+ * @brief processing steps 2 and 3
+ *
+ * Check out [documentation on steps](assemble.md)
+ */
+
+/**
  * @brief compilation pass 2
  * @param s current state
  * @returns 0 on success, -1 on error
