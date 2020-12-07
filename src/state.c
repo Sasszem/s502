@@ -6,6 +6,12 @@
 #include "state.h"
 #include "logging.h"
 
+/**
+ * @file
+ * @brief implement State class methods
+ * @see state.h
+ */
+
 
 State* state_new() {
     State* ret = (State*)malloc(sizeof(State));

@@ -5,7 +5,13 @@
 #include "tokenslist.h"
 #include "instructions.h"
 
+/**
+ * @file
+ * @brief implement State class
+ */
+
 enum {
+    ///max string length for input/output files
     STATE_MAX_STRING_LEN = 32
 };
 
@@ -24,12 +30,20 @@ enum {
  *
  */
 typedef struct {
+    /// defined constants
     Map* defines;
+    /// label locations
     Map* labels;
+    /// tokens
     TokensList* tokens;
+    /// instruction data
     Instruction* instr;
+    /// PC (starts at 0)
     int PC;
-    char infile[STATE_MAX_STRING_LEN], outfile[STATE_MAX_STRING_LEN];
+    /// input file name
+    char infile[STATE_MAX_STRING_LEN];
+    /// output file name
+    char outfile[STATE_MAX_STRING_LEN];
 } State;
 
 /**
@@ -42,11 +56,13 @@ State* state_new();
 /**
  * @memberof State
  * @brief load instructions from a file
+ * @param fname file path relative to CWD
  * @returns 0 on success, -1 on error
  */
 int state_load_instr(State* s, char* fname);
 
 /**
+ * @memberof State
  * @brief free a State object and all associated memory
  * @param s state to free
  *
@@ -55,6 +71,7 @@ int state_load_instr(State* s, char* fname);
 void state_free(State* s);
 
 /**
+ * @memberof State
  * @brief parse command line arguments and update state
  * @param s state to update
  * @param argc as in main()
@@ -65,6 +82,7 @@ void state_free(State* s);
  * -o --out
  * -d --define
  * -l --log
+ *
  * last parameter is input file
  *
  * prints usage if has a problem
