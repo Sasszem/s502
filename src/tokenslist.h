@@ -4,11 +4,22 @@
 #include "token_t.h"
 
 /**
+ * @file
+ * @brief Implement TokensList
+ *
+ * Doubly-linked list for tokens
+ */
+
+/**
  * @brief An element of a TokensList
  */
 typedef struct TokensListElement {
+    /// Token value
     Token* token;
-    struct TokensListElement* next, * prev;
+    /// next element in list or NULL
+    struct TokensListElement* next;
+    /// prev element in list or NULL
+    struct TokensListElement* prev;
 } TokensListElement;
 
 /**

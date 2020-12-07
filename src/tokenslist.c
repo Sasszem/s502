@@ -8,6 +8,11 @@
 #include "tokenFunc.h"
 #include "logging.h"
 
+/**
+ * @file
+ * @brief implement TokensList methods
+ * @see TokensList
+ */
 
 TokensList* tokenslist_new() {
     TokensList* ret = (TokensList*)malloc(sizeof(TokensList));
