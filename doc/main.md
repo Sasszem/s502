@@ -5,7 +5,8 @@ Sixty-502 assember is a simple assembler program for the 6502 line of processors
 It is also my homework project in programming on BME.
 
 **IMPORTANT**   
-[Differences from my previously handed-in documentation](changes.md)
+- [Differences from my previously handed-in documentation](changes.md)   
+- [Said (outdated) documentation (in Hungarian)](https://docs.google.com/document/d/1sRYvylJ-WbkH5esaBcsoMkdLBEjIHsnn4SUdWfNLwUM/edit?usp=sharing)
 
 ## Introduction
 
