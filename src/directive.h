@@ -43,6 +43,8 @@ enum DIRCommand do_directive_token(State* s, TokensListElement* ptr, int skip);
 /**
  * @brief Compile a directive into binary data
  * @param dataptr return buffer for data
+ * @param s assembler state
+ * @param t token to compile
  * @returns number of bytes in buffer or -1 on error
  *
  * Simply relays it to compile_pad or compile_data

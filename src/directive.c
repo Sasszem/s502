@@ -389,6 +389,8 @@ enum DIRCommand do_directive_token(State* s, TokensListElement* ptr, int skip) {
 /**
  * @brief Compile a .data directive into binary data
  * @param dataptr return buffer for data
+ * @param s state object
+ * @param t token to compile
  * @returns number of bytes in buffer or -1 on error
  */
 int compile_data(State* s, Token* t, char** dataptr) {
@@ -460,6 +462,8 @@ ERR:
 /**
  * @brief Compile a .pad directive into binary data
  * @param dataptr return buffer for data
+ * @param s state object
+ * @param t token to compile
  * @returns number of bytes in buffer or -1 on error
  */
 int compile_pad(State* s, Token* t, char** dataptr) {

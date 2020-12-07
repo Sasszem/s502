@@ -57,6 +57,7 @@ State* state_new();
  * @memberof State
  * @brief load instructions from a file
  * @param fname file path relative to CWD
+ * @param s state to load into
  * @returns 0 on success, -1 on error
  */
 int state_load_instr(State* s, char* fname);

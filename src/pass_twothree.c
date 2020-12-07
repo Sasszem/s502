@@ -33,8 +33,8 @@ int pass_two(State* s) {
 
 /**
  * @brief compile tokens and concat binary data
- * @param list list of tokens to compile
  * @param n pointer to return length of binary data to
+ * @param s assembler state
  * @returns puffer to data or NULL on error
  *
  * The resulting buffer should be freed by the caller!

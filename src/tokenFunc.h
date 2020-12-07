@@ -36,6 +36,8 @@ int token_analyze_instruction(State* s, Token* t);
  * @memberof Token
  * @brief compile token into binary data
  * @param dataptr char** to return data to
+ * @param s assembler state
+ * @param t token to compile
  * @returns the number of bytes in dataptr
  */
 int token_compile(State* s, Token* t, char** dataptr);

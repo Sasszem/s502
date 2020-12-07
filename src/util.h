@@ -15,6 +15,8 @@ char* util_find_string_segment(char* ptr);
 
 /**
  * @brief Case-insensitive character compare
+ * @param a first char to compare
+ * @param b second char to compare
  * @returns 0 if the two characters match, 1 otherwise
  */
 int util_match_char(char a, char b);
@@ -22,6 +24,8 @@ int util_match_char(char a, char b);
 /**
  * @brief case-insensitive memcmp
  * @param count how many bytes to match
+ * @param first first string to compare
+ * @param second second string to compare
  * @returns 0 if the strings match, 1 otherwise
  */
 int util_match_string(char* first, char* second, int count);

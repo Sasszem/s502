@@ -30,6 +30,7 @@ int logging_level(int setlevel);
  /**
   * @brief Conditional macro. Wraps contents into a conditional based on log level.
   * @param LVL minimum log level
+  * @param x statement to run conditionally
   */
 #define LOGDO(LVL, x) if(logging_level(0) >= (LVL)) {x;};
 
