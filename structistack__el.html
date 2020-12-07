@@ -178,7 +178,7 @@ Data Fields</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="istack_8c_source.html#l00059">59</a> of file <a class="el" href="istack_8c_source.html">istack.c</a>.</p>
 <div class="fragment"><div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                                    {</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">while</span> (!<a class="code" href="structistack__el.html#af3c5c7c8b7eebe66f0a9ad79b658449a">istack_empty</a>(istack)) <a class="code" href="structistack__el.html#a6f0aca0b3c17e921ddeb769b27c719dd">istack_pop</a>(istack);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    free(istack);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(istack);</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
 </div><!-- fragment -->
 <p class="reference">Referenced by <a class="el" href="pass__one_8c_source.html#l00019">pass_one()</a>.</p>
@@ -207,7 +207,7 @@ Data Fields</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="istack_8c_source.html#l00015">15</a> of file <a class="el" href="istack_8c_source.html">istack.c</a>.</p>
 <div class="fragment"><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                        {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <a class="code" href="structistack__el.html">istack_ptr</a> head = malloc(<span class="keyword">sizeof</span>(<a class="code" href="structistack__el.html">istack_el</a>));</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <a class="code" href="structistack__el.html">istack_ptr</a> head = <a class="code" href="debugmalloc_8h.html#a535b58ab5aa48e2e86073e334d43fd32">malloc</a>(<span class="keyword">sizeof</span>(<a class="code" href="structistack__el.html">istack_el</a>));</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordflow">if</span> (!head) {</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;Memory allocation error in istack_new()!\n&quot;</span>);</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
@@ -250,7 +250,7 @@ Data Fields</h2></td></tr>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="structistack__el.html#af3c5c7c8b7eebe66f0a9ad79b658449a">istack_empty</a>(istack)) <span class="keywordflow">return</span> -1;</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="structistack__el.html">istack_ptr</a> elem = istack-&gt;<a class="code" href="structistack__el.html#a9eda67f2051550b7b26cdc7fe0979cee">next</a>;</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    istack-&gt;<a class="code" href="structistack__el.html#a9eda67f2051550b7b26cdc7fe0979cee">next</a> = elem-&gt;<a class="code" href="structistack__el.html#a9eda67f2051550b7b26cdc7fe0979cee">next</a>;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    free(elem);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(elem);</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
 </div><!-- fragment -->
@@ -298,7 +298,7 @@ Data Fields</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="istack_8c_source.html#l00031">31</a> of file <a class="el" href="istack_8c_source.html">istack.c</a>.</p>
 <div class="fragment"><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                                            {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="structistack__el.html">istack_ptr</a> elem = malloc(<span class="keyword">sizeof</span>(<a class="code" href="structistack__el.html">istack_el</a>));</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="structistack__el.html">istack_ptr</a> elem = <a class="code" href="debugmalloc_8h.html#a535b58ab5aa48e2e86073e334d43fd32">malloc</a>(<span class="keyword">sizeof</span>(<a class="code" href="structistack__el.html">istack_el</a>));</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordflow">if</span> (!elem) {</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;Memory allocation error in istack_push()!\n&quot;</span>);</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">return</span> -1;</div>
@@ -401,15 +401,17 @@ Data Fields</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/<a class="el" href="istack_8h_source.html">istack.h</a></li>
+<li>/github/workspace/src/<a class="el" href="istack_8h_source.html">istack.h</a></li>
 </ul>
 </div><!-- contents -->
 <div class="ttc" id="astructistack__el_html_addb7be50e995d4767e7607638b817463"><div class="ttname"><a href="structistack__el.html#addb7be50e995d4767e7607638b817463">istack_el::val</a></div><div class="ttdeci">int val</div><div class="ttdoc">stored value</div><div class="ttdef"><b>Definition:</b> <a href="istack_8h_source.html#l00018">istack.h:18</a></div></div>
 <div class="ttc" id="astructistack__el_html"><div class="ttname"><a href="structistack__el.html">istack_el</a></div><div class="ttdoc">very simple int stack</div><div class="ttdef"><b>Definition:</b> <a href="istack_8h_source.html#l00016">istack.h:16</a></div></div>
 <div class="ttc" id="astructistack__el_html_a9eda67f2051550b7b26cdc7fe0979cee"><div class="ttname"><a href="structistack__el.html#a9eda67f2051550b7b26cdc7fe0979cee">istack_el::next</a></div><div class="ttdeci">struct _istack * next</div><div class="ttdoc">pointer to next element or NULL</div><div class="ttdef"><b>Definition:</b> <a href="istack_8h_source.html#l00020">istack.h:20</a></div></div>
 <div class="ttc" id="astructistack__el_html_a6f0aca0b3c17e921ddeb769b27c719dd"><div class="ttname"><a href="structistack__el.html#a6f0aca0b3c17e921ddeb769b27c719dd">istack_el::istack_pop</a></div><div class="ttdeci">int istack_pop(istack_ptr istack)</div><div class="ttdoc">pop the top of the istack</div><div class="ttdef"><b>Definition:</b> <a href="istack_8c_source.html#l00044">istack.c:44</a></div></div>
+<div class="ttc" id="adebugmalloc_8h_html_a535b58ab5aa48e2e86073e334d43fd32"><div class="ttname"><a href="debugmalloc_8h.html#a535b58ab5aa48e2e86073e334d43fd32">malloc</a></div><div class="ttdeci">#define malloc(S)</div><div class="ttdef"><b>Definition:</b> <a href="debugmalloc_8h_source.html#l00478">debugmalloc.h:478</a></div></div>
+<div class="ttc" id="adebugmalloc_8h_html_aa7943e5d135734f6801bebcc37401fc0"><div class="ttname"><a href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a></div><div class="ttdeci">#define free(P)</div><div class="ttdef"><b>Definition:</b> <a href="debugmalloc_8h_source.html#l00481">debugmalloc.h:481</a></div></div>
 <div class="ttc" id="astructistack__el_html_af3c5c7c8b7eebe66f0a9ad79b658449a"><div class="ttname"><a href="structistack__el.html#af3c5c7c8b7eebe66f0a9ad79b658449a">istack_el::istack_empty</a></div><div class="ttdeci">int istack_empty(istack_ptr istack)</div><div class="ttdoc">check if the istack is empty or not</div><div class="ttdef"><b>Definition:</b> <a href="istack_8c_source.html#l00026">istack.c:26</a></div></div>
-<div class="ttc" id="alogging_8h_html_a02ce8a968600d004ba60858425c46307"><div class="ttname"><a href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a></div><div class="ttdeci">#define ERROR(...)</div><div class="ttdoc">Fancy-print an error (cause of faliure). Works like printf.</div><div class="ttdef"><b>Definition:</b> <a href="logging_8h_source.html#l00039">logging.h:39</a></div></div>
+<div class="ttc" id="alogging_8h_html_a02ce8a968600d004ba60858425c46307"><div class="ttname"><a href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a></div><div class="ttdeci">#define ERROR(...)</div><div class="ttdoc">Fancy-print an error (cause of faliure). Works like printf.</div><div class="ttdef"><b>Definition:</b> <a href="logging_8h_source.html#l00040">logging.h:40</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>s502 assembler: src/directive.c Source File</title>
+<title>s502 assembler: /github/workspace/src/directive.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -70,7 +70,7 @@ $(function() {
 <div class="title">directive.c</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="directive_8c.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="directive_8c.html#a7c99a33c337a4c0693c357e3f6cd69cf">    1</a></span>&#160;<span class="preprocessor">#include &quot;debugmalloc.h&quot;</span></div>
+<a href="directive_8c.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="directive_8c.html#a7c99a33c337a4c0693c357e3f6cd69cf">    1</a></span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="debugmalloc_8h.html">debugmalloc.h</a>&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;string.h&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
@@ -118,13 +118,13 @@ $(function() {
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    strncpy(def, line[1], <a class="code" href="map_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba9630cd29a166351fff1c84cddee03fca">MAP_MAX_KEY_LEN</a>);</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="struct_map.html#ab8252d2665a92ac2126ebe903d47aa7b">map_set</a>(s-&gt;<a class="code" href="struct_state.html#a30c3726fefca925ba16e136c7c975647">defines</a>, def, as_num) &lt; 0) <span class="keywordflow">goto</span> ERR;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    free(line);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(line);</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76a750a2df9751b5a48cb67c82c673d1690">DIR_NOP</a>;</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;ERR:</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <a class="code" href="logging_8h.html#ac8d1eaf65528f86b445cf6e45b2d72c9">FAIL</a>(<span class="stringliteral">&quot;process_define() failed!\n&quot;</span>);</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <a class="code" href="struct_token.html#aae8489024b27856ed2b1355ad42a16d7">token_print</a>(ptr-&gt;<a class="code" href="tokenslist_8h.html#a23f96669ea63d90d159cba4b20a6ff88">token</a>);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    free(line);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(line);</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76a5056a7b1d3501fa52dcb9d5e30952fd9">DIR_STOP</a>;</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
@@ -149,13 +149,13 @@ $(function() {
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="keywordflow">goto</span> ERR;</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    }</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    free(line);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(line);</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keywordflow">return</span> first_as_num &gt; second_as_num ? <a class="code" href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76a40674767988a16e87928a55e64b718d2">DIR_IF_TRUE</a> : <a class="code" href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76ac5d93497a6101cd5629ce2c04ea25bf6">DIR_IF_FALSE</a>;</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;ERR:</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <a class="code" href="struct_token.html#aae8489024b27856ed2b1355ad42a16d7">token_print</a>(ptr-&gt;<a class="code" href="tokenslist_8h.html#a23f96669ea63d90d159cba4b20a6ff88">token</a>);</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <a class="code" href="logging_8h.html#ac8d1eaf65528f86b445cf6e45b2d72c9">FAIL</a>(<span class="stringliteral">&quot;process_ifbeq() failed!\n&quot;</span>);</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    free(line);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(line);</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76a5056a7b1d3501fa52dcb9d5e30952fd9">DIR_STOP</a>;</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;}</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
@@ -183,7 +183,7 @@ $(function() {
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordflow">if</span> (n != 2) {</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;Mismatched number of arguments for &#39;%s&#39;\n&quot;</span>, line[0]); <span class="comment">// printc</span></div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        <a class="code" href="struct_token.html#aae8489024b27856ed2b1355ad42a16d7">token_print</a>(ptr-&gt;<a class="code" href="tokenslist_8h.html#a23f96669ea63d90d159cba4b20a6ff88">token</a>);</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        free(line);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(line);</div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76a5056a7b1d3501fa52dcb9d5e30952fd9">DIR_STOP</a>;</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    }</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
@@ -195,7 +195,7 @@ $(function() {
 <div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keywordflow">else</span></div>
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        printf(<span class="stringliteral">&quot;%d\n&quot;</span>, v);</div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160; </div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    free(line);</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(line);</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76a750a2df9751b5a48cb67c82c673d1690">DIR_NOP</a>;</div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;}</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160; </div>
@@ -204,19 +204,19 @@ $(function() {
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="keywordtype">char</span>** line = <a class="code" href="util_8c.html#a36c3fbcc382e045f8e7323bf5ac52fc2">util_split_string</a>(ptr-&gt;<a class="code" href="tokenslist_8h.html#a23f96669ea63d90d159cba4b20a6ff88">token</a>-&gt;<a class="code" href="struct_token.html#ad280060751df25e81ccbdd4d3c769e4f">stripped</a>, &amp;n);</div>
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keywordflow">if</span> (n != 2) {</div>
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;Mismatched number of arguments for &#39;%s&#39;\n&quot;</span>, line[0]); <span class="comment">// include</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        free(line);</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(line);</div>
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76a5056a7b1d3501fa52dcb9d5e30952fd9">DIR_STOP</a>;</div>
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    }</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <a class="code" href="struct_tokens_list.html">TokensList</a>* f = <a class="code" href="loadfile_8c.html#acefffca163f5a1f6a69456bf2b93e410">load_file</a>(line[1]);</div>
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="keywordflow">if</span> (f == NULL) {</div>
 <div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        <a class="code" href="logging_8h.html#ac8d1eaf65528f86b445cf6e45b2d72c9">FAIL</a>(<span class="stringliteral">&quot;Could not include file!\n&quot;</span>);</div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        <a class="code" href="struct_token.html#aae8489024b27856ed2b1355ad42a16d7">token_print</a>(ptr-&gt;<a class="code" href="tokenslist_8h.html#a23f96669ea63d90d159cba4b20a6ff88">token</a>);</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        free(line);</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(line);</div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76a5056a7b1d3501fa52dcb9d5e30952fd9">DIR_STOP</a>;</div>
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    }</div>
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <a class="code" href="struct_tokens_list.html#a21dc2b0a17aab183f2e390d678f993d7">tokenslist_insert</a>(s-&gt;<a class="code" href="struct_state.html#aa3d7d72c72b01dbf2dca005fcf06575d">tokens</a>, ptr, f);</div>
 <div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <a class="code" href="struct_tokens_list.html#a403aa433cf6fed4fba0b19c71a79b3a8">tokenslist_free</a>(f);</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    free(line);</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(line);</div>
 <div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76a750a2df9751b5a48cb67c82c673d1690">DIR_NOP</a>;</div>
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;}</div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160; </div>
@@ -227,11 +227,11 @@ $(function() {
 <div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    <span class="keywordflow">if</span> (n != 2) {</div>
 <div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;Mismatched number of arguments for &#39;%s&#39;\n&quot;</span>, line[0]); <span class="comment">// ifdef / ifndef</span></div>
 <div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        <a class="code" href="struct_token.html#aae8489024b27856ed2b1355ad42a16d7">token_print</a>(ptr-&gt;<a class="code" href="tokenslist_8h.html#a23f96669ea63d90d159cba4b20a6ff88">token</a>);</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        free(line);</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(line);</div>
 <div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76a5056a7b1d3501fa52dcb9d5e30952fd9">DIR_STOP</a>;</div>
 <div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    }</div>
 <div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <span class="keywordtype">int</span> num = <a class="code" href="struct_map.html#ad38d16d6eefc959bfa70556aefeb27b8">map_get</a>(s-&gt;<a class="code" href="struct_state.html#a30c3726fefca925ba16e136c7c975647">defines</a>, line[1]);</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    free(line);</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(line);</div>
 <div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160; </div>
 <div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <span class="keywordflow">return</span> num &lt; 0 ? <a class="code" href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76ac5d93497a6101cd5629ce2c04ea25bf6">DIR_IF_FALSE</a> : <a class="code" href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76a40674767988a16e87928a55e64b718d2">DIR_IF_TRUE</a>;</div>
 <div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;}</div>
@@ -261,12 +261,12 @@ $(function() {
 <div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        <span class="keywordflow">goto</span> ERR;</div>
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    }</div>
 <div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    s-&gt;<a class="code" href="struct_state.html#af83f268d231ef2167424588cb446d4a5">PC</a> = num;</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    free(line);</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(line);</div>
 <div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <a class="code" href="logging_8h.html#aa3f5a8f6d975418226ea490abc673b11">LOG</a>(3, <span class="stringliteral">&quot;PC = %d\n&quot;</span>, num);</div>
 <div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76a750a2df9751b5a48cb67c82c673d1690">DIR_NOP</a>;</div>
 <div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160; </div>
 <div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;ERR:</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    free(line);</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(line);</div>
 <div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <a class="code" href="logging_8h.html#ac8d1eaf65528f86b445cf6e45b2d72c9">FAIL</a>(<span class="stringliteral">&quot;process_org() failed!\n&quot;</span>);</div>
 <div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <a class="code" href="struct_token.html#aae8489024b27856ed2b1355ad42a16d7">token_print</a>(ptr-&gt;<a class="code" href="tokenslist_8h.html#a23f96669ea63d90d159cba4b20a6ff88">token</a>);</div>
 <div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76a5056a7b1d3501fa52dcb9d5e30952fd9">DIR_STOP</a>;</div>
@@ -286,7 +286,7 @@ $(function() {
 <div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;            size += 1;</div>
 <div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    }</div>
 <div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    ptr-&gt;<a class="code" href="tokenslist_8h.html#a23f96669ea63d90d159cba4b20a6ff88">token</a>-&gt;<a class="code" href="struct_token.html#a68e8242d263ec12fe0bdb9c146bfdf19">binSize</a> = size;</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    free(arr);</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(arr);</div>
 <div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76a750a2df9751b5a48cb67c82c673d1690">DIR_NOP</a>;</div>
 <div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;}</div>
 <div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160; </div>
@@ -310,12 +310,12 @@ $(function() {
 <div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;        <span class="keywordflow">goto</span> ERR;</div>
 <div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    }</div>
 <div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    ptr-&gt;<a class="code" href="tokenslist_8h.html#a23f96669ea63d90d159cba4b20a6ff88">token</a>-&gt;<a class="code" href="struct_token.html#a68e8242d263ec12fe0bdb9c146bfdf19">binSize</a> = size;</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    free(line);</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(line);</div>
 <div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76a750a2df9751b5a48cb67c82c673d1690">DIR_NOP</a>;</div>
 <div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160; </div>
 <div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;ERR:</div>
 <div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    <a class="code" href="struct_token.html#aae8489024b27856ed2b1355ad42a16d7">token_print</a>(ptr-&gt;<a class="code" href="tokenslist_8h.html#a23f96669ea63d90d159cba4b20a6ff88">token</a>);</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    free(line);</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(line);</div>
 <div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76a5056a7b1d3501fa52dcb9d5e30952fd9">DIR_STOP</a>;</div>
 <div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;}</div>
 <div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160; </div>
@@ -368,111 +368,112 @@ $(function() {
 <div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160; </div>
 <div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;<span class="comment">// PASS 3 DIRECTIVE COMPILATION //</span></div>
 <div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00394"></a><span class="lineno"><a class="line" href="directive_8c.html#ae39ac84c386c993b4ef142882d00f624">  394</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="directive_8c.html#ae39ac84c386c993b4ef142882d00f624">compile_data</a>(<a class="code" href="struct_state.html">State</a>* s, <a class="code" href="struct_token.html">Token</a>* t, <span class="keywordtype">char</span>** dataptr) {</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;    <span class="comment">// binsize is already calculated in pass 1 processing</span></div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;    <span class="keywordtype">char</span>* buff = malloc(t-&gt;<a class="code" href="struct_token.html#a68e8242d263ec12fe0bdb9c146bfdf19">binSize</a>);</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;    <span class="keywordtype">int</span> bufferIdx = 0; <span class="comment">// p is current index in buffer</span></div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160; </div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;    <span class="comment">// split string</span></div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;    <span class="keywordtype">int</span> n;</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;    <span class="keywordtype">char</span>** arr = <a class="code" href="util_8c.html#a36c3fbcc382e045f8e7323bf5ac52fc2">util_split_string</a>(t-&gt;<a class="code" href="struct_token.html#ad280060751df25e81ccbdd4d3c769e4f">stripped</a>, &amp;n);</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160; </div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt; n; i++) {</div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;        <a class="code" href="logging_8h.html#aa3f5a8f6d975418226ea490abc673b11">LOG</a>(4, <span class="stringliteral">&quot;.data entry: &#39;%s&#39;\n&quot;</span>, arr[i]);</div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160; </div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;        <span class="keywordflow">if</span> (arr[i][0] == <span class="charliteral">&#39;w&#39;</span>) {</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;            <span class="comment">// word (16 bit)</span></div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;            <span class="comment">// get word</span></div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;            <span class="keywordtype">int</span> num = <a class="code" href="number_8c.html#a89a3e2f1ad189635e084fbf8357090c3">number_get_number</a>(s, &amp;arr[i][2]);</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;            <span class="keywordflow">if</span> (num &lt; 0) {</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;                <span class="keywordflow">if</span> (num == <a class="code" href="number_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba601b47c4b974e7523871c64b15ad4b18">NUMBER_LABEL_NODEF</a>)</div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;                    <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;Label &#39;%s&#39; is not defined!\n&quot;</span>, &amp;arr[i][2]);</div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;                <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;Invalid word in .data!\n&quot;</span>);</div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;                <span class="keywordflow">goto</span> ERR;</div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;            }</div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160; </div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;            <span class="comment">// write</span></div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;            buff[bufferIdx++] = num &amp; 0xff;</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;            buff[bufferIdx++] = (num &gt;&gt; 8) &amp; 0xff;</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160; </div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (arr[i][0] == <span class="charliteral">&#39;&quot;&#39;</span>) {</div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;            <span class="comment">// strings</span></div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160; </div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;            <span class="keywordflow">if</span> (arr[i][strlen(arr[i]) - 1] != <span class="charliteral">&#39;&quot;&#39;</span>) {</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;                <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;Malformed string in .data! (no whitespaces allowed even in quotes)\n&quot;</span>);</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;                <span class="keywordflow">goto</span> ERR;</div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;            }</div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160; </div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;            <span class="comment">// write</span></div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 1; j &lt; strlen(arr[i]) - 1; j++)</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;                buff[bufferIdx++] = arr[i][j];</div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160; </div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;            <span class="comment">// byte</span></div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160; </div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;            <span class="keywordtype">int</span> num = <a class="code" href="number_8c.html#a89a3e2f1ad189635e084fbf8357090c3">number_get_number</a>(s, arr[i]);</div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;            <span class="keywordflow">if</span> (num &lt; 0 || num &gt;&gt; 8) {</div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;                <span class="keywordflow">if</span> (num == <a class="code" href="number_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba601b47c4b974e7523871c64b15ad4b18">NUMBER_LABEL_NODEF</a>)</div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;                    <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;Label &#39;%s&#39; is not defined!\n&quot;</span>, arr[i]);</div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;                <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;Invalid byte in .data!\n&quot;</span>);</div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;                <span class="keywordflow">goto</span> ERR;</div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;            }</div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160; </div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;            <span class="comment">// write</span></div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;            buff[bufferIdx++] = num &amp; 0xff;</div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;        }</div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;    }</div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;    *dataptr = buff;</div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;    free(arr);</div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;    <span class="keywordflow">return</span> t-&gt;<a class="code" href="struct_token.html#a68e8242d263ec12fe0bdb9c146bfdf19">binSize</a>;</div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160; </div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;ERR:</div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;    <a class="code" href="struct_token.html#aae8489024b27856ed2b1355ad42a16d7">token_print</a>(t);</div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;    free(arr);</div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;    free(buff);</div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;    *dataptr = NULL;</div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;    <span class="keywordflow">return</span> -1;</div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;}</div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160; </div>
-<div class="line"><a name="l00465"></a><span class="lineno"><a class="line" href="directive_8c.html#a5a6f6e693f3d806a9f962953969a83f9">  465</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="directive_8c.html#a5a6f6e693f3d806a9f962953969a83f9">compile_pad</a>(<a class="code" href="struct_state.html">State</a>* s, <a class="code" href="struct_token.html">Token</a>* t, <span class="keywordtype">char</span>** dataptr) {</div>
-<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;    <span class="keywordtype">int</span> padwith = 0;</div>
-<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160; </div>
-<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;    <span class="comment">// split string</span></div>
-<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;    <span class="keywordtype">int</span> n;</div>
-<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;    <span class="keywordtype">char</span>** arr = <a class="code" href="util_8c.html#a36c3fbcc382e045f8e7323bf5ac52fc2">util_split_string</a>(t-&gt;<a class="code" href="struct_token.html#ad280060751df25e81ccbdd4d3c769e4f">stripped</a>, &amp;n);</div>
+<div class="line"><a name="l00396"></a><span class="lineno"><a class="line" href="directive_8c.html#ae39ac84c386c993b4ef142882d00f624">  396</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="directive_8c.html#ae39ac84c386c993b4ef142882d00f624">compile_data</a>(<a class="code" href="struct_state.html">State</a>* s, <a class="code" href="struct_token.html">Token</a>* t, <span class="keywordtype">char</span>** dataptr) {</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;    <span class="comment">// binsize is already calculated in pass 1 processing</span></div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;    <span class="keywordtype">char</span>* buff = <a class="code" href="debugmalloc_8h.html#a535b58ab5aa48e2e86073e334d43fd32">malloc</a>(t-&gt;<a class="code" href="struct_token.html#a68e8242d263ec12fe0bdb9c146bfdf19">binSize</a>);</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;    <span class="keywordtype">int</span> bufferIdx = 0; <span class="comment">// p is current index in buffer</span></div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160; </div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;    <span class="comment">// split string</span></div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;    <span class="keywordtype">int</span> n;</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;    <span class="keywordtype">char</span>** arr = <a class="code" href="util_8c.html#a36c3fbcc382e045f8e7323bf5ac52fc2">util_split_string</a>(t-&gt;<a class="code" href="struct_token.html#ad280060751df25e81ccbdd4d3c769e4f">stripped</a>, &amp;n);</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160; </div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt; n; i++) {</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;        <a class="code" href="logging_8h.html#aa3f5a8f6d975418226ea490abc673b11">LOG</a>(4, <span class="stringliteral">&quot;.data entry: &#39;%s&#39;\n&quot;</span>, arr[i]);</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160; </div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;        <span class="keywordflow">if</span> (arr[i][0] == <span class="charliteral">&#39;w&#39;</span>) {</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;            <span class="comment">// word (16 bit)</span></div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;            <span class="comment">// get word</span></div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;            <span class="keywordtype">int</span> num = <a class="code" href="number_8c.html#a89a3e2f1ad189635e084fbf8357090c3">number_get_number</a>(s, &amp;arr[i][2]);</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;            <span class="keywordflow">if</span> (num &lt; 0) {</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;                <span class="keywordflow">if</span> (num == <a class="code" href="number_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba601b47c4b974e7523871c64b15ad4b18">NUMBER_LABEL_NODEF</a>)</div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;                    <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;Label &#39;%s&#39; is not defined!\n&quot;</span>, &amp;arr[i][2]);</div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;                <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;Invalid word in .data!\n&quot;</span>);</div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;                <span class="keywordflow">goto</span> ERR;</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;            }</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160; </div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;            <span class="comment">// write</span></div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;            buff[bufferIdx++] = num &amp; 0xff;</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;            buff[bufferIdx++] = (num &gt;&gt; 8) &amp; 0xff;</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160; </div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (arr[i][0] == <span class="charliteral">&#39;&quot;&#39;</span>) {</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;            <span class="comment">// strings</span></div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160; </div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;            <span class="keywordflow">if</span> (arr[i][strlen(arr[i]) - 1] != <span class="charliteral">&#39;&quot;&#39;</span>) {</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;                <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;Malformed string in .data! (no whitespaces allowed even in quotes)\n&quot;</span>);</div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;                <span class="keywordflow">goto</span> ERR;</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;            }</div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160; </div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;            <span class="comment">// write</span></div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 1; j &lt; strlen(arr[i]) - 1; j++)</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;                buff[bufferIdx++] = arr[i][j];</div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160; </div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;            <span class="comment">// byte</span></div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160; </div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;            <span class="keywordtype">int</span> num = <a class="code" href="number_8c.html#a89a3e2f1ad189635e084fbf8357090c3">number_get_number</a>(s, arr[i]);</div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;            <span class="keywordflow">if</span> (num &lt; 0 || num &gt;&gt; 8) {</div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;                <span class="keywordflow">if</span> (num == <a class="code" href="number_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba601b47c4b974e7523871c64b15ad4b18">NUMBER_LABEL_NODEF</a>)</div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;                    <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;Label &#39;%s&#39; is not defined!\n&quot;</span>, arr[i]);</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;                <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;Invalid byte in .data!\n&quot;</span>);</div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;                <span class="keywordflow">goto</span> ERR;</div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;            }</div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160; </div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;            <span class="comment">// write</span></div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;            buff[bufferIdx++] = num &amp; 0xff;</div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;        }</div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;    }</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;    *dataptr = buff;</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(arr);</div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;    <span class="keywordflow">return</span> t-&gt;<a class="code" href="struct_token.html#a68e8242d263ec12fe0bdb9c146bfdf19">binSize</a>;</div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160; </div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;ERR:</div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;    <a class="code" href="struct_token.html#aae8489024b27856ed2b1355ad42a16d7">token_print</a>(t);</div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(arr);</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(buff);</div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;    *dataptr = NULL;</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;}</div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160; </div>
+<div class="line"><a name="l00469"></a><span class="lineno"><a class="line" href="directive_8c.html#a5a6f6e693f3d806a9f962953969a83f9">  469</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="directive_8c.html#a5a6f6e693f3d806a9f962953969a83f9">compile_pad</a>(<a class="code" href="struct_state.html">State</a>* s, <a class="code" href="struct_token.html">Token</a>* t, <span class="keywordtype">char</span>** dataptr) {</div>
+<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;    <span class="keywordtype">int</span> padwith = 0;</div>
 <div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160; </div>
-<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160; </div>
-<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;    <span class="keywordflow">if</span> (n == 3) {</div>
-<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;        padwith = <a class="code" href="number_8c.html#a89a3e2f1ad189635e084fbf8357090c3">number_get_number</a>(s, arr[2]);</div>
-<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;        <span class="keywordflow">if</span> (padwith &lt; 0 || padwith &gt;&gt; 8) {</div>
-<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;            <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;Can not pad with invalid value!\n&quot;</span>);</div>
-<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;            <a class="code" href="struct_token.html#aae8489024b27856ed2b1355ad42a16d7">token_print</a>(t);</div>
-<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;            *dataptr = NULL;</div>
-<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;            free(arr);</div>
-<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;            <span class="keywordflow">return</span> -1;</div>
-<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;        }</div>
-<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;    }</div>
-<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160; </div>
-<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;    <span class="comment">// allocate buffer and fill it</span></div>
-<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;    <span class="keywordtype">char</span>* buff = malloc(t-&gt;<a class="code" href="struct_token.html#a68e8242d263ec12fe0bdb9c146bfdf19">binSize</a>);</div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;    memset(buff, padwith, t-&gt;<a class="code" href="struct_token.html#a68e8242d263ec12fe0bdb9c146bfdf19">binSize</a>);</div>
+<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;    <span class="comment">// split string</span></div>
+<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;    <span class="keywordtype">int</span> n;</div>
+<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;    <span class="keywordtype">char</span>** arr = <a class="code" href="util_8c.html#a36c3fbcc382e045f8e7323bf5ac52fc2">util_split_string</a>(t-&gt;<a class="code" href="struct_token.html#ad280060751df25e81ccbdd4d3c769e4f">stripped</a>, &amp;n);</div>
+<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160; </div>
+<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160; </div>
+<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;    <span class="keywordflow">if</span> (n == 3) {</div>
+<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;        padwith = <a class="code" href="number_8c.html#a89a3e2f1ad189635e084fbf8357090c3">number_get_number</a>(s, arr[2]);</div>
+<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;        <span class="keywordflow">if</span> (padwith &lt; 0 || padwith &gt;&gt; 8) {</div>
+<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;            <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;Can not pad with invalid value!\n&quot;</span>);</div>
+<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;            <a class="code" href="struct_token.html#aae8489024b27856ed2b1355ad42a16d7">token_print</a>(t);</div>
+<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;            *dataptr = NULL;</div>
+<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;            <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(arr);</div>
+<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;            <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;        }</div>
+<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;    }</div>
 <div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160; </div>
-<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;    <span class="comment">// return</span></div>
-<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;    *dataptr = buff;</div>
-<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;    free(arr);</div>
-<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;    <span class="keywordflow">return</span> t-&gt;<a class="code" href="struct_token.html#a68e8242d263ec12fe0bdb9c146bfdf19">binSize</a>;</div>
-<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;}</div>
-<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160; </div>
-<div class="line"><a name="l00494"></a><span class="lineno"><a class="line" href="directive_8h.html#af2408851d8cb356c7552f2176314784a">  494</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="directive_8c.html#af2408851d8cb356c7552f2176314784a">directive_compile</a>(<a class="code" href="struct_state.html">State</a>* s, <a class="code" href="struct_token.html">Token</a>* t, <span class="keywordtype">char</span>** dataptr) {</div>
-<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;    <span class="comment">// data or pad</span></div>
-<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="util_8c.html#ab54ff38e04506112faec5140a722a2aa">util_match_string</a>(t-&gt;<a class="code" href="struct_token.html#ad280060751df25e81ccbdd4d3c769e4f">stripped</a>, <span class="stringliteral">&quot;.data&quot;</span>, strlen(<span class="stringliteral">&quot;.data&quot;</span>)) == 0)</div>
-<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="directive_8c.html#ae39ac84c386c993b4ef142882d00f624">compile_data</a>(s, t, dataptr);</div>
-<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="util_8c.html#ab54ff38e04506112faec5140a722a2aa">util_match_string</a>(t-&gt;<a class="code" href="struct_token.html#ad280060751df25e81ccbdd4d3c769e4f">stripped</a>, <span class="stringliteral">&quot;.pad&quot;</span>, strlen(<span class="stringliteral">&quot;.pad&quot;</span>)) == 0)</div>
-<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="directive_8c.html#a5a6f6e693f3d806a9f962953969a83f9">compile_pad</a>(s, t, dataptr);</div>
-<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;    <span class="keywordflow">return</span> -1;</div>
-<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;}</div>
+<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;    <span class="comment">// allocate buffer and fill it</span></div>
+<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;    <span class="keywordtype">char</span>* buff = <a class="code" href="debugmalloc_8h.html#a535b58ab5aa48e2e86073e334d43fd32">malloc</a>(t-&gt;<a class="code" href="struct_token.html#a68e8242d263ec12fe0bdb9c146bfdf19">binSize</a>);</div>
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;    memset(buff, padwith, t-&gt;<a class="code" href="struct_token.html#a68e8242d263ec12fe0bdb9c146bfdf19">binSize</a>);</div>
+<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160; </div>
+<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;    <span class="comment">// return</span></div>
+<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;    *dataptr = buff;</div>
+<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(arr);</div>
+<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;    <span class="keywordflow">return</span> t-&gt;<a class="code" href="struct_token.html#a68e8242d263ec12fe0bdb9c146bfdf19">binSize</a>;</div>
+<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;}</div>
+<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160; </div>
+<div class="line"><a name="l00498"></a><span class="lineno"><a class="line" href="directive_8h.html#af2408851d8cb356c7552f2176314784a">  498</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="directive_8c.html#af2408851d8cb356c7552f2176314784a">directive_compile</a>(<a class="code" href="struct_state.html">State</a>* s, <a class="code" href="struct_token.html">Token</a>* t, <span class="keywordtype">char</span>** dataptr) {</div>
+<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;    <span class="comment">// data or pad</span></div>
+<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="util_8c.html#ab54ff38e04506112faec5140a722a2aa">util_match_string</a>(t-&gt;<a class="code" href="struct_token.html#ad280060751df25e81ccbdd4d3c769e4f">stripped</a>, <span class="stringliteral">&quot;.data&quot;</span>, strlen(<span class="stringliteral">&quot;.data&quot;</span>)) == 0)</div>
+<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="directive_8c.html#ae39ac84c386c993b4ef142882d00f624">compile_data</a>(s, t, dataptr);</div>
+<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="util_8c.html#ab54ff38e04506112faec5140a722a2aa">util_match_string</a>(t-&gt;<a class="code" href="struct_token.html#ad280060751df25e81ccbdd4d3c769e4f">stripped</a>, <span class="stringliteral">&quot;.pad&quot;</span>, strlen(<span class="stringliteral">&quot;.pad&quot;</span>)) == 0)</div>
+<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="directive_8c.html#a5a6f6e693f3d806a9f962953969a83f9">compile_pad</a>(s, t, dataptr);</div>
+<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="astruct_tokens_list_html_a403aa433cf6fed4fba0b19c71a79b3a8"><div class="ttname"><a href="struct_tokens_list.html#a403aa433cf6fed4fba0b19c71a79b3a8">TokensList::tokenslist_free</a></div><div class="ttdeci">void tokenslist_free(TokensList *list)</div><div class="ttdoc">free ALL memory associated with the TokensList object</div><div class="ttdef"><b>Definition:</b> <a href="tokenslist_8c_source.html#l00078">tokenslist.c:78</a></div></div>
+<div class="ttc" id="adebugmalloc_8h_html"><div class="ttname"><a href="debugmalloc_8h.html">debugmalloc.h</a></div></div>
 <div class="ttc" id="astruct_token_html_ad280060751df25e81ccbdd4d3c769e4f"><div class="ttname"><a href="struct_token.html#ad280060751df25e81ccbdd4d3c769e4f">Token::stripped</a></div><div class="ttdeci">char stripped[TOKEN_BUFFER_SIZE]</div><div class="ttdoc">stripped text from source file</div><div class="ttdef"><b>Definition:</b> <a href="token__t_8h_source.html#l00055">token_t.h:55</a></div></div>
 <div class="ttc" id="aloadfile_8c_html_acefffca163f5a1f6a69456bf2b93e410"><div class="ttname"><a href="loadfile_8c.html#acefffca163f5a1f6a69456bf2b93e410">load_file</a></div><div class="ttdeci">TokensList * load_file(char *name)</div><div class="ttdoc">load and parse one file</div><div class="ttdef"><b>Definition:</b> <a href="loadfile_8c_source.html#l00166">loadfile.c:166</a></div></div>
 <div class="ttc" id="adirective_8h_html_a3d349ebc0b62b8e1386112e1d74c2e76a5056a7b1d3501fa52dcb9d5e30952fd9"><div class="ttname"><a href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76a5056a7b1d3501fa52dcb9d5e30952fd9">DIR_STOP</a></div><div class="ttdeci">@ DIR_STOP</div><div class="ttdoc">An error occured, stop compilation.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8h_source.html#l00021">directive.h:21</a></div></div>
@@ -501,8 +502,9 @@ $(function() {
 <div class="ttc" id="adirective_8c_html_a1a5d3cc38902fc943433209a95d262d4"><div class="ttname"><a href="directive_8c.html#a1a5d3cc38902fc943433209a95d262d4">process_pad</a></div><div class="ttdeci">enum DIRCommand process_pad(State *s, TokensListElement *ptr)</div><div class="ttdoc">Process a pad directive.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8c_source.html#l00001">directive.c:298</a></div></div>
 <div class="ttc" id="autil_8c_html_ab54ff38e04506112faec5140a722a2aa"><div class="ttname"><a href="util_8c.html#ab54ff38e04506112faec5140a722a2aa">util_match_string</a></div><div class="ttdeci">int util_match_string(char *first, char *second, int count)</div><div class="ttdoc">case-insensitive memcmp</div><div class="ttdef"><b>Definition:</b> <a href="util_8c_source.html#l00032">util.c:32</a></div></div>
 <div class="ttc" id="atokenslist_8h_html_struct_tokens_list_element"><div class="ttname"><a href="tokenslist_8h.html#struct_tokens_list_element">TokensListElement</a></div><div class="ttdoc">An element of a TokensList.</div><div class="ttdef"><b>Definition:</b> <a href="tokenslist_8h_source.html#l00016">tokenslist.h:16</a></div></div>
-<div class="ttc" id="adirective_8c_html_ae39ac84c386c993b4ef142882d00f624"><div class="ttname"><a href="directive_8c.html#ae39ac84c386c993b4ef142882d00f624">compile_data</a></div><div class="ttdeci">int compile_data(State *s, Token *t, char **dataptr)</div><div class="ttdoc">Compile a .data directive into binary data.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8c_source.html#l00394">directive.c:394</a></div></div>
+<div class="ttc" id="adirective_8c_html_ae39ac84c386c993b4ef142882d00f624"><div class="ttname"><a href="directive_8c.html#ae39ac84c386c993b4ef142882d00f624">compile_data</a></div><div class="ttdeci">int compile_data(State *s, Token *t, char **dataptr)</div><div class="ttdoc">Compile a .data directive into binary data.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8c_source.html#l00396">directive.c:396</a></div></div>
 <div class="ttc" id="adirective_8c_html_aec0c1b07ba9910b74f29d1fb4ca9fa22"><div class="ttname"><a href="directive_8c.html#aec0c1b07ba9910b74f29d1fb4ca9fa22">do_directive_token</a></div><div class="ttdeci">enum DIRCommand do_directive_token(State *s, TokensListElement *ptr, int skip)</div><div class="ttdoc">process a directive token</div><div class="ttdef"><b>Definition:</b> <a href="directive_8c_source.html#l00001">directive.c:362</a></div></div>
+<div class="ttc" id="adebugmalloc_8h_html_a535b58ab5aa48e2e86073e334d43fd32"><div class="ttname"><a href="debugmalloc_8h.html#a535b58ab5aa48e2e86073e334d43fd32">malloc</a></div><div class="ttdeci">#define malloc(S)</div><div class="ttdef"><b>Definition:</b> <a href="debugmalloc_8h_source.html#l00478">debugmalloc.h:478</a></div></div>
 <div class="ttc" id="adirective_8h_html_a3d349ebc0b62b8e1386112e1d74c2e76"><div class="ttname"><a href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76">DIRCommand</a></div><div class="ttdeci">DIRCommand</div><div class="ttdoc">Internal command type for directives.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8h_source.html#l00019">directive.h:19</a></div></div>
 <div class="ttc" id="adirective_8h_html_a3d349ebc0b62b8e1386112e1d74c2e76ac5d93497a6101cd5629ce2c04ea25bf6"><div class="ttname"><a href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76ac5d93497a6101cd5629ce2c04ea25bf6">DIR_IF_FALSE</a></div><div class="ttdeci">@ DIR_IF_FALSE</div><div class="ttdoc">A conditional evaluated to false.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8h_source.html#l00027">directive.h:27</a></div></div>
 <div class="ttc" id="atoken__t_8h_html"><div class="ttname"><a href="token__t_8h.html">token_t.h</a></div><div class="ttdoc">token type struct</div></div>
@@ -510,12 +512,13 @@ $(function() {
 <div class="ttc" id="astruct_tokens_list_html"><div class="ttname"><a href="struct_tokens_list.html">TokensList</a></div><div class="ttdoc">A doubly-linked list for storing Tokens.</div><div class="ttdef"><b>Definition:</b> <a href="tokenslist_8h_source.html#l00029">tokenslist.h:29</a></div></div>
 <div class="ttc" id="adirective_8c_html_a355b2dcf6856c9b879748bc576e421fc"><div class="ttname"><a href="directive_8c.html#a355b2dcf6856c9b879748bc576e421fc">process_data</a></div><div class="ttdeci">enum DIRCommand process_data(State *s, TokensListElement *ptr)</div><div class="ttdoc">Process a data directive.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8c_source.html#l00001">directive.c:275</a></div></div>
 <div class="ttc" id="astruct_token_html_aae8489024b27856ed2b1355ad42a16d7"><div class="ttname"><a href="struct_token.html#aae8489024b27856ed2b1355ad42a16d7">Token::token_print</a></div><div class="ttdeci">void token_print(Token *token)</div><div class="ttdoc">Pretty-print one token, with its source and length.</div><div class="ttdef"><b>Definition:</b> <a href="token_func_8c_source.html#l00020">tokenFunc.c:20</a></div></div>
-<div class="ttc" id="adirective_8c_html_af2408851d8cb356c7552f2176314784a"><div class="ttname"><a href="directive_8c.html#af2408851d8cb356c7552f2176314784a">directive_compile</a></div><div class="ttdeci">int directive_compile(State *s, Token *t, char **dataptr)</div><div class="ttdoc">Compile a directive into binary data.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8c_source.html#l00494">directive.c:494</a></div></div>
+<div class="ttc" id="adirective_8c_html_af2408851d8cb356c7552f2176314784a"><div class="ttname"><a href="directive_8c.html#af2408851d8cb356c7552f2176314784a">directive_compile</a></div><div class="ttdeci">int directive_compile(State *s, Token *t, char **dataptr)</div><div class="ttdoc">Compile a directive into binary data.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8c_source.html#l00498">directive.c:498</a></div></div>
 <div class="ttc" id="adirective_8h_html_a3d349ebc0b62b8e1386112e1d74c2e76a40674767988a16e87928a55e64b718d2"><div class="ttname"><a href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76a40674767988a16e87928a55e64b718d2">DIR_IF_TRUE</a></div><div class="ttdeci">@ DIR_IF_TRUE</div><div class="ttdoc">A conditional evaluated to true.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8h_source.html#l00025">directive.h:25</a></div></div>
 <div class="ttc" id="astruct_map_html_ad38d16d6eefc959bfa70556aefeb27b8"><div class="ttname"><a href="struct_map.html#ad38d16d6eefc959bfa70556aefeb27b8">Map::map_get</a></div><div class="ttdeci">int map_get(Map *map, char *name)</div><div class="ttdoc">Get the value of a key.</div><div class="ttdef"><b>Definition:</b> <a href="map_8c_source.html#l00075">map.c:75</a></div></div>
+<div class="ttc" id="adebugmalloc_8h_html_aa7943e5d135734f6801bebcc37401fc0"><div class="ttname"><a href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a></div><div class="ttdeci">#define free(P)</div><div class="ttdef"><b>Definition:</b> <a href="debugmalloc_8h_source.html#l00481">debugmalloc.h:481</a></div></div>
 <div class="ttc" id="adirective_8c_html_aa0c3914cdc72bfbf50ad14dd9694293d"><div class="ttname"><a href="directive_8c.html#aa0c3914cdc72bfbf50ad14dd9694293d">process_ifndef</a></div><div class="ttdeci">enum DIRCommand process_ifndef(State *s, TokensListElement *ptr)</div><div class="ttdoc">Process an ifndef directive.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8c_source.html#l00001">directive.c:227</a></div></div>
 <div class="ttc" id="alogging_8h_html"><div class="ttname"><a href="logging_8h.html">logging.h</a></div><div class="ttdoc">logging and fancy-printing</div></div>
-<div class="ttc" id="adirective_8c_html_a5a6f6e693f3d806a9f962953969a83f9"><div class="ttname"><a href="directive_8c.html#a5a6f6e693f3d806a9f962953969a83f9">compile_pad</a></div><div class="ttdeci">int compile_pad(State *s, Token *t, char **dataptr)</div><div class="ttdoc">Compile a .pad directive into binary data.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8c_source.html#l00465">directive.c:465</a></div></div>
+<div class="ttc" id="adirective_8c_html_a5a6f6e693f3d806a9f962953969a83f9"><div class="ttname"><a href="directive_8c.html#a5a6f6e693f3d806a9f962953969a83f9">compile_pad</a></div><div class="ttdeci">int compile_pad(State *s, Token *t, char **dataptr)</div><div class="ttdoc">Compile a .pad directive into binary data.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8c_source.html#l00469">directive.c:469</a></div></div>
 <div class="ttc" id="amap_8h_html_a06fc87d81c62e9abb8790b6e5713c55ba9630cd29a166351fff1c84cddee03fca"><div class="ttname"><a href="map_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba9630cd29a166351fff1c84cddee03fca">MAP_MAX_KEY_LEN</a></div><div class="ttdeci">@ MAP_MAX_KEY_LEN</div><div class="ttdoc">Key buffer size for Map.</div><div class="ttdef"><b>Definition:</b> <a href="map_8h_source.html#l00015">map.h:14</a></div></div>
 <div class="ttc" id="astruct_state_html_af83f268d231ef2167424588cb446d4a5"><div class="ttname"><a href="struct_state.html#af83f268d231ef2167424588cb446d4a5">State::PC</a></div><div class="ttdeci">int PC</div><div class="ttdoc">PC (starts at 0)</div><div class="ttdef"><b>Definition:</b> <a href="state_8h_source.html#l00042">state.h:42</a></div></div>
 <div class="ttc" id="aistack_8h_html"><div class="ttname"><a href="istack_8h.html">istack.h</a></div><div class="ttdoc">iStack class for storing non-negative integers</div></div>
@@ -527,8 +530,8 @@ $(function() {
 <div class="ttc" id="anumber_8c_html_a89a3e2f1ad189635e084fbf8357090c3"><div class="ttname"><a href="number_8c.html#a89a3e2f1ad189635e084fbf8357090c3">number_get_number</a></div><div class="ttdeci">int number_get_number(State *s, char *str)</div><div class="ttdoc">interpret a string as a constant, label or number</div><div class="ttdef"><b>Definition:</b> <a href="number_8c_source.html#l00075">number.c:75</a></div></div>
 <div class="ttc" id="adirective_8c_html_a7b5c25fb3368620c55c835af4184a4a6"><div class="ttname"><a href="directive_8c.html#a7b5c25fb3368620c55c835af4184a4a6">process_ifbeq</a></div><div class="ttdeci">enum DIRCommand process_ifbeq(State *s, TokensListElement *ptr)</div><div class="ttdoc">Process an ifbeq directive.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8c_source.html#l00001">directive.c:90</a></div></div>
 <div class="ttc" id="adirective_8c_html_a7c99a33c337a4c0693c357e3f6cd69cf"><div class="ttname"><a href="directive_8c.html#a7c99a33c337a4c0693c357e3f6cd69cf">tokenprocessor</a></div><div class="ttdeci">enum DIRCommand(* tokenprocessor)(State *, TokensListElement *ptr)</div><div class="ttdoc">Token processor function.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8c_source.html#l00001">directive.c:40</a></div></div>
-<div class="ttc" id="alogging_8h_html_ac8d1eaf65528f86b445cf6e45b2d72c9"><div class="ttname"><a href="logging_8h.html#ac8d1eaf65528f86b445cf6e45b2d72c9">FAIL</a></div><div class="ttdeci">#define FAIL(...)</div><div class="ttdoc">Fancy-print a fail (failed step). Works like printf.</div><div class="ttdef"><b>Definition:</b> <a href="logging_8h_source.html#l00044">logging.h:44</a></div></div>
-<div class="ttc" id="alogging_8h_html_a02ce8a968600d004ba60858425c46307"><div class="ttname"><a href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a></div><div class="ttdeci">#define ERROR(...)</div><div class="ttdoc">Fancy-print an error (cause of faliure). Works like printf.</div><div class="ttdef"><b>Definition:</b> <a href="logging_8h_source.html#l00039">logging.h:39</a></div></div>
+<div class="ttc" id="alogging_8h_html_ac8d1eaf65528f86b445cf6e45b2d72c9"><div class="ttname"><a href="logging_8h.html#ac8d1eaf65528f86b445cf6e45b2d72c9">FAIL</a></div><div class="ttdeci">#define FAIL(...)</div><div class="ttdoc">Fancy-print a fail (failed step). Works like printf.</div><div class="ttdef"><b>Definition:</b> <a href="logging_8h_source.html#l00045">logging.h:45</a></div></div>
+<div class="ttc" id="alogging_8h_html_a02ce8a968600d004ba60858425c46307"><div class="ttname"><a href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a></div><div class="ttdeci">#define ERROR(...)</div><div class="ttdoc">Fancy-print an error (cause of faliure). Works like printf.</div><div class="ttdef"><b>Definition:</b> <a href="logging_8h_source.html#l00040">logging.h:40</a></div></div>
 <div class="ttc" id="anumber_8h_html_a06fc87d81c62e9abb8790b6e5713c55ba601b47c4b974e7523871c64b15ad4b18"><div class="ttname"><a href="number_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba601b47c4b974e7523871c64b15ad4b18">NUMBER_LABEL_NODEF</a></div><div class="ttdeci">@ NUMBER_LABEL_NODEF</div><div class="ttdoc">Undefined label.</div><div class="ttdef"><b>Definition:</b> <a href="number_8h_source.html#l00017">number.h:17</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

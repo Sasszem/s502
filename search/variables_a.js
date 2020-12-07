@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['skipprocessors_299',['skipProcessors',['../directive_8c.html#ade1a286d01a880e5c460e773e4930449',1,'directive.c']]],
-  ['source_300',['source',['../struct_token.html#a3ce3f4d4c534b2a3c9a0af959e76a6f5',1,'Token']]],
-  ['stripped_301',['stripped',['../struct_token.html#ad280060751df25e81ccbdd4d3c769e4f',1,'Token']]]
+  ['object_390',['object',['../_c_o_n_v_e_n_t_i_o_n_s_8txt.html#abf4a30c2dce8d60bbc29a7192b130b44',1,'CONVENTIONS.txt']]],
+  ['opcs_391',['opcs',['../struct_instruction.html#aad31aee4109714093506ba934b465ed2',1,'Instruction']]],
+  ['outfile_392',['outfile',['../struct_state.html#a00a6492f59e0a4626a4c066bc70e9292',1,'State']]]
 ];

@@ -1,5 +1,25 @@
 var searchData=
 [
-  ['directive_5fcompile_216',['directive_compile',['../directive_8c.html#af2408851d8cb356c7552f2176314784a',1,'directive_compile(State *s, Token *t, char **dataptr):&#160;directive.c'],['../directive_8h.html#af2408851d8cb356c7552f2176314784a',1,'directive_compile(State *s, Token *t, char **dataptr):&#160;directive.c']]],
-  ['do_5fdirective_5ftoken_217',['do_directive_token',['../directive_8c.html#aec0c1b07ba9910b74f29d1fb4ca9fa22',1,'do_directive_token(State *s, TokensListElement *ptr, int skip):&#160;directive.c'],['../directive_8h.html#aec0c1b07ba9910b74f29d1fb4ca9fa22',1,'do_directive_token(State *s, TokensListElement *ptr, int skip):&#160;directive.c']]]
+  ['debugmalloc_5fallocated_5fcount_284',['debugmalloc_allocated_count',['../debugmalloc_8h.html#a5d2af5f6945f51ba6be581d15c2d2cd1',1,'debugmalloc.h']]],
+  ['debugmalloc_5fatexit_5fdump_285',['debugmalloc_atexit_dump',['../debugmalloc_8h.html#aeecc9624e06a6d448eb4588ec314f034',1,'debugmalloc.h']]],
+  ['debugmalloc_5fcanary_5fok_286',['debugmalloc_canary_ok',['../debugmalloc_8h.html#a7cce5ac3d74d6ba3bcc60f9e87a655e5',1,'debugmalloc.h']]],
+  ['debugmalloc_5fcreate_287',['debugmalloc_create',['../debugmalloc_8h.html#aab3876bb3571062c705e80ca0f784c34',1,'debugmalloc.h']]],
+  ['debugmalloc_5fdump_288',['debugmalloc_dump',['../debugmalloc_8h.html#a265eedf9a85f7ae8dc3d4f075878a42a',1,'debugmalloc.h']]],
+  ['debugmalloc_5fdump_5felem_289',['debugmalloc_dump_elem',['../debugmalloc_8h.html#a67f270a84eff0b1491ee6adafb5e3b49',1,'debugmalloc.h']]],
+  ['debugmalloc_5fdump_5fmemory_290',['debugmalloc_dump_memory',['../debugmalloc_8h.html#ad415effac3de0ce0e60ac6d4e44f8cf4',1,'debugmalloc.h']]],
+  ['debugmalloc_5ffind_291',['debugmalloc_find',['../debugmalloc_8h.html#ae0c45151f81eb41937783c53d6d868dc',1,'debugmalloc.h']]],
+  ['debugmalloc_5ffree_5ffull_292',['debugmalloc_free_full',['../debugmalloc_8h.html#aae2ed05eea0b0a287073d05b52adee63',1,'debugmalloc.h']]],
+  ['debugmalloc_5ffree_5finner_293',['debugmalloc_free_inner',['../debugmalloc_8h.html#ac577afcbec33a6c977e75945a67ebdcf',1,'debugmalloc.h']]],
+  ['debugmalloc_5fhash_294',['debugmalloc_hash',['../debugmalloc_8h.html#aada2abd5626cdd1cbb8629e84924bb95',1,'debugmalloc.h']]],
+  ['debugmalloc_5finsert_295',['debugmalloc_insert',['../debugmalloc_8h.html#a36f06926813a0fbcfafab1574f58114a',1,'debugmalloc.h']]],
+  ['debugmalloc_5flog_296',['debugmalloc_log',['../debugmalloc_8h.html#a1506f2d2201b845c99f845e888772bb0',1,'debugmalloc.h']]],
+  ['debugmalloc_5flog_5ffile_297',['debugmalloc_log_file',['../debugmalloc_8h.html#a1e79d2804b927b8bd199ea3ac7cd5896',1,'debugmalloc.h']]],
+  ['debugmalloc_5fmalloc_5ffull_298',['debugmalloc_malloc_full',['../debugmalloc_8h.html#a22390935ba92b2f69831876164e64b10',1,'debugmalloc.h']]],
+  ['debugmalloc_5fmemory_5finit_299',['debugmalloc_memory_init',['../debugmalloc_8h.html#af28507d5f30c3814ef94ed556e0d0692',1,'debugmalloc.h']]],
+  ['debugmalloc_5frealloc_5ffull_300',['debugmalloc_realloc_full',['../debugmalloc_8h.html#a7e1d522ef38e06eaa6826bc64e1cca73',1,'debugmalloc.h']]],
+  ['debugmalloc_5fsingleton_301',['debugmalloc_singleton',['../debugmalloc_8h.html#ab8619d03da2d6a93764336eccde0fd7a',1,'debugmalloc.h']]],
+  ['debugmalloc_5fstrlcpy_302',['debugmalloc_strlcpy',['../debugmalloc_8h.html#a965222182c436acb6f4594b9e8448275',1,'debugmalloc.h']]],
+  ['destructors_303',['destructors',['../_c_o_n_v_e_n_t_i_o_n_s_8txt.html#a23b3152cde26dd36da1b071ea7e3e41e',1,'CONVENTIONS.txt']]],
+  ['directive_5fcompile_304',['directive_compile',['../directive_8c.html#af2408851d8cb356c7552f2176314784a',1,'directive_compile(State *s, Token *t, char **dataptr):&#160;directive.c'],['../directive_8h.html#af2408851d8cb356c7552f2176314784a',1,'directive_compile(State *s, Token *t, char **dataptr):&#160;directive.c']]],
+  ['do_5fdirective_5ftoken_305',['do_directive_token',['../directive_8c.html#aec0c1b07ba9910b74f29d1fb4ca9fa22',1,'do_directive_token(State *s, TokensListElement *ptr, int skip):&#160;directive.c'],['../directive_8h.html#aec0c1b07ba9910b74f29d1fb4ca9fa22',1,'do_directive_token(State *s, TokensListElement *ptr, int skip):&#160;directive.c']]]
 ];

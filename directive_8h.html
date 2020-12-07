@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>s502 assembler: src/directive.h File Reference</title>
+<title>s502 assembler: /github/workspace/src/directive.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -185,23 +185,25 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dataptr</td><td>return buffer for data </td></tr>
+    <tr><td class="paramname">s</td><td>assembler state </td></tr>
+    <tr><td class="paramname">t</td><td>token to compile </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>number of bytes in buffer or -1 on error</dd></dl>
 <p>Simply relays it to compile_pad or compile_data </p>
 
-<p class="definition">Definition at line <a class="el" href="directive_8c_source.html#l00494">494</a> of file <a class="el" href="directive_8c_source.html">directive.c</a>.</p>
-<div class="fragment"><div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;                                                          {</div>
-<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;    <span class="comment">// data or pad</span></div>
-<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="util_8c.html#ab54ff38e04506112faec5140a722a2aa">util_match_string</a>(t-&gt;<a class="code" href="struct_token.html#ad280060751df25e81ccbdd4d3c769e4f">stripped</a>, <span class="stringliteral">&quot;.data&quot;</span>, strlen(<span class="stringliteral">&quot;.data&quot;</span>)) == 0)</div>
-<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="directive_8c.html#ae39ac84c386c993b4ef142882d00f624">compile_data</a>(s, t, dataptr);</div>
-<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="util_8c.html#ab54ff38e04506112faec5140a722a2aa">util_match_string</a>(t-&gt;<a class="code" href="struct_token.html#ad280060751df25e81ccbdd4d3c769e4f">stripped</a>, <span class="stringliteral">&quot;.pad&quot;</span>, strlen(<span class="stringliteral">&quot;.pad&quot;</span>)) == 0)</div>
-<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="directive_8c.html#a5a6f6e693f3d806a9f962953969a83f9">compile_pad</a>(s, t, dataptr);</div>
-<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;    <span class="keywordflow">return</span> -1;</div>
-<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;}</div>
+<p class="definition">Definition at line <a class="el" href="directive_8c_source.html#l00498">498</a> of file <a class="el" href="directive_8c_source.html">directive.c</a>.</p>
+<div class="fragment"><div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;                                                          {</div>
+<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;    <span class="comment">// data or pad</span></div>
+<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="util_8c.html#ab54ff38e04506112faec5140a722a2aa">util_match_string</a>(t-&gt;<a class="code" href="struct_token.html#ad280060751df25e81ccbdd4d3c769e4f">stripped</a>, <span class="stringliteral">&quot;.data&quot;</span>, strlen(<span class="stringliteral">&quot;.data&quot;</span>)) == 0)</div>
+<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="directive_8c.html#ae39ac84c386c993b4ef142882d00f624">compile_data</a>(s, t, dataptr);</div>
+<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="util_8c.html#ab54ff38e04506112faec5140a722a2aa">util_match_string</a>(t-&gt;<a class="code" href="struct_token.html#ad280060751df25e81ccbdd4d3c769e4f">stripped</a>, <span class="stringliteral">&quot;.pad&quot;</span>, strlen(<span class="stringliteral">&quot;.pad&quot;</span>)) == 0)</div>
+<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="directive_8c.html#a5a6f6e693f3d806a9f962953969a83f9">compile_pad</a>(s, t, dataptr);</div>
+<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="directive_8c_source.html#l00394">compile_data()</a>, <a class="el" href="directive_8c_source.html#l00465">compile_pad()</a>, <a class="el" href="token__t_8h_source.html#l00055">Token::stripped</a>, and <a class="el" href="util_8c_source.html#l00032">util_match_string()</a>.</p>
+<p class="reference">References <a class="el" href="directive_8c_source.html#l00396">compile_data()</a>, <a class="el" href="directive_8c_source.html#l00469">compile_pad()</a>, <a class="el" href="token__t_8h_source.html#l00055">Token::stripped</a>, and <a class="el" href="util_8c_source.html#l00032">util_match_string()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="token_func_8c_source.html#l00318">token_compile()</a>.</p>
 
@@ -288,12 +290,12 @@ Functions</h2></td></tr>
 <div class="ttc" id="adirective_8c_html_ade1a286d01a880e5c460e773e4930449"><div class="ttname"><a href="directive_8c.html#ade1a286d01a880e5c460e773e4930449">skipProcessors</a></div><div class="ttdeci">struct @1 skipProcessors[]</div><div class="ttdoc">List of tokens to &quot;process&quot; when skipping tokens due to a falsy if.</div></div>
 <div class="ttc" id="adirective_8c_html_a2e6df24fafa180080caf6925b59672ac"><div class="ttname"><a href="directive_8c.html#a2e6df24fafa180080caf6925b59672ac">processors</a></div><div class="ttdeci">struct @0 processors[]</div><div class="ttdoc">The list of all processor functions and their tokens.</div></div>
 <div class="ttc" id="autil_8c_html_ab54ff38e04506112faec5140a722a2aa"><div class="ttname"><a href="util_8c.html#ab54ff38e04506112faec5140a722a2aa">util_match_string</a></div><div class="ttdeci">int util_match_string(char *first, char *second, int count)</div><div class="ttdoc">case-insensitive memcmp</div><div class="ttdef"><b>Definition:</b> <a href="util_8c_source.html#l00032">util.c:32</a></div></div>
-<div class="ttc" id="adirective_8c_html_ae39ac84c386c993b4ef142882d00f624"><div class="ttname"><a href="directive_8c.html#ae39ac84c386c993b4ef142882d00f624">compile_data</a></div><div class="ttdeci">int compile_data(State *s, Token *t, char **dataptr)</div><div class="ttdoc">Compile a .data directive into binary data.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8c_source.html#l00394">directive.c:394</a></div></div>
+<div class="ttc" id="adirective_8c_html_ae39ac84c386c993b4ef142882d00f624"><div class="ttname"><a href="directive_8c.html#ae39ac84c386c993b4ef142882d00f624">compile_data</a></div><div class="ttdeci">int compile_data(State *s, Token *t, char **dataptr)</div><div class="ttdoc">Compile a .data directive into binary data.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8c_source.html#l00396">directive.c:396</a></div></div>
 <div class="ttc" id="adirective_8h_html_a3d349ebc0b62b8e1386112e1d74c2e76ac5d93497a6101cd5629ce2c04ea25bf6"><div class="ttname"><a href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76ac5d93497a6101cd5629ce2c04ea25bf6">DIR_IF_FALSE</a></div><div class="ttdeci">@ DIR_IF_FALSE</div><div class="ttdoc">A conditional evaluated to false.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8h_source.html#l00027">directive.h:27</a></div></div>
 <div class="ttc" id="astruct_token_html_aae8489024b27856ed2b1355ad42a16d7"><div class="ttname"><a href="struct_token.html#aae8489024b27856ed2b1355ad42a16d7">Token::token_print</a></div><div class="ttdeci">void token_print(Token *token)</div><div class="ttdoc">Pretty-print one token, with its source and length.</div><div class="ttdef"><b>Definition:</b> <a href="token_func_8c_source.html#l00020">tokenFunc.c:20</a></div></div>
 <div class="ttc" id="adirective_8h_html_a3d349ebc0b62b8e1386112e1d74c2e76a40674767988a16e87928a55e64b718d2"><div class="ttname"><a href="directive_8h.html#a3d349ebc0b62b8e1386112e1d74c2e76a40674767988a16e87928a55e64b718d2">DIR_IF_TRUE</a></div><div class="ttdeci">@ DIR_IF_TRUE</div><div class="ttdoc">A conditional evaluated to true.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8h_source.html#l00025">directive.h:25</a></div></div>
-<div class="ttc" id="adirective_8c_html_a5a6f6e693f3d806a9f962953969a83f9"><div class="ttname"><a href="directive_8c.html#a5a6f6e693f3d806a9f962953969a83f9">compile_pad</a></div><div class="ttdeci">int compile_pad(State *s, Token *t, char **dataptr)</div><div class="ttdoc">Compile a .pad directive into binary data.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8c_source.html#l00465">directive.c:465</a></div></div>
-<div class="ttc" id="alogging_8h_html_a02ce8a968600d004ba60858425c46307"><div class="ttname"><a href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a></div><div class="ttdeci">#define ERROR(...)</div><div class="ttdoc">Fancy-print an error (cause of faliure). Works like printf.</div><div class="ttdef"><b>Definition:</b> <a href="logging_8h_source.html#l00039">logging.h:39</a></div></div>
+<div class="ttc" id="adirective_8c_html_a5a6f6e693f3d806a9f962953969a83f9"><div class="ttname"><a href="directive_8c.html#a5a6f6e693f3d806a9f962953969a83f9">compile_pad</a></div><div class="ttdeci">int compile_pad(State *s, Token *t, char **dataptr)</div><div class="ttdoc">Compile a .pad directive into binary data.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8c_source.html#l00469">directive.c:469</a></div></div>
+<div class="ttc" id="alogging_8h_html_a02ce8a968600d004ba60858425c46307"><div class="ttname"><a href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a></div><div class="ttdeci">#define ERROR(...)</div><div class="ttdoc">Fancy-print an error (cause of faliure). Works like printf.</div><div class="ttdef"><b>Definition:</b> <a href="logging_8h_source.html#l00040">logging.h:40</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>s502 assembler: src/pass_twothree.h File Reference</title>
+<title>s502 assembler: /github/workspace/src/pass_twothree.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -90,7 +90,7 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>processing steps 2 and 3 </p>
-<p>Check out documentation on steps </p>
+<p>Check out <a class="el" href="md_assemble.html">documentation on steps</a> </p>
 
 <p class="definition">Definition in file <a class="el" href="pass__twothree_8h_source.html">pass_twothree.h</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
@@ -136,7 +136,7 @@ Functions</h2></td></tr>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="logging_8h_source.html#l00039">ERROR</a>, <a class="el" href="logging_8h_source.html#l00044">FAIL</a>, <a class="el" href="tokenslist_8h_source.html#l00031">TokensList::head</a>, <a class="el" href="tokenslist_8h_source.html#l00020">TokensListElement::next</a>, <a class="el" href="token_func_8c_source.html#l00287">Token::token_get_operand()</a>, <a class="el" href="token_func_8c_source.html#l00020">Token::token_print()</a>, <a class="el" href="state_8h_source.html#l00038">State::tokens</a>, and <a class="el" href="token__t_8h_source.html#l00026">TT_INSTR</a>.</p>
+<p class="reference">References <a class="el" href="logging_8h_source.html#l00040">ERROR</a>, <a class="el" href="logging_8h_source.html#l00045">FAIL</a>, <a class="el" href="tokenslist_8h_source.html#l00031">TokensList::head</a>, <a class="el" href="tokenslist_8h_source.html#l00020">TokensListElement::next</a>, <a class="el" href="token_func_8c_source.html#l00287">Token::token_get_operand()</a>, <a class="el" href="token_func_8c_source.html#l00020">Token::token_print()</a>, <a class="el" href="state_8h_source.html#l00038">State::tokens</a>, and <a class="el" href="token__t_8h_source.html#l00026">TT_INSTR</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="main_8c_source.html#l00023">main()</a>.</p>
 
@@ -183,16 +183,16 @@ Functions</h2></td></tr>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordflow">if</span> (!f) {</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;An error occured opening the file %s!\n&quot;</span>, s-&gt;<a class="code" href="struct_state.html#a00a6492f59e0a4626a4c066bc70e9292">outfile</a>);</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;Error opening file: %s\n&quot;</span>, strerror(errno));</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        free(data);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(data);</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordflow">return</span> -1;</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    }</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    fwrite(data, 1, l, f);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    free(data);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(data);</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    fclose(f);</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="pass__twothree_8c_source.html#l00042">concat_bin()</a>, <a class="el" href="logging_8h_source.html#l00039">ERROR</a>, <a class="el" href="logging_8h_source.html#l00044">FAIL</a>, and <a class="el" href="state_8h_source.html#l00046">State::outfile</a>.</p>
+<p class="reference">References <a class="el" href="pass__twothree_8c_source.html#l00042">concat_bin()</a>, <a class="el" href="logging_8h_source.html#l00040">ERROR</a>, <a class="el" href="logging_8h_source.html#l00045">FAIL</a>, <a class="el" href="debugmalloc_8h_source.html#l00481">free</a>, and <a class="el" href="state_8h_source.html#l00046">State::outfile</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="main_8c_source.html#l00023">main()</a>.</p>
 
@@ -207,9 +207,10 @@ Functions</h2></td></tr>
 <div class="ttc" id="atokenslist_8h_html_struct_tokens_list_element"><div class="ttname"><a href="tokenslist_8h.html#struct_tokens_list_element">TokensListElement</a></div><div class="ttdoc">An element of a TokensList.</div><div class="ttdef"><b>Definition:</b> <a href="tokenslist_8h_source.html#l00016">tokenslist.h:16</a></div></div>
 <div class="ttc" id="apass__twothree_8c_html_aac4205c09bb4b1243159a771c0848fb4"><div class="ttname"><a href="pass__twothree_8c.html#aac4205c09bb4b1243159a771c0848fb4">concat_bin</a></div><div class="ttdeci">char * concat_bin(State *s, int *n)</div><div class="ttdoc">compile tokens and concat binary data</div><div class="ttdef"><b>Definition:</b> <a href="pass__twothree_8c_source.html#l00042">pass_twothree.c:42</a></div></div>
 <div class="ttc" id="astruct_token_html_aae8489024b27856ed2b1355ad42a16d7"><div class="ttname"><a href="struct_token.html#aae8489024b27856ed2b1355ad42a16d7">Token::token_print</a></div><div class="ttdeci">void token_print(Token *token)</div><div class="ttdoc">Pretty-print one token, with its source and length.</div><div class="ttdef"><b>Definition:</b> <a href="token_func_8c_source.html#l00020">tokenFunc.c:20</a></div></div>
+<div class="ttc" id="adebugmalloc_8h_html_aa7943e5d135734f6801bebcc37401fc0"><div class="ttname"><a href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a></div><div class="ttdeci">#define free(P)</div><div class="ttdef"><b>Definition:</b> <a href="debugmalloc_8h_source.html#l00481">debugmalloc.h:481</a></div></div>
 <div class="ttc" id="astruct_token_html_a58488b4910820074aab8b8b069b62853"><div class="ttname"><a href="struct_token.html#a58488b4910820074aab8b8b069b62853">Token::token_get_operand</a></div><div class="ttdeci">int token_get_operand(State *s, Token *t)</div><div class="ttdoc">parse the operand of the instruction as a number</div><div class="ttdef"><b>Definition:</b> <a href="token_func_8c_source.html#l00287">tokenFunc.c:287</a></div></div>
-<div class="ttc" id="alogging_8h_html_ac8d1eaf65528f86b445cf6e45b2d72c9"><div class="ttname"><a href="logging_8h.html#ac8d1eaf65528f86b445cf6e45b2d72c9">FAIL</a></div><div class="ttdeci">#define FAIL(...)</div><div class="ttdoc">Fancy-print a fail (failed step). Works like printf.</div><div class="ttdef"><b>Definition:</b> <a href="logging_8h_source.html#l00044">logging.h:44</a></div></div>
-<div class="ttc" id="alogging_8h_html_a02ce8a968600d004ba60858425c46307"><div class="ttname"><a href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a></div><div class="ttdeci">#define ERROR(...)</div><div class="ttdoc">Fancy-print an error (cause of faliure). Works like printf.</div><div class="ttdef"><b>Definition:</b> <a href="logging_8h_source.html#l00039">logging.h:39</a></div></div>
+<div class="ttc" id="alogging_8h_html_ac8d1eaf65528f86b445cf6e45b2d72c9"><div class="ttname"><a href="logging_8h.html#ac8d1eaf65528f86b445cf6e45b2d72c9">FAIL</a></div><div class="ttdeci">#define FAIL(...)</div><div class="ttdoc">Fancy-print a fail (failed step). Works like printf.</div><div class="ttdef"><b>Definition:</b> <a href="logging_8h_source.html#l00045">logging.h:45</a></div></div>
+<div class="ttc" id="alogging_8h_html_a02ce8a968600d004ba60858425c46307"><div class="ttname"><a href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a></div><div class="ttdeci">#define ERROR(...)</div><div class="ttdoc">Fancy-print an error (cause of faliure). Works like printf.</div><div class="ttdef"><b>Definition:</b> <a href="logging_8h_source.html#l00040">logging.h:40</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20

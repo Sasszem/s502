@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['instructions_2ec_187',['instructions.c',['../instructions_8c.html',1,'']]],
-  ['instructions_2eh_188',['instructions.h',['../instructions_8h.html',1,'']]],
-  ['istack_2ec_189',['istack.c',['../istack_8c.html',1,'']]],
-  ['istack_2eh_190',['istack.h',['../istack_8h.html',1,'']]]
+  ['debugmalloc_2eh_247',['debugmalloc.h',['../debugmalloc_8h.html',1,'']]],
+  ['directive_2ec_248',['directive.c',['../directive_8c.html',1,'']]],
+  ['directive_2eh_249',['directive.h',['../directive_8h.html',1,'']]]
 ];

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['infile_287',['infile',['../struct_state.html#a6dda7fd4a8e660bbb50cf53d2e5b6549',1,'State']]],
-  ['instr_288',['instr',['../struct_state.html#af88cb0b407bec63eca30ffcd4509aac4',1,'State::instr()'],['../struct_token.html#a9c17b67976cd7e2ad049d7d3d8f0bd90',1,'Token::instr()']]]
+  ['file_378',['file',['../debugmalloc_8h.html#afb3662316b0681f77de0f084b8233133',1,'DebugmallocElem']]],
+  ['func_379',['func',['../debugmalloc_8h.html#a4dcd286e52bfcf0207c70afa5f51f79f',1,'DebugmallocElem']]]
 ];

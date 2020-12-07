@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['pc_296',['PC',['../struct_state.html#af83f268d231ef2167424588cb446d4a5',1,'State']]],
-  ['prev_297',['prev',['../tokenslist_8h.html#a9783f407cd18dc5377c86a602b92ba19',1,'TokensListElement']]],
-  ['processors_298',['processors',['../directive_8c.html#a2e6df24fafa180080caf6925b59672ac',1,'directive.c']]]
+  ['name_388',['name',['../map_8h.html#aa35ed61b548b55ff158ce0505c0354af',1,'MapEntry']]],
+  ['next_389',['next',['../debugmalloc_8h.html#a22b76290079932d1479315cfba3fc549',1,'DebugmallocElem::next()'],['../struct_instruction.html#ace71cd902761151df614bb5623cf6f4b',1,'Instruction::next()'],['../structistack__el.html#a9eda67f2051550b7b26cdc7fe0979cee',1,'istack_el::next()'],['../map_8h.html#ab9aa77c5d45bddeb29e686c14d4f5e4c',1,'MapEntry::next()'],['../tokenslist_8h.html#a9f2644d13bff93ff7f233d5f306c9824',1,'TokensListElement::next()']]]
 ];

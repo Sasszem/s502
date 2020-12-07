@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>s502 assembler: src/logging.h Source File</title>
+<title>s502 assembler: /github/workspace/src/logging.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -79,13 +79,13 @@ $(function() {
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
 <div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="logging_8h.html#aa3f5a8f6d975418226ea490abc673b11">   28</a></span>&#160;<span class="preprocessor">#define LOG(LVL, ...) if (logging_level(0)&gt;=(LVL)) {printf(&quot;\e[33mLOG:\e[39m\t&quot;); printf(__VA_ARGS__);}</span></div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="logging_8h.html#ab6f54adff18dba737f9143cf6f2e4d3e">   34</a></span>&#160;<span class="preprocessor">#define LOGDO(LVL, x) if(logging_level(0) &gt;= (LVL)) {x;};</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">   39</a></span>&#160;<span class="preprocessor">#define ERROR(...) {printf(&quot;\e[41mERROR\e[49m:\t&quot;); printf(__VA_ARGS__);}</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="logging_8h.html#ac8d1eaf65528f86b445cf6e45b2d72c9">   44</a></span>&#160;<span class="preprocessor">#define FAIL(...) {printf(&quot;\e[31mFAIL:\e[39m\t&quot;); printf(__VA_ARGS__);}</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="logging_8h.html#ab6f54adff18dba737f9143cf6f2e4d3e">   35</a></span>&#160;<span class="preprocessor">#define LOGDO(LVL, x) if(logging_level(0) &gt;= (LVL)) {x;};</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">   40</a></span>&#160;<span class="preprocessor">#define ERROR(...) {printf(&quot;\e[41mERROR\e[49m:\t&quot;); printf(__VA_ARGS__);}</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="logging_8h.html#ac8d1eaf65528f86b445cf6e45b2d72c9">   45</a></span>&#160;<span class="preprocessor">#define FAIL(...) {printf(&quot;\e[31mFAIL:\e[39m\t&quot;); printf(__VA_ARGS__);}</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="alogging_8h_html_a600a8a556faac4e520aca858d0abc228"><div class="ttname"><a href="logging_8h.html#a600a8a556faac4e520aca858d0abc228">logging_level</a></div><div class="ttdeci">int logging_level(int setlevel)</div><div class="ttdoc">pseudo-global accessor</div><div class="ttdef"><b>Definition:</b> <a href="logging_8c_source.html#l00006">logging.c:6</a></div></div>
 <!-- start footer part -->

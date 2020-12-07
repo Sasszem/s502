@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['log_345',['LOG',['../logging_8h.html#aa3f5a8f6d975418226ea490abc673b11',1,'logging.h']]],
-  ['logdo_346',['LOGDO',['../logging_8h.html#ab6f54adff18dba737f9143cf6f2e4d3e',1,'logging.h']]]
+  ['fail_450',['FAIL',['../logging_8h.html#ac8d1eaf65528f86b445cf6e45b2d72c9',1,'logging.h']]],
+  ['free_451',['free',['../debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0',1,'debugmalloc.h']]]
 ];
