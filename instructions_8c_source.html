@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>s502 assembler: /github/workspace/src/instructions.c Source File</title>
+<title>s502 assembler: src/instructions.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -70,7 +70,7 @@ $(function() {
 <div class="title">instructions.c</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="instructions_8c.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="debugmalloc_8h.html">debugmalloc.h</a>&quot;</span></div>
+<a href="instructions_8c.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;debugmalloc.h&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;errno.h&gt;</span></div>
@@ -94,7 +94,7 @@ $(function() {
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">int</span> ptr = 0;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">int</span> row = 1;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <a class="code" href="struct_instruction.html">Instruction</a>* list = <a class="code" href="debugmalloc_8h.html#a535b58ab5aa48e2e86073e334d43fd32">malloc</a>(<span class="keyword">sizeof</span>(<a class="code" href="struct_instruction.html">Instruction</a>));</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <a class="code" href="struct_instruction.html">Instruction</a>* list = malloc(<span class="keyword">sizeof</span>(<a class="code" href="struct_instruction.html">Instruction</a>));</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="comment">// ignore first line</span></div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="comment">// (Also possibly has BOM for unicode)</span></div>
@@ -134,7 +134,7 @@ $(function() {
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                rowindex = 0;</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                row++;</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                curr-&gt;<a class="code" href="struct_instruction.html#ace71cd902761151df614bb5623cf6f4b">next</a> = <a class="code" href="debugmalloc_8h.html#a535b58ab5aa48e2e86073e334d43fd32">malloc</a>(<span class="keyword">sizeof</span>(<a class="code" href="struct_instruction.html">Instruction</a>));</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                curr-&gt;<a class="code" href="struct_instruction.html#ace71cd902761151df614bb5623cf6f4b">next</a> = malloc(<span class="keyword">sizeof</span>(<a class="code" href="struct_instruction.html">Instruction</a>));</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                <span class="keywordflow">if</span> (curr-&gt;<a class="code" href="struct_instruction.html#ace71cd902761151df614bb5623cf6f4b">next</a> == NULL) <span class="keywordflow">goto</span> ERR_MEM;</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                curr-&gt;<a class="code" href="struct_instruction.html#ace71cd902761151df614bb5623cf6f4b">next</a>-&gt;<a class="code" href="struct_instruction.html#ace71cd902761151df614bb5623cf6f4b">next</a> = NULL;</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                curr = curr-&gt;<a class="code" href="struct_instruction.html#ace71cd902761151df614bb5623cf6f4b">next</a>;</div>
@@ -151,7 +151,7 @@ $(function() {
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">if</span> (rowindex == 0) {</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">for</span> (curr = list; curr-&gt;<a class="code" href="struct_instruction.html#ace71cd902761151df614bb5623cf6f4b">next</a> != NULL &amp;&amp; curr-&gt;<a class="code" href="struct_instruction.html#ace71cd902761151df614bb5623cf6f4b">next</a>-&gt;<a class="code" href="struct_instruction.html#ace71cd902761151df614bb5623cf6f4b">next</a> != NULL; curr = curr-&gt;<a class="code" href="struct_instruction.html#ace71cd902761151df614bb5623cf6f4b">next</a>);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(curr-&gt;<a class="code" href="struct_instruction.html#ace71cd902761151df614bb5623cf6f4b">next</a>);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        free(curr-&gt;<a class="code" href="struct_instruction.html#ace71cd902761151df614bb5623cf6f4b">next</a>);</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        curr-&gt;<a class="code" href="struct_instruction.html#ace71cd902761151df614bb5623cf6f4b">next</a> = NULL;</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    }</div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
@@ -189,9 +189,9 @@ $(function() {
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordflow">while</span> (list-&gt;<a class="code" href="struct_instruction.html#ace71cd902761151df614bb5623cf6f4b">next</a> != NULL) {</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <a class="code" href="struct_instruction.html">Instruction</a>* ptr = list-&gt;<a class="code" href="struct_instruction.html#ace71cd902761151df614bb5623cf6f4b">next</a>;</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        list-&gt;<a class="code" href="struct_instruction.html#ace71cd902761151df614bb5623cf6f4b">next</a> = ptr-&gt;<a class="code" href="struct_instruction.html#ace71cd902761151df614bb5623cf6f4b">next</a>;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(ptr);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        free(ptr);</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    }</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(list);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    free(list);</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;}</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
@@ -211,7 +211,6 @@ $(function() {
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aaddressmode_8c_html_a6705b42736000ac34b9ddf90850d48da"><div class="ttname"><a href="addressmode_8c.html#a6705b42736000ac34b9ddf90850d48da">ADRM_NAMES</a></div><div class="ttdeci">const char * ADRM_NAMES[]</div><div class="ttdoc">Human-readable names of address modes.</div><div class="ttdef"><b>Definition:</b> <a href="addressmode_8c_source.html#l00016">addressmode.c:16</a></div></div>
-<div class="ttc" id="adebugmalloc_8h_html"><div class="ttname"><a href="debugmalloc_8h.html">debugmalloc.h</a></div></div>
 <div class="ttc" id="aaddressmode_8h_html_a36eef9740a33a6c29292704bd027bebaae679f74289ba575f66ebb4506f76a675"><div class="ttname"><a href="addressmode_8h.html#a36eef9740a33a6c29292704bd027bebaae679f74289ba575f66ebb4506f76a675">ADRM_COUNT</a></div><div class="ttdeci">@ ADRM_COUNT</div><div class="ttdoc">Total number of addressing modes.</div><div class="ttdef"><b>Definition:</b> <a href="addressmode_8h_source.html#l00052">addressmode.h:51</a></div></div>
 <div class="ttc" id="astruct_instruction_html_a94b6b491e38762a87a1f661b76059a41"><div class="ttname"><a href="struct_instruction.html#a94b6b491e38762a87a1f661b76059a41">Instruction::instruction_free</a></div><div class="ttdeci">void instruction_free(Instruction *list)</div><div class="ttdoc">free all memory associated with an Instruction* list</div><div class="ttdef"><b>Definition:</b> <a href="instructions_8c_source.html#l00121">instructions.c:121</a></div></div>
 <div class="ttc" id="astruct_instruction_html_ac54c322dc790b20980ca248fc66ac591"><div class="ttname"><a href="struct_instruction.html#ac54c322dc790b20980ca248fc66ac591">Instruction::instruction_print_all</a></div><div class="ttdeci">void instruction_print_all(Instruction *list)</div><div class="ttdoc">debug-print all instructions in a list</div><div class="ttdef"><b>Definition:</b> <a href="instructions_8c_source.html#l00141">instructions.c:141</a></div></div>
@@ -221,10 +220,8 @@ $(function() {
 <div class="ttc" id="astruct_instruction_html_a33ab894d97a47b3f9ecdb3666b6b769c"><div class="ttname"><a href="struct_instruction.html#a33ab894d97a47b3f9ecdb3666b6b769c">Instruction::instruction_load</a></div><div class="ttdeci">Instruction * instruction_load(char *fname)</div><div class="ttdoc">Load instruction data from CSV file.</div><div class="ttdef"><b>Definition:</b> <a href="instructions_8c_source.html#l00018">instructions.c:18</a></div></div>
 <div class="ttc" id="aaddressmode_8h_html"><div class="ttname"><a href="addressmode_8h.html">addressmode.h</a></div><div class="ttdoc">AddressMode enum and related data.</div></div>
 <div class="ttc" id="autil_8c_html_ab54ff38e04506112faec5140a722a2aa"><div class="ttname"><a href="util_8c.html#ab54ff38e04506112faec5140a722a2aa">util_match_string</a></div><div class="ttdeci">int util_match_string(char *first, char *second, int count)</div><div class="ttdoc">case-insensitive memcmp</div><div class="ttdef"><b>Definition:</b> <a href="util_8c_source.html#l00032">util.c:32</a></div></div>
-<div class="ttc" id="adebugmalloc_8h_html_a535b58ab5aa48e2e86073e334d43fd32"><div class="ttname"><a href="debugmalloc_8h.html#a535b58ab5aa48e2e86073e334d43fd32">malloc</a></div><div class="ttdeci">#define malloc(S)</div><div class="ttdef"><b>Definition:</b> <a href="debugmalloc_8h_source.html#l00478">debugmalloc.h:478</a></div></div>
 <div class="ttc" id="astruct_instruction_html"><div class="ttname"><a href="struct_instruction.html">Instruction</a></div><div class="ttdoc">linked list member holding instruction data</div><div class="ttdef"><b>Definition:</b> <a href="instructions_8h_source.html#l00025">instructions.h:25</a></div></div>
 <div class="ttc" id="ainstructions_8h_html"><div class="ttname"><a href="instructions_8h.html">instructions.h</a></div><div class="ttdoc">Instruction data and related operations.</div></div>
-<div class="ttc" id="adebugmalloc_8h_html_aa7943e5d135734f6801bebcc37401fc0"><div class="ttname"><a href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a></div><div class="ttdeci">#define free(P)</div><div class="ttdef"><b>Definition:</b> <a href="debugmalloc_8h_source.html#l00481">debugmalloc.h:481</a></div></div>
 <div class="ttc" id="alogging_8h_html"><div class="ttname"><a href="logging_8h.html">logging.h</a></div><div class="ttdoc">logging and fancy-printing</div></div>
 <div class="ttc" id="astruct_instruction_html_aad31aee4109714093506ba934b465ed2"><div class="ttname"><a href="struct_instruction.html#aad31aee4109714093506ba934b465ed2">Instruction::opcs</a></div><div class="ttdeci">unsigned char opcs[ADRM_COUNT]</div><div class="ttdoc">Different combinarions of this instruction. Invalid ones are set to OPC_INVALID.</div><div class="ttdef"><b>Definition:</b> <a href="instructions_8h_source.html#l00029">instructions.h:29</a></div></div>
 <div class="ttc" id="anumber_8c_html_a51e0f87b0e6f3411fcacb46e2ef1e8d6"><div class="ttname"><a href="number_8c.html#a51e0f87b0e6f3411fcacb46e2ef1e8d6">number_char_to_digit</a></div><div class="ttdeci">int number_char_to_digit(char c)</div><div class="ttdoc">Convert a hex char to a digit.</div><div class="ttdef"><b>Definition:</b> <a href="number_8c_source.html#l00012">number.c:12</a></div></div>

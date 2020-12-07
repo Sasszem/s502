@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['debugmallocdata_230',['DebugmallocData',['../debugmalloc_8h.html#struct_debugmalloc_data',1,'']]],
-  ['debugmallocelem_231',['DebugmallocElem',['../debugmalloc_8h.html#struct_debugmalloc_elem',1,'']]]
+  ['instruction_193',['Instruction',['../struct_instruction.html',1,'']]],
+  ['istack_5fel_194',['istack_el',['../structistack__el.html',1,'']]]
 ];

@@ -66,11 +66,11 @@ $(function() {
 <div class="title">S502 assmebler </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_main"></a> Sixty-502 assember is a simple assembler program for the 6502 line of processors written in C.</p>
+<div class="textblock"><p><a class="anchor" id="md_doc_main"></a> Sixty-502 assember is a simple assembler program for the 6502 line of processors written in C.</p>
 <p>It is also my homework project in programming on BME.</p>
 <p><b>IMPORTANT</b> <br  />
 </p><ul>
-<li><a class="el" href="md_changes.html">Differences from my previously handed-in documentation</a> <br  />
+<li><a class="el" href="md_doc_changes.html">Differences from my previously handed-in documentation</a> <br  />
 </li>
 <li><a href="https://docs.google.com/document/d/1sRYvylJ-WbkH5esaBcsoMkdLBEjIHsnn4SUdWfNLwUM/edit?usp=sharing">Said (outdated) documentation (in Hungarian)</a></li>
 </ul>
@@ -94,10 +94,10 @@ Usage</h2>
  (name is string with upper length limit set in <code><a class="el" href="map_8h.html" title="Map class.">map.h</a></code>, value is non-negative decimal number). <br  />
  <b>Can be repeated many times.</b></li>
 </ul>
-<p>The input file should be <a class="el" href="md_sources.html">a valid source file</a></p>
-<p>The program <a class="el" href="md_assemble.html">assembles the source(s)</a> into a binary and saves the result into the specified output file.</p>
+<p>The input file should be <a class="el" href="md_doc_sources.html">a valid source file</a></p>
+<p>The program <a class="el" href="md_doc_assemble.html">assembles the source(s)</a> into a binary and saves the result into the specified output file.</p>
 <p>If the program encounters some errors, it prints it's cause and stops, de-allocating all resources it has before exiting.</p>
-<p><a class="el" href="md_errlist.html">Full list of errors and possible causes</a></p>
+<p><a class="el" href="md_doc_errlist.html">Full list of errors and possible causes</a></p>
 <h2><a class="anchor" id="autotoc_md62"></a>
 Compilation</h2>
 <p>The project ships with VSCode project set-up for Windows+gcc, the default build task generates <code>asm.exe</code> with <code>-O3</code>, <code>-Wall</code> and <code>-Werror</code>.</p>
@@ -125,8 +125,8 @@ Provided example</h2>
 <h1><a class="anchor" id="autotoc_md64"></a>
 Programming</h1>
 <p>The project code only contains C source along with header files. All of those are located in the <code>src</code> directory.</p>
-<p>The sources are split up into multiple C files with multiple headers. Headers are always named same as the corresponding sources except for <code><a class="el" href="token__t_8h.html" title="token type struct">token_t.h</a></code> which has no associated C source and <code><a class="el" href="debugmalloc_8h.html">debugmalloc.h</a></code> <a href="https://infoc.eet.bme.hu/debugmalloc/">which is a debugging utility not written by me.</a></p>
-<p>(The original <code><a class="el" href="debugmalloc_8h.html">debugmalloc.h</a></code> raised a assembler warning (a false positive my program also had), so I added GCC pragmas to suppress that.)</p>
+<p>The sources are split up into multiple C files with multiple headers. Headers are always named same as the corresponding sources except for <code><a class="el" href="token__t_8h.html" title="token type struct">token_t.h</a></code> which has no associated C source and <code>debugmalloc.h</code> <a href="https://infoc.eet.bme.hu/debugmalloc/">which is a debugging utility not written by me.</a></p>
+<p>(The original <code>debugmalloc.h</code> raised a assembler warning (a false positive my program also had), so I added GCC pragmas to suppress that.)</p>
 <p>The program uses no global variables and only one static variable (global log level, accessed via <a class="el" href="logging_8c.html#a85fa631d2ef41f279b0a9fd6fa5f2193" title="pseudo-global accessor">logging_level()</a>).</p>
 <h2><a class="anchor" id="autotoc_md65"></a>
 Conventions</h2>

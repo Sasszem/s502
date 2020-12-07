@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>s502 assembler: /github/workspace/src/token_t.h File Reference</title>
+<title>s502 assembler: src/token_t.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -96,13 +96,12 @@ Data Structures</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:a06fc87d81c62e9abb8790b6e5713c55b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
-&#160;&#160;<a class="el" href="debugmalloc_8h.html#a06fc87d81c62e9abb8790b6e5713c55bab345007cf28a2516c0ba24371a400520">debugmalloc_canary_size</a> = 64, 
-<a class="el" href="instructions_8h.html#a06fc87d81c62e9abb8790b6e5713c55bac1f5d828e96297716e5c09275eb95a50">OPC_INVALID</a> = 0xff, 
+&#160;&#160;<a class="el" href="instructions_8h.html#a06fc87d81c62e9abb8790b6e5713c55bac1f5d828e96297716e5c09275eb95a50">OPC_INVALID</a> = 0xff, 
 <a class="el" href="map_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba9630cd29a166351fff1c84cddee03fca">MAP_MAX_KEY_LEN</a> = 32, 
 <a class="el" href="number_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba7f8ed21cd25a337d5f7af12a72ff18ea">NUMBER_ERROR</a> = -1, 
+<a class="el" href="number_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba601b47c4b974e7523871c64b15ad4b18">NUMBER_LABEL_NODEF</a> = -2, 
 <br />
-&#160;&#160;<a class="el" href="number_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba601b47c4b974e7523871c64b15ad4b18">NUMBER_LABEL_NODEF</a> = -2, 
-<a class="el" href="state_8h.html#a06fc87d81c62e9abb8790b6e5713c55baa15267441df935f744d8f9e41853a51b">STATE_MAX_STRING_LEN</a> = 32, 
+&#160;&#160;<a class="el" href="state_8h.html#a06fc87d81c62e9abb8790b6e5713c55baa15267441df935f744d8f9e41853a51b">STATE_MAX_STRING_LEN</a> = 32, 
 <a class="el" href="token__t_8h.html#a06fc87d81c62e9abb8790b6e5713c55bad5c2cd8a06057c6b9d2cf7cb1aa58499">TOKEN_BUFFER_SIZE</a> = 100, 
 <a class="el" href="token__t_8h.html#a06fc87d81c62e9abb8790b6e5713c55bae066acea912f86afacc1d7b5839b8167">TOKEN_SOURCE_FILE_SIZE</a> = 32
 <br />
@@ -210,8 +209,7 @@ line in source file </td></tr>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a06fc87d81c62e9abb8790b6e5713c55bab345007cf28a2516c0ba24371a400520"></a>debugmalloc_canary_size&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a06fc87d81c62e9abb8790b6e5713c55bac1f5d828e96297716e5c09275eb95a50"></a>OPC_INVALID&#160;</td><td class="fielddoc"><p>An invalid opcode to signal invalid / non-existent variations. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a06fc87d81c62e9abb8790b6e5713c55bac1f5d828e96297716e5c09275eb95a50"></a>OPC_INVALID&#160;</td><td class="fielddoc"><p>An invalid opcode to signal invalid / non-existent variations. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a06fc87d81c62e9abb8790b6e5713c55ba9630cd29a166351fff1c84cddee03fca"></a>MAP_MAX_KEY_LEN&#160;</td><td class="fielddoc"><p>Key buffer size for <a class="el" href="struct_map.html" title="Simple key-&gt;value map (str-&gt;int)">Map</a>. </p>
 </td></tr>

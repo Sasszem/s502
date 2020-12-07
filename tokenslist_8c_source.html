@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>s502 assembler: /github/workspace/src/tokenslist.c Source File</title>
+<title>s502 assembler: src/tokenslist.c Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -70,7 +70,7 @@ $(function() {
 <div class="title">tokenslist.c</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="tokenslist_8c.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="debugmalloc_8h.html">debugmalloc.h</a>&quot;</span></div>
+<a href="tokenslist_8c.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;debugmalloc.h&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno"><a class="line" href="tokenslist_8c.html#a5774a453e5fe094a9d4ece0cfd20ab5b">    3</a></span>&#160;<span class="preprocessor">#define __USE_MINGW_ANSI_STDIO 1</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
@@ -81,7 +81,7 @@ $(function() {
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="logging_8h.html">logging.h</a>&quot;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="tokenslist_8c.html#ad014cbeee130eba9abd4d78f41e22b24">   17</a></span>&#160;<a class="code" href="struct_tokens_list.html">TokensList</a>* <a class="code" href="struct_tokens_list.html#ab5d208b0fb4b51ce7616f9f32cb509fc">tokenslist_new</a>() {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <a class="code" href="struct_tokens_list.html">TokensList</a>* ret = (<a class="code" href="struct_tokens_list.html">TokensList</a>*)<a class="code" href="debugmalloc_8h.html#a535b58ab5aa48e2e86073e334d43fd32">malloc</a>(<span class="keyword">sizeof</span>(<a class="code" href="struct_tokens_list.html">TokensList</a>));</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <a class="code" href="struct_tokens_list.html">TokensList</a>* ret = (<a class="code" href="struct_tokens_list.html">TokensList</a>*)malloc(<span class="keyword">sizeof</span>(<a class="code" href="struct_tokens_list.html">TokensList</a>));</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordflow">if</span> (ret == NULL) {</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;Memory allocation error in tokenslist_new()!\n&quot;</span>);</div>
@@ -95,11 +95,11 @@ $(function() {
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
 <div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="tokenslist_8c.html#a5362c39c6015cd8604a320b2291ada95">   31</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="struct_tokens_list.html#a5362c39c6015cd8604a320b2291ada95">tokenslist_add</a>(<a class="code" href="struct_tokens_list.html">TokensList</a>* list, <a class="code" href="struct_token.html">Token</a> t) {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="tokenslist_8h.html#struct_tokens_list_element">TokensListElement</a>* elem = (<a class="code" href="tokenslist_8h.html#struct_tokens_list_element">TokensListElement</a>*)<a class="code" href="debugmalloc_8h.html#a535b58ab5aa48e2e86073e334d43fd32">malloc</a>(<span class="keyword">sizeof</span>(<a class="code" href="tokenslist_8h.html#struct_tokens_list_element">TokensListElement</a>));</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="tokenslist_8h.html#struct_tokens_list_element">TokensListElement</a>* elem = (<a class="code" href="tokenslist_8h.html#struct_tokens_list_element">TokensListElement</a>*)malloc(<span class="keyword">sizeof</span>(<a class="code" href="tokenslist_8h.html#struct_tokens_list_element">TokensListElement</a>));</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordflow">if</span> (elem == NULL) <span class="keywordflow">goto</span> ERR_MEM;</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    elem-&gt;<a class="code" href="tokenslist_8h.html#a9f2644d13bff93ff7f233d5f306c9824">next</a> = NULL;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    elem-&gt;<a class="code" href="tokenslist_8h.html#a9783f407cd18dc5377c86a602b92ba19">prev</a> = NULL;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    elem-&gt;<a class="code" href="tokenslist_8h.html#a23f96669ea63d90d159cba4b20a6ff88">token</a> = <a class="code" href="debugmalloc_8h.html#a535b58ab5aa48e2e86073e334d43fd32">malloc</a>(<span class="keyword">sizeof</span>(<a class="code" href="struct_token.html">Token</a>));</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    elem-&gt;<a class="code" href="tokenslist_8h.html#a23f96669ea63d90d159cba4b20a6ff88">token</a> = malloc(<span class="keyword">sizeof</span>(<a class="code" href="struct_token.html">Token</a>));</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">if</span> (!elem-&gt;<a class="code" href="tokenslist_8h.html#a23f96669ea63d90d159cba4b20a6ff88">token</a>) <span class="keywordflow">goto</span> ERR_MEM;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    *elem-&gt;<a class="code" href="tokenslist_8h.html#a23f96669ea63d90d159cba4b20a6ff88">token</a> = t;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">if</span> (list-&gt;<a class="code" href="struct_tokens_list.html#a16eb5844fb167e60c541310ab335edbc">head</a> == NULL) {</div>
@@ -115,8 +115,8 @@ $(function() {
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;ERR_MEM:</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">if</span> (elem) {</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordflow">if</span> (elem-&gt;<a class="code" href="tokenslist_8h.html#a23f96669ea63d90d159cba4b20a6ff88">token</a>)</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(elem-&gt;<a class="code" href="tokenslist_8h.html#a23f96669ea63d90d159cba4b20a6ff88">token</a>);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(elem);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            free(elem-&gt;<a class="code" href="tokenslist_8h.html#a23f96669ea63d90d159cba4b20a6ff88">token</a>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        free(elem);</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;Memory allocation error in tokenslist_add()!\n&quot;</span>);</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">return</span> -1;</div>
@@ -135,8 +135,8 @@ $(function() {
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        el-&gt;<a class="code" href="tokenslist_8h.html#a9783f407cd18dc5377c86a602b92ba19">prev</a>-&gt;<a class="code" href="tokenslist_8h.html#a9f2644d13bff93ff7f233d5f306c9824">next</a> = el-&gt;<a class="code" href="tokenslist_8h.html#a9f2644d13bff93ff7f233d5f306c9824">next</a>;</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <a class="code" href="tokenslist_8h.html#struct_tokens_list_element">TokensListElement</a>* next = el-&gt;<a class="code" href="tokenslist_8h.html#a9f2644d13bff93ff7f233d5f306c9824">next</a>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(el-&gt;<a class="code" href="tokenslist_8h.html#a23f96669ea63d90d159cba4b20a6ff88">token</a>);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(el);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    free(el-&gt;<a class="code" href="tokenslist_8h.html#a23f96669ea63d90d159cba4b20a6ff88">token</a>);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    free(el);</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">return</span> next;</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
@@ -146,7 +146,7 @@ $(function() {
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordflow">while</span> (list-&gt;<a class="code" href="struct_tokens_list.html#a16eb5844fb167e60c541310ab335edbc">head</a> != NULL) {</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <a class="code" href="struct_tokens_list.html#ae985ab88d8b91b979dfbec19d7246a41">tokenslist_remove</a>(list, list-&gt;<a class="code" href="struct_tokens_list.html#a16eb5844fb167e60c541310ab335edbc">head</a>);</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    }</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(list);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    free(list);</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
@@ -190,7 +190,6 @@ $(function() {
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="astruct_tokens_list_html_a403aa433cf6fed4fba0b19c71a79b3a8"><div class="ttname"><a href="struct_tokens_list.html#a403aa433cf6fed4fba0b19c71a79b3a8">TokensList::tokenslist_free</a></div><div class="ttdeci">void tokenslist_free(TokensList *list)</div><div class="ttdoc">free ALL memory associated with the TokensList object</div><div class="ttdef"><b>Definition:</b> <a href="tokenslist_8c_source.html#l00078">tokenslist.c:78</a></div></div>
-<div class="ttc" id="adebugmalloc_8h_html"><div class="ttname"><a href="debugmalloc_8h.html">debugmalloc.h</a></div></div>
 <div class="ttc" id="astruct_tokens_list_html_a5362c39c6015cd8604a320b2291ada95"><div class="ttname"><a href="struct_tokens_list.html#a5362c39c6015cd8604a320b2291ada95">TokensList::tokenslist_add</a></div><div class="ttdeci">int tokenslist_add(TokensList *list, Token t)</div><div class="ttdoc">Append a token to the list.</div><div class="ttdef"><b>Definition:</b> <a href="tokenslist_8c_source.html#l00031">tokenslist.c:31</a></div></div>
 <div class="ttc" id="atokenslist_8h_html_a23f96669ea63d90d159cba4b20a6ff88"><div class="ttname"><a href="tokenslist_8h.html#a23f96669ea63d90d159cba4b20a6ff88">TokensListElement::token</a></div><div class="ttdeci">Token * token</div><div class="ttdoc">Token value.</div><div class="ttdef"><b>Definition:</b> <a href="tokenslist_8h_source.html#l00018">tokenslist.h:18</a></div></div>
 <div class="ttc" id="astruct_tokens_list_html_aa0e86aa124e493f2b7d9e6083a1f553b"><div class="ttname"><a href="struct_tokens_list.html#aa0e86aa124e493f2b7d9e6083a1f553b">TokensList::tail</a></div><div class="ttdeci">TokensListElement * tail</div><div class="ttdoc">tail (last element) pointer</div><div class="ttdef"><b>Definition:</b> <a href="tokenslist_8h_source.html#l00033">tokenslist.h:33</a></div></div>
@@ -202,13 +201,11 @@ $(function() {
 <div class="ttc" id="atokenslist_8h_html"><div class="ttname"><a href="tokenslist_8h.html">tokenslist.h</a></div><div class="ttdoc">Implement TokensList.</div></div>
 <div class="ttc" id="astruct_tokens_list_html_a16eb5844fb167e60c541310ab335edbc"><div class="ttname"><a href="struct_tokens_list.html#a16eb5844fb167e60c541310ab335edbc">TokensList::head</a></div><div class="ttdeci">TokensListElement * head</div><div class="ttdoc">head (first element) of the list</div><div class="ttdef"><b>Definition:</b> <a href="tokenslist_8h_source.html#l00031">tokenslist.h:31</a></div></div>
 <div class="ttc" id="atokenslist_8h_html_struct_tokens_list_element"><div class="ttname"><a href="tokenslist_8h.html#struct_tokens_list_element">TokensListElement</a></div><div class="ttdoc">An element of a TokensList.</div><div class="ttdef"><b>Definition:</b> <a href="tokenslist_8h_source.html#l00016">tokenslist.h:16</a></div></div>
-<div class="ttc" id="adebugmalloc_8h_html_a535b58ab5aa48e2e86073e334d43fd32"><div class="ttname"><a href="debugmalloc_8h.html#a535b58ab5aa48e2e86073e334d43fd32">malloc</a></div><div class="ttdeci">#define malloc(S)</div><div class="ttdef"><b>Definition:</b> <a href="debugmalloc_8h_source.html#l00478">debugmalloc.h:478</a></div></div>
 <div class="ttc" id="astruct_tokens_list_html_ac23f2fbcb2a748459f4c60f814245a65"><div class="ttname"><a href="struct_tokens_list.html#ac23f2fbcb2a748459f4c60f814245a65">TokensList::tokenslist_recognize</a></div><div class="ttdeci">int tokenslist_recognize(TokensList *t)</div><div class="ttdoc">Do token recognition on all tokens in a list.</div><div class="ttdef"><b>Definition:</b> <a href="tokenslist_8c_source.html#l00117">tokenslist.c:117</a></div></div>
 <div class="ttc" id="atoken_func_8h_html"><div class="ttname"><a href="token_func_8h.html">tokenFunc.h</a></div><div class="ttdoc">Token type member methods.</div></div>
 <div class="ttc" id="astruct_tokens_list_html"><div class="ttname"><a href="struct_tokens_list.html">TokensList</a></div><div class="ttdoc">A doubly-linked list for storing Tokens.</div><div class="ttdef"><b>Definition:</b> <a href="tokenslist_8h_source.html#l00029">tokenslist.h:29</a></div></div>
 <div class="ttc" id="astruct_token_html_aae8489024b27856ed2b1355ad42a16d7"><div class="ttname"><a href="struct_token.html#aae8489024b27856ed2b1355ad42a16d7">Token::token_print</a></div><div class="ttdeci">void token_print(Token *token)</div><div class="ttdoc">Pretty-print one token, with its source and length.</div><div class="ttdef"><b>Definition:</b> <a href="token_func_8c_source.html#l00020">tokenFunc.c:20</a></div></div>
 <div class="ttc" id="astruct_token_html_a9df1af43944a70b4905e8ea4da190913"><div class="ttname"><a href="struct_token.html#a9df1af43944a70b4905e8ea4da190913">Token::token_recognize</a></div><div class="ttdeci">int token_recognize(Token *t)</div><div class="ttdoc">Parse token - test if it's an opcode, a label or a directive.</div><div class="ttdef"><b>Definition:</b> <a href="token_func_8c_source.html#l00251">tokenFunc.c:251</a></div></div>
-<div class="ttc" id="adebugmalloc_8h_html_aa7943e5d135734f6801bebcc37401fc0"><div class="ttname"><a href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a></div><div class="ttdeci">#define free(P)</div><div class="ttdef"><b>Definition:</b> <a href="debugmalloc_8h_source.html#l00481">debugmalloc.h:481</a></div></div>
 <div class="ttc" id="alogging_8h_html"><div class="ttname"><a href="logging_8h.html">logging.h</a></div><div class="ttdoc">logging and fancy-printing</div></div>
 <div class="ttc" id="astruct_tokens_list_html_ae985ab88d8b91b979dfbec19d7246a41"><div class="ttname"><a href="struct_tokens_list.html#ae985ab88d8b91b979dfbec19d7246a41">TokensList::tokenslist_remove</a></div><div class="ttdeci">TokensListElement * tokenslist_remove(TokensList *list, TokensListElement *el)</div><div class="ttdoc">remove a token from the list</div><div class="ttdef"><b>Definition:</b> <a href="tokenslist_8c_source.html#l00060">tokenslist.c:60</a></div></div>
 <div class="ttc" id="astruct_tokens_list_html_a21dc2b0a17aab183f2e390d678f993d7"><div class="ttname"><a href="struct_tokens_list.html#a21dc2b0a17aab183f2e390d678f993d7">TokensList::tokenslist_insert</a></div><div class="ttdeci">void tokenslist_insert(TokensList *list, TokensListElement *target, TokensList *src)</div><div class="ttdoc">Insert the contents of SRC into another list after an element.</div><div class="ttdef"><b>Definition:</b> <a href="tokenslist_8c_source.html#l00097">tokenslist.c:97</a></div></div>

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>s502 assembler: /github/workspace/src/tokenFunc.c File Reference</title>
+<title>s502 assembler: src/tokenFunc.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -75,7 +75,7 @@ $(function() {
 
 <p>implement token member methods  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="debugmalloc_8h_source.html">debugmalloc.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;debugmalloc.h&quot;</code><br />
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
 <code>#include &lt;stdlib.h&gt;</code><br />
@@ -208,7 +208,7 @@ Functions</h2></td></tr>
 <div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        <span class="keywordflow">return</span> -1;</div>
 <div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;    }</div>
 <div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    <span class="keywordtype">int</span> size = t-&gt;<a class="code" href="struct_token.html#a68e8242d263ec12fe0bdb9c146bfdf19">binSize</a>;</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;    <span class="keywordtype">char</span>* data = <a class="code" href="debugmalloc_8h.html#a535b58ab5aa48e2e86073e334d43fd32">malloc</a>(size);</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;    <span class="keywordtype">char</span>* data = malloc(size);</div>
 <div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;    *dataptr = data;</div>
 <div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;    <span class="keywordflow">if</span> (t-&gt;<a class="code" href="struct_token.html#a9c17b67976cd7e2ad049d7d3d8f0bd90">instr</a>.addressmode == <a class="code" href="addressmode_8h.html#a36eef9740a33a6c29292704bd027bebaa6a61b36c2f3f1fadbe73ead78b526ea5">ADRM_REL</a>) {</div>
 <div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;        <span class="keywordtype">int</span> n = t-&gt;<a class="code" href="struct_token.html#a9c17b67976cd7e2ad049d7d3d8f0bd90">instr</a>.number - t-&gt;<a class="code" href="struct_token.html#a9c17b67976cd7e2ad049d7d3d8f0bd90">instr</a>.address - 2;</div>
@@ -217,7 +217,7 @@ Functions</h2></td></tr>
 <div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;            <a class="code" href="logging_8h.html#a02ce8a968600d004ba60858425c46307">ERROR</a>(<span class="stringliteral">&quot;Relative addressing jump too far!\n&quot;</span>);</div>
 <div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;            printf(<span class="stringliteral">&quot;Target: $%x, from: $%x (diff: $%x)\n&quot;</span>, t-&gt;<a class="code" href="struct_token.html#a9c17b67976cd7e2ad049d7d3d8f0bd90">instr</a>.number, t-&gt;<a class="code" href="struct_token.html#a9c17b67976cd7e2ad049d7d3d8f0bd90">instr</a>.address, n);</div>
 <div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;            <a class="code" href="struct_token.html#aae8489024b27856ed2b1355ad42a16d7">token_print</a>(t);</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;            <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(data);</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;            free(data);</div>
 <div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;            *dataptr = NULL;</div>
 <div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;            <span class="keywordflow">return</span> -1;</div>
 <div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;        }</div>
@@ -233,7 +233,7 @@ Functions</h2></td></tr>
 <div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;    <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="addressmode_8h_source.html#l00039">ADRM_REL</a>, <a class="el" href="token__t_8h_source.html#l00039">Token::binSize</a>, <a class="el" href="directive_8c_source.html#l00498">directive_compile()</a>, <a class="el" href="logging_8h_source.html#l00040">ERROR</a>, <a class="el" href="debugmalloc_8h_source.html#l00481">free</a>, <a class="el" href="struct_token.html#a9c17b67976cd7e2ad049d7d3d8f0bd90">Token::instr</a>, <a class="el" href="debugmalloc_8h_source.html#l00478">malloc</a>, <a class="el" href="token_func_8c_source.html#l00020">Token::token_print()</a>, <a class="el" href="token__t_8h_source.html#l00028">TT_DIRECTIVE</a>, <a class="el" href="token__t_8h_source.html#l00026">TT_INSTR</a>, and <a class="el" href="token__t_8h_source.html#l00041">Token::type</a>.</p>
+<p class="reference">References <a class="el" href="addressmode_8h_source.html#l00039">ADRM_REL</a>, <a class="el" href="token__t_8h_source.html#l00039">Token::binSize</a>, <a class="el" href="directive_8c_source.html#l00498">directive_compile()</a>, <a class="el" href="logging_8h_source.html#l00040">ERROR</a>, <a class="el" href="struct_token.html#a9c17b67976cd7e2ad049d7d3d8f0bd90">Token::instr</a>, <a class="el" href="token_func_8c_source.html#l00020">Token::token_print()</a>, <a class="el" href="token__t_8h_source.html#l00028">TT_DIRECTIVE</a>, <a class="el" href="token__t_8h_source.html#l00026">TT_INSTR</a>, and <a class="el" href="token__t_8h_source.html#l00041">Token::type</a>.</p>
 
 </div>
 </div>
@@ -276,12 +276,12 @@ Functions</h2></td></tr>
 <div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;    <span class="keywordflow">for</span> (; *begin != 0 &amp;&amp; (*begin == <span class="charliteral">&#39; &#39;</span> || *begin == <span class="charliteral">&#39;*&#39;</span> || *begin == <span class="charliteral">&#39;(&#39;</span> || *begin == <span class="charliteral">&#39;#&#39;</span>); begin++);</div>
 <div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    <span class="keywordflow">for</span> (end = begin; *end != 0 &amp;&amp; *end != <span class="charliteral">&#39;)&#39;</span> &amp;&amp; *end != <span class="charliteral">&#39;,&#39;</span> &amp;&amp; *end != <span class="charliteral">&#39; &#39;</span>; end++);</div>
 <div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160; </div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    <span class="keywordtype">char</span>* buff = <a class="code" href="debugmalloc_8h.html#a535b58ab5aa48e2e86073e334d43fd32">malloc</a>(end - begin + 1);</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    <span class="keywordtype">char</span>* buff = malloc(end - begin + 1);</div>
 <div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    strncpy(buff, begin, end - begin + 1);</div>
 <div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    buff[end - begin] = 0;</div>
 <div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160; </div>
 <div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    <span class="keywordtype">int</span> n = <a class="code" href="number_8c.html#a89a3e2f1ad189635e084fbf8357090c3">number_get_number</a>(s, buff);</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;    <a class="code" href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a>(buff);</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;    free(buff);</div>
 <div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160; </div>
 <div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    <span class="keywordflow">if</span> (n == <a class="code" href="number_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba7f8ed21cd25a337d5f7af12a72ff18ea">NUMBER_ERROR</a>) {</div>
 <div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;        <a class="code" href="struct_token.html#aae8489024b27856ed2b1355ad42a16d7">token_print</a>(t);</div>
@@ -295,7 +295,7 @@ Functions</h2></td></tr>
 <div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;}</div>
 </div><!-- fragment -->
-<p class="reference">References <a class="el" href="token__t_8h_source.html#l00039">Token::binSize</a>, <a class="el" href="logging_8h_source.html#l00045">FAIL</a>, <a class="el" href="debugmalloc_8h_source.html#l00481">free</a>, <a class="el" href="struct_token.html#a9c17b67976cd7e2ad049d7d3d8f0bd90">Token::instr</a>, <a class="el" href="debugmalloc_8h_source.html#l00478">malloc</a>, <a class="el" href="number_8h_source.html#l00015">NUMBER_ERROR</a>, <a class="el" href="number_8c_source.html#l00075">number_get_number()</a>, <a class="el" href="number_8h_source.html#l00017">NUMBER_LABEL_NODEF</a>, <a class="el" href="token__t_8h_source.html#l00055">Token::stripped</a>, <a class="el" href="token_func_8c_source.html#l00020">Token::token_print()</a>, <a class="el" href="token__t_8h_source.html#l00026">TT_INSTR</a>, and <a class="el" href="token__t_8h_source.html#l00041">Token::type</a>.</p>
+<p class="reference">References <a class="el" href="token__t_8h_source.html#l00039">Token::binSize</a>, <a class="el" href="logging_8h_source.html#l00045">FAIL</a>, <a class="el" href="struct_token.html#a9c17b67976cd7e2ad049d7d3d8f0bd90">Token::instr</a>, <a class="el" href="number_8h_source.html#l00015">NUMBER_ERROR</a>, <a class="el" href="number_8c_source.html#l00075">number_get_number()</a>, <a class="el" href="number_8h_source.html#l00017">NUMBER_LABEL_NODEF</a>, <a class="el" href="token__t_8h_source.html#l00055">Token::stripped</a>, <a class="el" href="token_func_8c_source.html#l00020">Token::token_print()</a>, <a class="el" href="token__t_8h_source.html#l00026">TT_INSTR</a>, and <a class="el" href="token__t_8h_source.html#l00041">Token::type</a>.</p>
 
 </div>
 </div>
@@ -393,13 +393,11 @@ Functions</h2></td></tr>
 <div class="ttc" id="alogging_8h_html_ab6f54adff18dba737f9143cf6f2e4d3e"><div class="ttname"><a href="logging_8h.html#ab6f54adff18dba737f9143cf6f2e4d3e">LOGDO</a></div><div class="ttdeci">#define LOGDO(LVL, x)</div><div class="ttdoc">Conditional macro. Wraps contents into a conditional based on log level.</div><div class="ttdef"><b>Definition:</b> <a href="logging_8h_source.html#l00035">logging.h:35</a></div></div>
 <div class="ttc" id="aaddressmode_8c_html_aeeb05877ddd6d71faf6b4a207f864ea3"><div class="ttname"><a href="addressmode_8c.html#aeeb05877ddd6d71faf6b4a207f864ea3">ADRM_SIZES</a></div><div class="ttdeci">int ADRM_SIZES[ADRM_COUNT+1]</div><div class="ttdoc">operand sizes of addressmodes</div><div class="ttdef"><b>Definition:</b> <a href="addressmode_8c_source.html#l00037">addressmode.c:37</a></div></div>
 <div class="ttc" id="astruct_token_html_a68e8242d263ec12fe0bdb9c146bfdf19"><div class="ttname"><a href="struct_token.html#a68e8242d263ec12fe0bdb9c146bfdf19">Token::binSize</a></div><div class="ttdeci">int binSize</div><div class="ttdoc">number of bytes this token will generate</div><div class="ttdef"><b>Definition:</b> <a href="token__t_8h_source.html#l00039">token_t.h:39</a></div></div>
-<div class="ttc" id="adebugmalloc_8h_html_a535b58ab5aa48e2e86073e334d43fd32"><div class="ttname"><a href="debugmalloc_8h.html#a535b58ab5aa48e2e86073e334d43fd32">malloc</a></div><div class="ttdeci">#define malloc(S)</div><div class="ttdef"><b>Definition:</b> <a href="debugmalloc_8h_source.html#l00478">debugmalloc.h:478</a></div></div>
 <div class="ttc" id="atoken__t_8h_html_a6a0d563d5e7c57fc510988d6694cc9e9aba28c6afc71c659306d2347c03188e19"><div class="ttname"><a href="token__t_8h.html#a6a0d563d5e7c57fc510988d6694cc9e9aba28c6afc71c659306d2347c03188e19">TT_DIRECTIVE</a></div><div class="ttdeci">@ TT_DIRECTIVE</div><div class="ttdoc">directive token</div><div class="ttdef"><b>Definition:</b> <a href="token__t_8h_source.html#l00028">token_t.h:28</a></div></div>
 <div class="ttc" id="astruct_token_html_aa989b4b167afa111a33c6c51d8610a9d"><div class="ttname"><a href="struct_token.html#aa989b4b167afa111a33c6c51d8610a9d">Token::type</a></div><div class="ttdeci">enum tokenType type</div><div class="ttdoc">type of this token</div><div class="ttdef"><b>Definition:</b> <a href="token__t_8h_source.html#l00039">token_t.h:41</a></div></div>
 <div class="ttc" id="astruct_token_html_aae8489024b27856ed2b1355ad42a16d7"><div class="ttname"><a href="struct_token.html#aae8489024b27856ed2b1355ad42a16d7">Token::token_print</a></div><div class="ttdeci">void token_print(Token *token)</div><div class="ttdoc">Pretty-print one token, with its source and length.</div><div class="ttdef"><b>Definition:</b> <a href="token_func_8c_source.html#l00020">tokenFunc.c:20</a></div></div>
 <div class="ttc" id="adirective_8c_html_af2408851d8cb356c7552f2176314784a"><div class="ttname"><a href="directive_8c.html#af2408851d8cb356c7552f2176314784a">directive_compile</a></div><div class="ttdeci">int directive_compile(State *s, Token *t, char **dataptr)</div><div class="ttdoc">Compile a directive into binary data.</div><div class="ttdef"><b>Definition:</b> <a href="directive_8c_source.html#l00498">directive.c:498</a></div></div>
 <div class="ttc" id="atoken__t_8h_html_a6a0d563d5e7c57fc510988d6694cc9e9a5da0ac200c99e7d1458989b84fa617e0"><div class="ttname"><a href="token__t_8h.html#a6a0d563d5e7c57fc510988d6694cc9e9a5da0ac200c99e7d1458989b84fa617e0">TT_LABEL</a></div><div class="ttdeci">@ TT_LABEL</div><div class="ttdoc">label token</div><div class="ttdef"><b>Definition:</b> <a href="token__t_8h_source.html#l00031">token_t.h:30</a></div></div>
-<div class="ttc" id="adebugmalloc_8h_html_aa7943e5d135734f6801bebcc37401fc0"><div class="ttname"><a href="debugmalloc_8h.html#aa7943e5d135734f6801bebcc37401fc0">free</a></div><div class="ttdeci">#define free(P)</div><div class="ttdef"><b>Definition:</b> <a href="debugmalloc_8h_source.html#l00481">debugmalloc.h:481</a></div></div>
 <div class="ttc" id="astruct_token_html_a3ce3f4d4c534b2a3c9a0af959e76a6f5"><div class="ttname"><a href="struct_token.html#a3ce3f4d4c534b2a3c9a0af959e76a6f5">Token::source</a></div><div class="ttdeci">struct Token::@2 source</div><div class="ttdoc">source of this token</div></div>
 <div class="ttc" id="astruct_token_html_ae5ea42fd8fd24dba29ea1e764be5b2e7"><div class="ttname"><a href="struct_token.html#ae5ea42fd8fd24dba29ea1e764be5b2e7">Token::len</a></div><div class="ttdeci">int len</div><div class="ttdoc">length of stripped text</div><div class="ttdef"><b>Definition:</b> <a href="token__t_8h_source.html#l00057">token_t.h:57</a></div></div>
 <div class="ttc" id="anumber_8h_html_a06fc87d81c62e9abb8790b6e5713c55ba7f8ed21cd25a337d5f7af12a72ff18ea"><div class="ttname"><a href="number_8h.html#a06fc87d81c62e9abb8790b6e5713c55ba7f8ed21cd25a337d5f7af12a72ff18ea">NUMBER_ERROR</a></div><div class="ttdeci">@ NUMBER_ERROR</div><div class="ttdoc">Could not parse a number or constant is undefined.</div><div class="ttdef"><b>Definition:</b> <a href="number_8h_source.html#l00015">number.h:15</a></div></div>
