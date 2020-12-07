@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['s502_20assmebler_135',['S502 assmebler',['../index.html',1,'']]],
+  ['s502_20assembler_135',['S502 assembler',['../index.html',1,'']]],
   ['source_20files_136',['Source files',['../md_doc_sources.html',1,'']]],
   ['skipprocessors_137',['skipProcessors',['../directive_8c.html#ade1a286d01a880e5c460e773e4930449',1,'directive.c']]],
   ['source_138',['source',['../struct_token.html#a3ce3f4d4c534b2a3c9a0af959e76a6f5',1,'Token']]],

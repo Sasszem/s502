@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>s502 assembler: S502 assmebler</title>
+<title>s502 assembler: S502 assembler</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,10 +63,10 @@ $(function() {
 
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">S502 assmebler </div>  </div>
+<div class="title">S502 assembler </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_doc_main"></a> Sixty-502 assember is a simple assembler program for the 6502 line of processors written in C.</p>
+<div class="textblock"><p><a class="anchor" id="md_doc_main"></a> Sixty-502 assembler is a simple assembler program for the 6502 line of processors written in C.</p>
 <p>It is also my homework project in programming on BME.</p>
 <p><b>IMPORTANT</b> <br  />
 </p><ul>
@@ -100,7 +100,7 @@ Usage</h2>
 <p><a class="el" href="md_doc_errlist.html">Full list of errors and possible causes</a></p>
 <h2><a class="anchor" id="autotoc_md62"></a>
 Compilation</h2>
-<p>The project ships with VSCode project set-up for Windows+gcc, the default build task generates <code>asm.exe</code> with <code>-O3</code>, <code>-Wall</code> and <code>-Werror</code>.</p>
+<p>The project ships with VSCode project set-up for Windows+GCC, the default build task generates <code>asm.exe</code> with <code>-O3</code>, <code>-Wall</code> and <code>-Werror</code>.</p>
 <p>If not using VSCode or Windows, use the command:</p><ul>
 <li><code>gcc -o asm -O3 -Wall -Werror src/*.c</code></li>
 </ul>
@@ -111,7 +111,7 @@ Provided example</h2>
 <li><code>c64.asm</code></li>
 </ul>
 <p><code>c64.asm</code> is a "header" file not generating any binary, but defining useful labels for programming the C=64 computer</p>
-<p><code>example.asm</code> is a demo program of the assmebler for the C=64 (using <code>c64.asm</code>).</p>
+<p><code>example.asm</code> is a demo program of the assembler for the C=64 (using <code>c64.asm</code>).</p>
 <p>For trying out the example, I recommend using a C=64 emulator such as <a href="https://vice-emu.sourceforge.io/">VICE</a></p>
 <p>Assemble the example with</p><ul>
 <li><code>asm.exe -o example.prg example.asm</code></li>
@@ -123,12 +123,40 @@ Provided example</h2>
 <li><code>BORDERCHANGE</code> setting it to any value will cause the screen border to be changed in the demo</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md64"></a>
+testing</h1>
+<p>The provided example file uses nearly all features of the assembler, including</p><ul>
+<li>all types of directives</li>
+<li>nested conditional compilation</li>
+<li>labels</li>
+<li>forward-referencing</li>
+<li>all types of numbers</li>
+<li>number modifiers</li>
+<li>many address modes</li>
+</ul>
+<p>Thus making a good cover test if everything works. Excluded from that example:</p><ul>
+<li>accumulator addressing</li>
+<li>indirect addressing</li>
+<li>Y indexed absolute or indirect addressing</li>
+<li>X indexed absolute addressing</li>
+<li>indexed zeropage addressing</li>
+<li>errors</li>
+</ul>
+<p>For testing the different address modes, this program covers all remaining ones: <br  />
+ (comments are hex values they should assemble, hand-assembled from the datasheet) </p><div class="fragment"><div class="line">ASL A         ; 0x0A</div>
+<div class="line">JMP ($1234)   ; 0x6c 0x34 0x12</div>
+<div class="line">LDA $1234, Y  ; 0xB9 0x34 0x12</div>
+<div class="line">LDA ($12), Y  ; 0xB1 0x12</div>
+<div class="line">LDA $1234, X  ; 0xBD 0x34 0x12</div>
+<div class="line">LDA *$12, X   ; 0xB5 0x12</div>
+<div class="line">LDX *$12, Y   ; 0xB6 0x12</div>
+</div><!-- fragment --><p>For errors, see <a class="el" href="md_doc_errlist.html">errors list</a></p>
+<h1><a class="anchor" id="autotoc_md65"></a>
 Programming</h1>
 <p>The project code only contains C source along with header files. All of those are located in the <code>src</code> directory.</p>
 <p>The sources are split up into multiple C files with multiple headers. Headers are always named same as the corresponding sources except for <code><a class="el" href="token__t_8h.html" title="token type struct">token_t.h</a></code> which has no associated C source and <code>debugmalloc.h</code> <a href="https://infoc.eet.bme.hu/debugmalloc/">which is a debugging utility not written by me.</a></p>
 <p>(The original <code>debugmalloc.h</code> raised a assembler warning (a false positive my program also had), so I added GCC pragmas to suppress that.)</p>
 <p>The program uses no global variables and only one static variable (global log level, accessed via <a class="el" href="logging_8c.html#a85fa631d2ef41f279b0a9fd6fa5f2193" title="pseudo-global accessor">logging_level()</a>).</p>
-<h2><a class="anchor" id="autotoc_md65"></a>
+<h2><a class="anchor" id="autotoc_md66"></a>
 Conventions</h2>
 <p>Objects:</p><ul>
 <li>should always use pointers</li>
@@ -141,60 +169,60 @@ Conventions</h2>
 <li>start with module / class name</li>
 </ul>
 <p>Errors:</p><ul>
-<li>functions return 0 or negativa to signal errors</li>
-<li>object creration should return NULL to signal error</li>
+<li>functions return 0 or negative to signal errors</li>
+<li>object creation should return NULL to signal error</li>
 <li>caller should check return values</li>
 <li>most levels that pass an error should print fail message</li>
 </ul>
 <p>Commenting:</p><ul>
-<li>doxygen doc comments in headers except locally defined function</li>
+<li>Doxygen doc comments in headers except locally defined function</li>
 <li>comment complicated or not obvious design</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md66"></a>
+<h2><a class="anchor" id="autotoc_md67"></a>
 Data structures</h2>
-<p>There are many of them, a compleate list of them and their descriptions is seen on the auto-generated pages</p>
-<h3><a class="anchor" id="autotoc_md67"></a>
+<p>There are many of them, a complete list of them and their descriptions is seen on the auto-generated pages</p>
+<h3><a class="anchor" id="autotoc_md68"></a>
 State</h3>
 <p>Compiler state, e.g constants, labels, tokens and settings. <br  />
  Emulates a global object by being passed to many functions.</p>
-<h3><a class="anchor" id="autotoc_md68"></a>
+<h3><a class="anchor" id="autotoc_md69"></a>
 Map</h3>
 <p>Key-&gt;value map for string keys and non-negative integer values. <br  />
  Used for constants and labels. Backed by a singly linked list without sentinels.</p>
-<h3><a class="anchor" id="autotoc_md69"></a>
+<h3><a class="anchor" id="autotoc_md70"></a>
 iStack</h3>
 <p>Simple stack for non-negative integers. <br  />
  Only used to store state of conditional compilation in step_one.c</p>
-<h3><a class="anchor" id="autotoc_md70"></a>
+<h3><a class="anchor" id="autotoc_md71"></a>
 Instruction</h3>
 <p>Type that stores instruction data (mnemonic, codes of different addressing modes) <br  />
  Always bound to a linked list of them</p>
-<h3><a class="anchor" id="autotoc_md71"></a>
+<h3><a class="anchor" id="autotoc_md72"></a>
 Token</h3>
 <p>Most used data type, gathering all data about a single token <br  />
  Holds source (for printing source of error), stripped text, address, binsize, instruction pointer (if instruction), operand, etc.</p>
-<h3><a class="anchor" id="autotoc_md72"></a>
+<h3><a class="anchor" id="autotoc_md73"></a>
 TokensList</h3>
 <p>A doubly linked list of tokens for storing file(s) contents <br  />
  Supports delete and insert operations</p>
-<h2><a class="anchor" id="autotoc_md73"></a>
+<h2><a class="anchor" id="autotoc_md74"></a>
 Modules</h2>
-<h3><a class="anchor" id="autotoc_md74"></a>
-Util</h3>
-<p>Some utility functions</p>
 <h3><a class="anchor" id="autotoc_md75"></a>
+Utils</h3>
+<p>Some utility functions</p>
+<h3><a class="anchor" id="autotoc_md76"></a>
 Number</h3>
 <p>Number parsing</p>
-<h3><a class="anchor" id="autotoc_md76"></a>
+<h3><a class="anchor" id="autotoc_md77"></a>
 Directive</h3>
 <p>Directive processing (step 1 and 3)</p>
-<h3><a class="anchor" id="autotoc_md77"></a>
+<h3><a class="anchor" id="autotoc_md78"></a>
 Loadfile</h3>
 <p>File loading and tokenizing</p>
-<h3><a class="anchor" id="autotoc_md78"></a>
+<h3><a class="anchor" id="autotoc_md79"></a>
 pass_one</h3>
 <p>First step</p>
-<h2><a class="anchor" id="autotoc_md79"></a>
+<h2><a class="anchor" id="autotoc_md80"></a>
 pass_twothree</h2>
 <p>Steps 2 and 3 (i.e writing output) </p>
 </div></div><!-- PageDoc -->

@@ -67,10 +67,10 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><b>Source files</b> consist of valid <b>tokens</b> and <b>comments</b></p>
-<h1><a class="anchor" id="autotoc_md81"></a>
+<h1><a class="anchor" id="autotoc_md82"></a>
 COMMENTS</h1>
 <p><b>comments</b> start with a semicolon (;) and end at the end of the line Comments are fully ignored by the assembler.</p>
-<h1><a class="anchor" id="autotoc_md82"></a>
+<h1><a class="anchor" id="autotoc_md83"></a>
 TOKENS</h1>
 <p><b>tokens</b> are a string of non-whitespace non-semicolon characters in a line They can be surrounded by any number of whitespace and can be followed by a comment in the same line, but no line can contain two tokens.</p>
 <p>Tokens must be of 3 types:</p><ul>
@@ -78,10 +78,10 @@ TOKENS</h1>
 <li><b>label</b></li>
 <li><b>instruction</b></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md83"></a>
+<h1><a class="anchor" id="autotoc_md84"></a>
 labels*</h1>
 <p><b>Labels</b> are aliases for addresses in memory. They automatically mark the next address where they are defined, but they do not take any space in the resulting binary. <b>Label tokens</b> must end with a colon (:)</p>
-<h1><a class="anchor" id="autotoc_md84"></a>
+<h1><a class="anchor" id="autotoc_md85"></a>
 directives</h1>
 <p><b>directives</b> are commands for the assembler. They might or might not take space in the binary. <br  />
  <b>directive tokens</b> must start with a dot (.) <br  />
@@ -99,49 +99,49 @@ directives</h1>
 <li><code>pad</code></li>
 </ul>
 <p>The assembler is not case-sensitive with directive names</p>
-<h2><a class="anchor" id="autotoc_md85"></a>
+<h2><a class="anchor" id="autotoc_md86"></a>
 define &lt;name&gt; &lt;value&gt;</h2>
 <p>Define a constant with name and value.</p>
-<h2><a class="anchor" id="autotoc_md86"></a>
+<h2><a class="anchor" id="autotoc_md87"></a>
 ifdef &lt;constant&gt;</h2>
 <p>Conditional compilation until the matching <code>.endif</code> if the constant is defined. <br  />
  Node: does not need @ in front of the name!</p>
-<h2><a class="anchor" id="autotoc_md87"></a>
+<h2><a class="anchor" id="autotoc_md88"></a>
 printc &lt;constant&gt;</h2>
 <p>Log the name and value of a constant. <br  />
  Note: does not need @ in front of the constant name!</p>
-<h2><a class="anchor" id="autotoc_md88"></a>
+<h2><a class="anchor" id="autotoc_md89"></a>
 print &lt;line&gt;</h2>
 <p>Logs the rest of the line</p>
-<h2><a class="anchor" id="autotoc_md89"></a>
+<h2><a class="anchor" id="autotoc_md90"></a>
 include &lt;file&gt;</h2>
 <p>Include another file in the source. <br  />
  Basically automated copy-paste. <br  />
  Searches the file in CWD.</p>
-<h2><a class="anchor" id="autotoc_md90"></a>
+<h2><a class="anchor" id="autotoc_md91"></a>
 endif</h2>
 <p>Close a block of conditional compilation</p>
-<h2><a class="anchor" id="autotoc_md91"></a>
+<h2><a class="anchor" id="autotoc_md92"></a>
 ifndef &lt;constant&gt;</h2>
 <p>Inverted ifdef</p>
-<h2><a class="anchor" id="autotoc_md92"></a>
+<h2><a class="anchor" id="autotoc_md93"></a>
 ifbeq &lt;first&gt; &lt;second&gt;</h2>
 <p>Conditional compilation: first &gt;= second <br  />
  Both can be numbers!</p>
-<h2><a class="anchor" id="autotoc_md93"></a>
+<h2><a class="anchor" id="autotoc_md94"></a>
 org &lt;number&gt;</h2>
 <p>Set PC to number</p>
-<h2><a class="anchor" id="autotoc_md94"></a>
+<h2><a class="anchor" id="autotoc_md95"></a>
 data &lt;entry&gt; [...]</h2>
 <p>Can have many entries of these 3 types:</p><ul>
 <li>byte: <code>&lt;number&gt;</code> (raises an error if it can't fit in a single byte)</li>
 <li>word: <code>w:&lt;number&gt;</code> (gets encoded in $LLHH big-endian format)</li>
 <li>string: <code>"&amp;lt;str&gt;"</code> (must not include whitespace) The binary data from these entries will be concatenated an added in the result</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md95"></a>
+<h2><a class="anchor" id="autotoc_md96"></a>
 pad &lt;to&gt; &lt;with&gt;</h2>
 <p>Pad remaining space to <code>to</code> with byte <code>with</code></p>
-<h1><a class="anchor" id="autotoc_md96"></a>
+<h1><a class="anchor" id="autotoc_md97"></a>
 instructions</h1>
 <p><b>instructions</b> are actual 6502 instructions</p>
 <p>They must consist of a valid instruction mnemonic (3 letters), followed by an additional whitespace and argument <br  />
@@ -152,7 +152,7 @@ instructions</h1>
 <li>instructions with relative addressing modes take memory addresses instead of 8 bit addresses and the offsets are calculated by the assembler</li>
 </ul>
 <p>The assembler is not case-sensitive with instruction mnemonics or operands.</p>
-<h1><a class="anchor" id="autotoc_md97"></a>
+<h1><a class="anchor" id="autotoc_md98"></a>
 Numbers</h1>
 <p>Numbers in directives and operands can take 4 main forms:</p><ul>
 <li>labels addresses: <code>&amp;&lt;labelname&gt;</code></li>
