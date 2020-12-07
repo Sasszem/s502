@@ -1,8 +1,17 @@
 #ifndef GUARD_TOKENTYPE
 #define GUARD_TOKENTYPE
 
+/**
+ * @file
+ * @brief token type struct
+ *
+ * Only defines data members to clean up the dependency graph
+ */
+
 enum {
+    /// Token max length
     TOKEN_BUFFER_SIZE = 100,
+    /// source filename max length. Longer strings will get truncated.
     TOKEN_SOURCE_FILE_SIZE = 32,
 };
 
@@ -13,11 +22,11 @@ enum {
  * @brief possible token types
  */
 enum tokenType {
-    // instruction token
+    /// instruction token
     TT_INSTR,
-    // directive token
+    /// directive token
     TT_DIRECTIVE,
-    // label token
+    /// label token
     TT_LABEL
 };
 
