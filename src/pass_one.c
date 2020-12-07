@@ -10,6 +10,11 @@
 #include "tokenFunc.h"
 #include "addressmode.h"
 
+/**
+ * @file
+ * @brief implement pass one
+ * @see pass_one.h
+ */
 
 int pass_one(State* s) {
     TokensListElement* ptr = s->tokens->head;
@@ -18,7 +23,10 @@ int pass_one(State* s) {
     // top of stack is the current value
     // 1 means we disabled compilation
     // in that case we do not generate anything
+    // but still process conditional compilation directives
+    // so we can get the matching endif
     istack_ptr ifstack = istack_new();
+
     if (!ifstack) {
         FAIL("Pass 1 init failed!\n");
         return -1;
@@ -36,19 +44,26 @@ int pass_one(State* s) {
         // DIRECTIVE //
         ///////////////
         if (ptr->token->type == TT_DIRECTIVE) {
+            // call processor
             p = do_directive_token(s, ptr, istack_top(ifstack, 0));
 
+            // do returned command
             if (p == DIR_IF_TRUE)
+                // AND the condition, so a true inside a false is false
                 if (istack_push(ifstack, istack_top(ifstack, 0)) < 0) goto ERR_FREE;
             if (p == DIR_IF_FALSE)
+                // a false is always false
                 if (istack_push(ifstack, 1) < 0) goto ERR_FREE;
 
+            // pop stack
             if (p == DIR_ENDIF)
                 if (istack_pop(ifstack) < 0) {
                     ERROR("More endif's than if's!\n");
                     token_print(ptr->token);
                     goto ERR_FREE;
                 }
+
+            // stop on error
             if (p == DIR_STOP) goto ERR_FREE;
         }
 
@@ -56,6 +71,8 @@ int pass_one(State* s) {
         // INSTRUCTION //
         /////////////////
         if (ptr->token->type == TT_INSTR) {
+            // analyze
+
             ptr->token->instr.address = s->PC;
 
             if (token_analyze_instruction(s, ptr->token) < 0) goto ERR_FREE;
@@ -71,7 +88,9 @@ int pass_one(State* s) {
         // LABEL //
         ///////////
         if (ptr->token->type == TT_LABEL) {
-            if (ptr->token->len>=MAP_MAX_KEY_LEN) {
+            // set address
+
+            if (ptr->token->len >= MAP_MAX_KEY_LEN) {
                 ERROR("Label is too long!");
                 token_print(ptr->token);
                 goto ERR_FREE;
@@ -82,12 +101,13 @@ int pass_one(State* s) {
             // (thus an error)
             // that I truncate the string
             // it's right of course, but also that's my intetntion
-            #pragma GCC diagnostic push
-            #pragma GCC diagnostic ignored "-Wstringop-truncation"
-            strncpy(labelname, ptr->token->stripped, MAP_MAX_KEY_LEN-1);
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstringop-truncation"
+            strncpy(labelname, ptr->token->stripped, MAP_MAX_KEY_LEN - 1);
             labelname[ptr->token->len - 1] = 0;
-            #pragma GCC diagnostic pop
+#pragma GCC diagnostic pop
             LOG(5, "Label: %s\n", labelname);
+
             if (map_get(s->labels, labelname) >= 0) {
                 ERROR("Can not re-define label '%s'\n", labelname);
                 ERROR("(prev. value: $%x = %d)\n", map_get(s->labels, labelname), map_get(s->labels, labelname));
@@ -102,9 +122,12 @@ int pass_one(State* s) {
         ////////////
         // COMMON //
         ////////////
+
+        // drop if false conditional or 0>=binsize
         if (istack_top(ifstack, 0) || ptr->token->binSize <= 0) {
             ptr = tokenslist_remove(s->tokens, ptr);
         } else {
+            // increment PC, get next token
             s->PC += ptr->token->binSize;
             ptr = ptr->next;
         }
