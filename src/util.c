@@ -7,9 +7,11 @@
 #include "logging.h"
 
 /**
- * Return a pointer to the end of the string segment
- * (the next space or 0 terminator after ptr)
+ * @file
+ * @brief implement utility functions from util.h
+ * @see util.h
  */
+
 char* util_find_string_segment(char* ptr) {
     char* end = ptr;
     while (*end != ' ' && *end != '\0') end++;
@@ -28,7 +30,7 @@ int util_match_char(char a, char b) {
 }
 
 int util_match_string(char* first, char* second, int count) {
-    for (int i = 0; i<count; i++) {
+    for (int i = 0; i < count; i++) {
         if (!util_match_char(first[i], second[i])) return 1;
     }
     return 0;
