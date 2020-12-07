@@ -72,6 +72,40 @@ The demo can also be assembled with different parameters by setting these consta
 - `CRAZY_EFFECT` setting it to any value will cause a crazy visual effect in the waiting screen
 - `BORDERCHANGE` setting it to any value will cause the screen border to be changed in the demo
 
+## testing
+
+The provided example file uses nearly all features of the assembler, including 
+- all types of directives
+- nested conditional compilation
+- labels
+- forward-referencing
+- all types of numbers
+- number modifiers
+- many addressmodes
+
+Thus making a good cover test if everything works.
+Excluded from that example:
+- accumulator addressing
+- indirect addressing
+- Y indexed absolute or indirect addressing
+- X indexed absolute addressing
+- indexed zeropage addressing
+- errors
+
+For testing the different address modes, this program covers all remaining ones:   
+(comments are hex values they should assemble, hand-assembled from the datasheet)
+```asm
+ASL A         ; 0x0A
+JMP ($1234)   ; 0x6c 0x34 0x12
+LDA $1234, Y  ; 0xB9 0x34 0x12
+LDA ($12), Y  ; 0xB1 0x12
+LDA $1234, X  ; 0xBD 0x34 0x12
+LDA *$12, X   ; 0xB5 0x12
+LDX *$12, Y   ; 0xB6 0x12
+```
+
+For errors, see [errors list](errlist.md)
+
 ## Programming
 
 The project code only contains C source along with header files. All of those are located in the `src` directory.

@@ -76,6 +76,13 @@ jsr &C64_CHROUT
 ; ####################
 ; # ACTUAL BALL DEMO #
 ; ####################
+.ifdef WAIT
+    .print Custom WAIT constant!
+    .printc WAIT
+    .ifbeq 255 @WAIT
+        .print That's REAL fast!
+    .endif
+.endif
 .ifndef WAIT
     .define WAIT 3000
 .endif
