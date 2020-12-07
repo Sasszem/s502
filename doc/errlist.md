@@ -198,7 +198,7 @@ Reproduce:
 - `.pad $100`
 - `.pad $error`
 
-Triggers if pad byte is >255 or does not have a value (undef label/constant, number parsing error)   
+Triggers if pad byte is >255 or does not have a value (undefined label/constant, number parsing error)   
 Might also trigger ""Can not interpret number
 
 ---
@@ -209,7 +209,7 @@ ERROR("Error opening file: %s\n", strerror(errno));
 Reproduce:
 - delete/rename/move instructions file
 - invalid input file
-- invalid output file (no write access, antivirus, etc)
+- invalid output file (no write access, antivirus, etc.)
 - include a non-existent file
 
 ---

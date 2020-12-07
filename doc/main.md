@@ -1,6 +1,6 @@
-# S502 assmebler
+# S502 assembler
 
-Sixty-502 assember is a simple assembler program for the 6502 line of processors written in C.
+Sixty-502 assembler is a simple assembler program for the 6502 line of processors written in C.
 
 It is also my homework project in programming on BME.
 
@@ -45,7 +45,7 @@ If the program encounters some errors, it prints it's cause and stops, de-alloca
 
 ### Compilation
 
-The project ships with VSCode project set-up for Windows+gcc, the default build task generates `asm.exe` with `-O3`, `-Wall` and `-Werror`.
+The project ships with VSCode project set-up for Windows+GCC, the default build task generates `asm.exe` with `-O3`, `-Wall` and `-Werror`.
 
 If not using VSCode or Windows, use the command:
 - `gcc -o asm -O3 -Wall -Werror src/*.c`
@@ -58,7 +58,7 @@ Two example files are provided in the root folder:
 
 `c64.asm` is a "header" file not generating any binary, but defining useful labels for programming the C=64 computer
 
-`example.asm` is a demo program of the assmebler for the C=64 (using `c64.asm`).
+`example.asm` is a demo program of the assembler for the C=64 (using `c64.asm`).
 
 For trying out the example, I recommend using a C=64 emulator such as [VICE](https://vice-emu.sourceforge.io/)
 
@@ -81,7 +81,7 @@ The provided example file uses nearly all features of the assembler, including
 - forward-referencing
 - all types of numbers
 - number modifiers
-- many addressmodes
+- many address modes
 
 Thus making a good cover test if everything works.
 Excluded from that example:
@@ -129,18 +129,18 @@ Naming:
 - start with module / class name
 
 Errors:
-- functions return 0 or negativa to signal errors
-- object creration should return NULL to signal error
+- functions return 0 or negative to signal errors
+- object creation should return NULL to signal error
 - caller should check return values
 - most levels that pass an error should print fail message
 
 Commenting:
-- doxygen doc comments in headers except locally defined function
+- Doxygen doc comments in headers except locally defined function
 - comment complicated or not obvious design
 
 ### Data structures
 
-There are many of them, a compleate list of them and their descriptions is seen on the auto-generated pages
+There are many of them, a complete list of them and their descriptions is seen on the auto-generated pages
 
 #### State
 Compiler state, e.g constants, labels, tokens and settings.   
@@ -168,7 +168,7 @@ Supports delete and insert operations
 
 ### Modules
 
-#### Util
+#### Utils
 
 Some utility functions
 

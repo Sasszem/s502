@@ -36,4 +36,4 @@ The workings of the program can be broken up to 6 steps:
 - get token operands (now all should be valid)
 
 ## Third step
-- generate and concat binary data, write it to file
+- generate and concatenate binary data, write it to file
