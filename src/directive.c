@@ -305,7 +305,7 @@ enum DIRCommand process_pad(State* s, TokensListElement* ptr) {
     }
 
     int target = number_get_number(s, line[1]);
-    if (target < 0 || target>>8) {
+    if (target < 0) {
         ERROR("Invalid argument in .pad!\n");
         goto ERR;
     }
