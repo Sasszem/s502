@@ -1,9 +1,5 @@
 var searchData=
 [
-  ['util_2ec_184',['util.c',['../util_8c.html',1,'']]],
-  ['util_2eh_185',['util.h',['../util_8h.html',1,'']]],
-  ['util_5ffind_5fstring_5fsegment_186',['util_find_string_segment',['../util_8c.html#a0c706a1297ac9dec3d3550ee017ffff2',1,'util_find_string_segment(char *ptr):&#160;util.c'],['../util_8h.html#a0c706a1297ac9dec3d3550ee017ffff2',1,'util_find_string_segment(char *ptr):&#160;util.c']]],
-  ['util_5fmatch_5fchar_187',['util_match_char',['../util_8c.html#a1a41ad8781c0f4c0a0cad9ed275e300f',1,'util_match_char(char a, char b):&#160;util.c'],['../util_8h.html#a1a41ad8781c0f4c0a0cad9ed275e300f',1,'util_match_char(char a, char b):&#160;util.c']]],
-  ['util_5fmatch_5fstring_188',['util_match_string',['../util_8c.html#ab54ff38e04506112faec5140a722a2aa',1,'util_match_string(char *first, char *second, int count):&#160;util.c'],['../util_8h.html#ab54ff38e04506112faec5140a722a2aa',1,'util_match_string(char *first, char *second, int count):&#160;util.c']]],
-  ['util_5fsplit_5fstring_189',['util_split_string',['../util_8c.html#a36c3fbcc382e045f8e7323bf5ac52fc2',1,'util_split_string(char *str, int *n):&#160;util.c'],['../util_8h.html#a36c3fbcc382e045f8e7323bf5ac52fc2',1,'util_split_string(char *str, int *n):&#160;util.c']]]
+  ['val_170',['val',['../structistack__el.html#addb7be50e995d4767e7607638b817463',1,'istack_el']]],
+  ['value_171',['value',['../map_8h.html#a6ed2369133bf17372ac2682b6a3ba51d',1,'MapEntry']]]
 ];

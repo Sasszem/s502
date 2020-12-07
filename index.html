@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>s502 assembler: S502 assmebler</title>
+<title>s502 assembler: Main Page</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -61,139 +61,11 @@ $(function() {
 </iframe>
 </div>
 
-<div class="PageDoc"><div class="header">
+<div class="header">
   <div class="headertitle">
-<div class="title">S502 assmebler </div>  </div>
+<div class="title">s502 assembler Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="md_readme"></a> Sixty-502 assember is a simple assembler program for the 6502 line of processors written in C.</p>
-<p>It is also my homework project in programming on BME.</p>
-<p><b>IMPORTANT</b> <br  />
- <a class="el" href="md_changes.html">Differences from my previously handed-in documentation</a></p>
-<h1><a class="anchor" id="autotoc_md60"></a>
-Introduction</h1>
-<p>The goal of this program is to convert one or many assembly source files to machine code binary files. This is a moderately complex task, especially as we need robust error handling as there are many possible sources of failure, such as wrong filenames or invalid inputs.</p>
-<p><a href="https://www.masswerk.at/6502/6502_instruction_set.html">Information on the 6502</a></p>
-<h2><a class="anchor" id="autotoc_md61"></a>
-Usage</h2>
-<p>The assembler consist of an executable file (<code>asm.exe</code> on windows), and an instructions file (<code>opcodes.csv</code>).</p>
-<p>The former is the main executable of the program.</p>
-<p>The later is used by the assembler to load instruction data from, and should be placed in CWD or in PATH, otherwise the assembler will not find it and fail.</p>
-<p>The assembler can be run from the command line: <code>asm.exe input.asm</code></p>
-<p>Additional settings can also be applied:</p><ul>
-<li><code>-l &lt;loglevel&gt;</code> to set logging level <br  />
- (&gt;=1 number, default is 1, max useful value is 5)</li>
-<li><code>-o &lt;outputfile&gt;</code> to set output file <br  />
- (default is <code>out.bin</code>). <br  />
- <code>name</code> has an upper length limit set in <code><a class="el" href="state_8h.html" title="implement State class">state.h</a></code></li>
-<li><code>-d &lt;name&gt; &lt;value&gt;</code> to define a constant. <br  />
- (name is string with upper length limit set in <code><a class="el" href="map_8h.html" title="Map class.">map.h</a></code>, value is non-negative decimal number). <br  />
- <b>Can be repeated many times.</b></li>
-</ul>
-<p>The input file should be <a class="el" href="md_sources.html">a valid source file</a></p>
-<p>The program <a class="el" href="md_assemble.html">assembles the source(s)</a> into a binary and saves the result into the specified output file.</p>
-<p>If the program encounters some errors, it prints it's cause and stops, de-allocating all resources it has before exiting.</p>
-<p><a class="el" href="md_errlist.html">Full list of errors and possible causes</a></p>
-<h2><a class="anchor" id="autotoc_md62"></a>
-Compilation</h2>
-<p>The project ships with VSCode project set-up for Windows+gcc, the default build task generates <code>asm.exe</code> with <code>-O3</code>, <code>-Wall</code> and <code>-Werror</code>.</p>
-<p>If not using VSCode or Windows, use the command:</p><ul>
-<li><code>gcc -o asm -O3 -Wall -Werror src/*.c</code></li>
-</ul>
-<h2><a class="anchor" id="autotoc_md63"></a>
-Provided example</h2>
-<p>Two example files are provided in the root folder:</p><ul>
-<li><code>example.asm</code></li>
-<li><code>c64.asm</code></li>
-</ul>
-<p><code>c64.asm</code> is a "header" file not generating any binary, but defining useful labels for programming the C=64 computer</p>
-<p><code>example.asm</code> is a demo program of the assmebler for the C=64 (using <code>c64.asm</code>).</p>
-<p>For trying out the example, I recommend using a C=64 emulator such as <a href="https://vice-emu.sourceforge.io/">VICE</a></p>
-<p>Assemble the example with</p><ul>
-<li><code>asm.exe -o example.prg example.asm</code></li>
-</ul>
-<p>The resulting file is a valid <code>.prg</code> file that can be loaded (or just drag&amp;dropped) in the emulator (or even a real C=64)</p>
-<p>The demo can also be assembled with different parameters by setting these constants:</p><ul>
-<li><code>WAIT</code> max counter value used in the busy wait loop in the demo. Default value is 3000, setting it lower will make the demo run faster</li>
-<li><code>CRAZY_EFFECT</code> setting it to any value will cause a crazy visual effect in the waiting screen</li>
-<li><code>BORDERCHANGE</code> setting it to any value will cause the screen border to be changed in the demo</li>
-</ul>
-<h1><a class="anchor" id="autotoc_md64"></a>
-Programming</h1>
-<p>The project code only contains C source along with header files. All of those are located in the <code>src</code> directory.</p>
-<p>The sources are split up into multiple C files with multiple headers. Headers are always named same as the corresponding sources except for <code><a class="el" href="token__t_8h.html" title="token type struct">token_t.h</a></code> which has no associated C source and <code>debugmalloc.h</code> <a href="https://infoc.eet.bme.hu/debugmalloc/">which is a debugging utility not written by me.</a></p>
-<p>(The original <code>debugmalloc.h</code> raised a assembler warning (a false positive my program also had), so I added GCC pragmas to suppress that.)</p>
-<p>The program uses no global variables and only one static variable (global log level, accessed via <a class="el" href="logging_8c.html#a85fa631d2ef41f279b0a9fd6fa5f2193" title="pseudo-global accessor">logging_level()</a>).</p>
-<h2><a class="anchor" id="autotoc_md65"></a>
-Conventions</h2>
-<p>Objects:</p><ul>
-<li>should always use pointers</li>
-<li>constructors should always return pointer or NULL</li>
-<li>destructors (free) should free ALL memory, including object handle <br  />
- (setting it to NULL is the responsibility of the caller)</li>
-</ul>
-<p>Naming:</p><ul>
-<li>snake_case</li>
-<li>start with module / class name</li>
-</ul>
-<p>Errors:</p><ul>
-<li>functions return 0 or negativa to signal errors</li>
-<li>object creration should return NULL to signal error</li>
-<li>caller should check return values</li>
-<li>most levels that pass an error should print fail message</li>
-</ul>
-<p>Commenting:</p><ul>
-<li>doxygen doc comments in headers except locally defined function</li>
-<li>comment complicated or not obvious design</li>
-</ul>
-<h2><a class="anchor" id="autotoc_md66"></a>
-Data structures</h2>
-<p>There are many of them, a compleate list of them and their descriptions is seen on the auto-generated pages</p>
-<h3><a class="anchor" id="autotoc_md67"></a>
-State</h3>
-<p>Compiler state, e.g constants, labels, tokens and settings. <br  />
- Emulates a global object by being passed to many functions.</p>
-<h3><a class="anchor" id="autotoc_md68"></a>
-Map</h3>
-<p>Key-&gt;value map for string keys and non-negative integer values. <br  />
- Used for constants and labels. Backed by a singly linked list without sentinels.</p>
-<h3><a class="anchor" id="autotoc_md69"></a>
-iStack</h3>
-<p>Simple stack for non-negative integers. <br  />
- Only used to store state of conditional compilation in step_one.c</p>
-<h3><a class="anchor" id="autotoc_md70"></a>
-Instruction</h3>
-<p>Type that stores instruction data (mnemonic, codes of different addressing modes) <br  />
- Always bound to a linked list of them</p>
-<h3><a class="anchor" id="autotoc_md71"></a>
-Token</h3>
-<p>Most used data type, gathering all data about a single token <br  />
- Holds source (for printing source of error), stripped text, address, binsize, instruction pointer (if instruction), operand, etc.</p>
-<h3><a class="anchor" id="autotoc_md72"></a>
-TokensList</h3>
-<p>A doubly linked list of tokens for storing file(s) contents <br  />
- Supports delete and insert operations</p>
-<h2><a class="anchor" id="autotoc_md73"></a>
-Modules</h2>
-<h3><a class="anchor" id="autotoc_md74"></a>
-Util</h3>
-<p>Some utility functions</p>
-<h3><a class="anchor" id="autotoc_md75"></a>
-Number</h3>
-<p>Number parsing</p>
-<h3><a class="anchor" id="autotoc_md76"></a>
-Directive</h3>
-<p>Directive processing (step 1 and 3)</p>
-<h3><a class="anchor" id="autotoc_md77"></a>
-Loadfile</h3>
-<p>File loading and tokenizing</p>
-<h3><a class="anchor" id="autotoc_md78"></a>
-pass_one</h3>
-<p>First step</p>
-<h2><a class="anchor" id="autotoc_md79"></a>
-pass_twothree</h2>
-<p>Steps 2 and 3 (i.e writing output) </p>
-</div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

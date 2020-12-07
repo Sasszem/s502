@@ -18,7 +18,5 @@ var searchData=
   ['adrm_5fsizes_16',['ADRM_SIZES',['../addressmode_8c.html#aeeb05877ddd6d71faf6b4a207f864ea3',1,'ADRM_SIZES():&#160;addressmode.c'],['../addressmode_8h.html#aeeb05877ddd6d71faf6b4a207f864ea3',1,'ADRM_SIZES():&#160;addressmode.c']]],
   ['adrm_5fzpg_17',['ADRM_ZPG',['../addressmode_8h.html#a36eef9740a33a6c29292704bd027bebaa5309cff2fe0525d24d58ecaf92b7a57c',1,'addressmode.h']]],
   ['adrm_5fzpg_5fx_18',['ADRM_ZPG_X',['../addressmode_8h.html#a36eef9740a33a6c29292704bd027bebaa4f81d294742f4eb4fe641758de965bcb',1,'addressmode.h']]],
-  ['adrm_5fzpg_5fy_19',['ADRM_ZPG_Y',['../addressmode_8h.html#a36eef9740a33a6c29292704bd027bebaa8a003069c59306ce6b7b467ee04e1cce',1,'addressmode.h']]],
-  ['assemble_2emd_20',['assemble.md',['../assemble_8md.html',1,'']]],
-  ['assembling_21',['Assembling',['../md_assemble.html',1,'']]]
+  ['adrm_5fzpg_5fy_19',['ADRM_ZPG_Y',['../addressmode_8h.html#a36eef9740a33a6c29292704bd027bebaa8a003069c59306ce6b7b467ee04e1cce',1,'addressmode.h']]]
 ];

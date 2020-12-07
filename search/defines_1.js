@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['error_378',['ERROR',['../logging_8h.html#a02ce8a968600d004ba60858425c46307',1,'logging.h']]]
+  ['error_343',['ERROR',['../logging_8h.html#a02ce8a968600d004ba60858425c46307',1,'logging.h']]]
 ];
