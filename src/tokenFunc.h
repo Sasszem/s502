@@ -7,6 +7,11 @@
 #include "state.h"
 
 /**
+ * @file
+ * @brief Token type member methods
+ */
+
+/**
  * @memberof Token
  * @brief Pretty-print one token, with its source and length
  */

@@ -11,6 +11,12 @@
 #include "logging.h"
 #include "directive.h"
 
+/**
+ * @file
+ * @brief implement token member methods
+ * @see tokenFunc.h
+ */
+
 void token_print(Token* token) {
     printf("\t%s:%d:%d\t\t'%.*s'\n", token->source.fname, token->source.lineno, token->len, token->len, token->stripped);
 }
@@ -290,9 +296,9 @@ int token_get_operand(State* s, Token* t) {
     for (; *begin != 0 && (*begin == ' ' || *begin == '*' || *begin == '(' || *begin == '#'); begin++);
     for (end = begin; *end != 0 && *end != ')' && *end != ',' && *end != ' '; end++);
 
-    char *buff = malloc(end-begin+1);
-    strncpy(buff, begin, end-begin+1);
-    buff[end-begin] = 0;
+    char* buff = malloc(end - begin + 1);
+    strncpy(buff, begin, end - begin + 1);
+    buff[end - begin] = 0;
 
     int n = number_get_number(s, buff);
     free(buff);
