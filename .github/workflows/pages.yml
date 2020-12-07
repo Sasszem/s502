@@ -1,0 +1,24 @@
+name: Deploy to GitHub Pages
+on:
+  push:	
+    branches:	
+      - master
+
+jobs:
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest    
+    steps:
+    - uses: actions/checkout@master
+    - name: Generate documentation 
+      uses: mattnotmitt/doxygen-action@v1
+      with:
+        doxyfile-path: 'Doxyfile'
+    - name: Deploy
+      uses: s0/git-publish-subdir-action@develop
+      env:
+        REPO: git@github.com:sasszem/s502.git
+        BRANCH: gh-pages
+        FOLDER: html
+        SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_PRIVATE_KEY }}
+        MESSAGE: "Update from {sha}\nOriginal message:\n{msg}"
