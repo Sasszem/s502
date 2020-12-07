@@ -38,7 +38,7 @@ Addressing modes
 
 The 6502 supports 13 addressing modes:
 
-Accumlator      OPC A
+Accumulator     OPC A
 
 Absolute        OPC $AABB
 Absolute, X     OPC $AABB, X
@@ -72,7 +72,7 @@ For these reasons, addr mode identification works the following way:
 1) Token ends after OPC (len=3)         => Implied
 
 2) Token len is 5,
-ends with  'A' or 'a'                   => Accumlator
+ends with  'A' or 'a'                   => Accumulator
 
 3) 4th char is a #                      => Immidiate
 

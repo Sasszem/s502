@@ -14,7 +14,7 @@
   * Can be used to pretty print if indexed by enum value
   */
 const char* ADRM_NAMES[] = {
-    "Accumlator",
+    "Accumulator",
     "Absolute",
     "Absolute, X",
     "Absolute, Y",

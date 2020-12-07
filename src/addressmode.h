@@ -8,7 +8,7 @@
 
  /// Possible address modes of an instruction
 enum AddressMode {
-    /// Accumlator
+    /// Accumulator
     ADRM_ACC = 0,
 
     /// Absolute addressing
